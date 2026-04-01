@@ -73,8 +73,11 @@ export function CoordinatorShell({ children }: PropsWithChildren) {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const supportsArticulationContext = useMemo(
     () =>
+      pathname.startsWith("/coordinador/dashboard") ||
       pathname.startsWith("/coordinador/instructores") ||
-      pathname.startsWith("/coordinador/fichas"),
+      pathname.startsWith("/coordinador/fichas") ||
+      pathname.startsWith("/coordinador/asignaciones") ||
+      pathname.startsWith("/coordinador/programas"),
     [pathname],
   );
   const siteOptions = useMemo(
@@ -97,7 +100,11 @@ export function CoordinatorShell({ children }: PropsWithChildren) {
     [activeQuickFilters, selectedSite],
   );
   const visibleQuickFilters = useMemo(() => {
-    if (pathname.startsWith("/coordinador/colegios")) {
+    if (
+      pathname.startsWith("/coordinador/colegios") ||
+      pathname.startsWith("/coordinador/asignaciones") ||
+      pathname.startsWith("/coordinador/programas")
+    ) {
       return [];
     }
 
@@ -121,7 +128,11 @@ export function CoordinatorShell({ children }: PropsWithChildren) {
     const params = new URLSearchParams();
     const targetUsesSite = !href.startsWith("/coordinador/colegios");
     const targetSupportsArticulation =
-      href.startsWith("/coordinador/instructores") || href.startsWith("/coordinador/fichas");
+      href.startsWith("/coordinador/dashboard") ||
+      href.startsWith("/coordinador/instructores") ||
+      href.startsWith("/coordinador/fichas") ||
+      href.startsWith("/coordinador/asignaciones") ||
+      href.startsWith("/coordinador/programas");
     const normalizedSite =
       isCoordinatorArticulationContext(site) && !targetSupportsArticulation
         ? coordinatorSites[0]?.id ?? ""

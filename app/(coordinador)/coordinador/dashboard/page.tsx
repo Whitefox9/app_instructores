@@ -34,7 +34,7 @@ export default async function CoordinadorDashboardPage({
     siteData.metrics[0],
     siteData.metrics[2],
     {
-      label: "Ambientes libres",
+      label: siteData.site.id === "articulacion" ? "Colegios listos" : "Ambientes libres",
       value: siteData.environmentMetrics[0]?.value ?? "0",
       tone: "neutral" as const,
     },
@@ -49,7 +49,11 @@ export default async function CoordinadorDashboardPage({
     <div className="space-y-5">
       <CoordinatorSectionHeader
         title="Resumen operativo"
-        description={`Portada operativa de ${siteData.site.label}. Resume donde actuar sin abrir listas completas.`}
+        description={
+          siteData.site.id === "articulacion"
+            ? "Portada operativa de articulacion. Resume cobertura, colegios y fichas sin abrir listas completas."
+            : `Portada operativa de ${siteData.site.label}. Resume donde actuar sin abrir listas completas.`
+        }
         actions={
           <>
             <Button variant="outline">Exportar corte</Button>

@@ -540,6 +540,79 @@ export function getCoordinatorAlertChips(siteId?: string, filters?: string[] | s
 }
 
 export function getCoordinatorSiteData(siteId?: string, filters?: string[] | string) {
+  if (isCoordinatorArticulationContext(siteId)) {
+    const site = coordinatorArticulationContextOption;
+    const activeFilters = resolveCoordinatorFilters(filters);
+    const dependencyFilters = activeFilters.filter(
+      (filter): filter is CoordinatorOperationalDependency =>
+        filter === "Articulacion" || filter === "Titulada" || filter === "Complementaria",
+    );
+    const onlyFree = activeFilters.includes("Solo libres");
+    const allowsArticulation =
+      dependencyFilters.length === 0 || dependencyFilters.includes("Articulacion");
+    const instructors = allowsArticulation
+      ? coordinatorOperationalInstructors.filter((item) => {
+          const dependencyMatch = item.dependency === "Articulacion";
+          const availabilityMatch = !onlyFree || item.status === "Disponible";
+
+          return dependencyMatch && availabilityMatch;
+        })
+      : [];
+    const fichas = allowsArticulation
+      ? coordinatorOperationalFichas.filter((item) => {
+          const dependencyMatch = item.dependency === "Articulacion";
+          const freeMatch = !onlyFree || item.status === "Sin asignar";
+
+          return dependencyMatch && freeMatch;
+        })
+      : [];
+    const coverage = coordinatorArticulationCoverage;
+    const schoolNames = new Set(coverage.map((item) => item.school));
+    const schools = coordinatorOperationalSchools.filter((item) => schoolNames.has(item.name));
+    const pending = fichas.filter((item) => item.status === "Sin asignar").length;
+    const readySchools = schools.filter((item) => item.status !== "Critico").length;
+    const visibleModalities = Array.from(
+      new Set(fichas.map((item) => item.articulationMode).filter((mode) => mode !== "No aplica")),
+    ).length;
+    const filterLabel = activeFilters.length ? activeFilters.join(" · ") : "Sin filtros rapidos";
+
+    return {
+      site,
+      activeFilters,
+      instructors,
+      fichas,
+      coverage,
+      schools,
+      environments: [],
+      metrics: [
+        { label: "Total instructores", value: `${instructors.length}`, tone: "neutral" as const },
+        { label: "Colegios visibles", value: `${schools.length}`, tone: "neutral" as const },
+        { label: "Fichas sin asignar", value: `${pending}`, tone: "warning" as const },
+        { label: "Colegios criticos", value: `${schools.filter((item) => item.status === "Critico").length}`, tone: "warning" as const },
+        { label: "Coberturas parciales", value: `${schools.filter((item) => item.status === "Parcial").length}`, tone: "neutral" as const },
+      ],
+      environmentMetrics: [
+        {
+          label: "Colegios listos",
+          value: `${readySchools}`,
+          tone: "neutral" as const,
+        },
+        { label: "Contexto activo", value: site.label, tone: "neutral" as const },
+        {
+          label: "Modalidades visibles",
+          value: `${visibleModalities}`,
+          tone: "neutral" as const,
+        },
+        { label: "Coberturas pendientes", value: `${coverage.filter((item) => item.status === "Pendiente").length}`, tone: "warning" as const },
+      ],
+      notes: [
+        `Articulacion consolida ${instructors.length} instructores visibles y ${fichas.length} fichas bajo ${filterLabel}.`,
+        `La lectura prioriza colegios, coberturas y modalidades; no usa ambientes del centro.`,
+        `Hay ${schools.length} colegios visibles y ${pending} fichas pendientes de cobertura en el contexto actual.`,
+      ],
+    };
+  }
+
   const site = resolveCoordinatorSite(siteId);
   const activeFilters = resolveCoordinatorFilters(filters);
   const dependencyFilters = activeFilters.filter(

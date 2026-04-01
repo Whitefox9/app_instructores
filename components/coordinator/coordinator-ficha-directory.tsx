@@ -45,6 +45,9 @@ type FichaFormValues = {
   expectedApprentices: string;
   assignedInstructor: string;
   assignedEnvironment: string;
+  articulationSchool: string;
+  articulationMode: string;
+  locality: string;
   observations: string;
 };
 
@@ -67,6 +70,9 @@ function buildFormValues(siteLabel: string, ficha?: CoordinatorFichaSummary): Fi
     expectedApprentices: `${ficha?.expectedApprentices ?? 30}`,
     assignedInstructor: ficha?.assignedInstructor ?? "",
     assignedEnvironment: ficha?.assignedEnvironment ?? "",
+    articulationSchool: ficha?.articulationSchool ?? "",
+    articulationMode: ficha?.articulationMode ?? "Compartida",
+    locality: ficha?.locality ?? "",
     observations: ficha?.observations ?? "",
   };
 }
@@ -127,8 +133,30 @@ export function CoordinatorFichaDirectory({
   function saveFicha() {
     const expectedApprentices = Number(formValues.expectedApprentices || 30);
     const assignedInstructor = formValues.assignedInstructor.trim() || undefined;
-    const assignedEnvironment = formValues.assignedEnvironment.trim() || undefined;
-    const stateTags = resolveCoordinatorFichaState(0, expectedApprentices, assignedInstructor, assignedEnvironment);
+    const requiresEnvironment = formValues.dependency !== "Articulacion";
+    const assignedEnvironment =
+      requiresEnvironment && formValues.assignedEnvironment.trim()
+        ? formValues.assignedEnvironment.trim()
+        : undefined;
+    const articulationSchool =
+      formValues.dependency === "Articulacion"
+        ? formValues.articulationSchool.trim() || undefined
+        : undefined;
+    const articulationMode =
+      formValues.dependency === "Articulacion"
+        ? ((formValues.articulationMode || "Compartida") as CoordinatorFichaSummary["articulationMode"])
+        : undefined;
+    const locality =
+      formValues.dependency === "Articulacion"
+        ? formValues.locality.trim() || undefined
+        : undefined;
+    const stateTags = resolveCoordinatorFichaState(
+      0,
+      expectedApprentices,
+      assignedInstructor,
+      assignedEnvironment,
+      requiresEnvironment,
+    );
     const payload: CoordinatorFichaSummary = {
       id: editingId ?? `FIC-MANUAL-${Date.now()}`,
       number: formValues.number.trim() || `34${Date.now().toString().slice(-5)}`,
@@ -143,6 +171,10 @@ export function CoordinatorFichaDirectory({
         : 0,
       assignedInstructor,
       assignedEnvironment,
+      articulationSchool,
+      articulationMode,
+      locality,
+      requiresEnvironment,
       generalStatus: resolveCoordinatorFichaGeneralStatus(stateTags),
       stateTags,
       observations:
@@ -315,7 +347,10 @@ export function CoordinatorFichaDirectory({
                     <div>
                       <p className="text-lg font-semibold text-foreground">Ficha {item.number}</p>
                       <p className="mt-1 text-sm text-muted-foreground">
-                        {item.program} · {item.shift} · {item.site}
+                        {item.program} ·{" "}
+                        {item.dependency === "Articulacion"
+                          ? `${item.articulationMode ?? "Modalidad pendiente"} · ${item.shift} · ${item.locality ?? item.site}`
+                          : `${item.shift} · ${item.site}`}
                       </p>
                     </div>
                     <FichaGeneralStatusBadge status={item.generalStatus} />
@@ -326,14 +361,33 @@ export function CoordinatorFichaDirectory({
                       <span className="font-medium text-foreground">Aprendices:</span>{" "}
                       {item.apprenticeCount}/{item.expectedApprentices}
                     </p>
+                    {item.dependency === "Articulacion" ? (
+                      <>
+                        <p>
+                          <span className="font-medium text-foreground">Colegio:</span>{" "}
+                          {item.articulationSchool ?? "Pendiente"}
+                        </p>
+                        <p>
+                          <span className="font-medium text-foreground">Localidad:</span>{" "}
+                          {item.locality ?? item.site}
+                        </p>
+                      </>
+                    ) : null}
                     <p>
                       <span className="font-medium text-foreground">Instructor:</span>{" "}
                       {item.assignedInstructor ?? "Pendiente"}
                     </p>
-                    <p>
-                      <span className="font-medium text-foreground">Ambiente:</span>{" "}
-                      {item.assignedEnvironment ?? "Pendiente"}
-                    </p>
+                    {item.requiresEnvironment ? (
+                      <p>
+                        <span className="font-medium text-foreground">Ambiente:</span>{" "}
+                        {item.assignedEnvironment ?? "Pendiente"}
+                      </p>
+                    ) : (
+                      <p>
+                        <span className="font-medium text-foreground">Modalidad:</span>{" "}
+                        {item.articulationMode ?? "Pendiente"}
+                      </p>
+                    )}
                   </div>
 
                   <div className="mt-4 flex flex-wrap gap-2">
@@ -443,13 +497,39 @@ export function CoordinatorFichaDirectory({
                     onChange={(event) => updateFormValue("assignedInstructor", event.target.value)}
                     placeholder="Instructor asignado"
                   />
-                  <div className="sm:col-span-2">
-                    <Input
-                      value={formValues.assignedEnvironment}
-                      onChange={(event) => updateFormValue("assignedEnvironment", event.target.value)}
-                      placeholder="Ambiente asignado"
-                    />
-                  </div>
+                  {formValues.dependency === "Articulacion" ? (
+                    <>
+                      <Input
+                        value={formValues.articulationSchool}
+                        onChange={(event) => updateFormValue("articulationSchool", event.target.value)}
+                        placeholder="Colegio"
+                      />
+                      <Select
+                        value={formValues.articulationMode}
+                        onChange={(event) => updateFormValue("articulationMode", event.target.value)}
+                      >
+                        <option value="Compartida">Compartida</option>
+                        <option value="Unica">Unica</option>
+                        <option value="Colegio privado">Colegio privado</option>
+                      </Select>
+                      <Input
+                        value={formValues.locality}
+                        onChange={(event) => updateFormValue("locality", event.target.value)}
+                        placeholder="Localidad o ciudad"
+                      />
+                      <div className="sm:col-span-2 rounded-[1rem] border border-border/70 bg-background/70 px-4 py-3 text-sm text-muted-foreground">
+                        Articulacion trabaja por colegio y modalidad. No requiere ambiente del centro.
+                      </div>
+                    </>
+                  ) : (
+                    <div className="sm:col-span-2">
+                      <Input
+                        value={formValues.assignedEnvironment}
+                        onChange={(event) => updateFormValue("assignedEnvironment", event.target.value)}
+                        placeholder="Ambiente asignado"
+                      />
+                    </div>
+                  )}
                   <div className="sm:col-span-2">
                     <Textarea
                       value={formValues.observations}

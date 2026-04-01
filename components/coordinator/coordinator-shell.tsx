@@ -26,8 +26,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
 import {
+  coordinatorArticulationContextOption,
   coordinatorCenterName,
   getCoordinatorAlertChips,
+  isCoordinatorArticulationContext,
   coordinatorQuickFilters,
   resolveCoordinatorFilters,
   coordinatorSites,
@@ -69,8 +71,21 @@ export function CoordinatorShell({ children }: PropsWithChildren) {
   const searchParams = useSearchParams();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const supportsArticulationContext = useMemo(
+    () =>
+      pathname.startsWith("/coordinador/instructores") ||
+      pathname.startsWith("/coordinador/fichas"),
+    [pathname],
+  );
+  const siteOptions = useMemo(
+    () =>
+      supportsArticulationContext
+        ? [...coordinatorSites, coordinatorArticulationContextOption]
+        : coordinatorSites,
+    [supportsArticulationContext],
+  );
   const selectedSite =
-    coordinatorSites.find((site) => site.id === searchParams.get("site"))?.id ??
+    siteOptions.find((site) => site.id === searchParams.get("site"))?.id ??
     coordinatorSites[0]?.id ??
     "";
   const activeQuickFilters = useMemo(
@@ -82,6 +97,10 @@ export function CoordinatorShell({ children }: PropsWithChildren) {
     [activeQuickFilters, selectedSite],
   );
   const visibleQuickFilters = useMemo(() => {
+    if (pathname.startsWith("/coordinador/colegios")) {
+      return [];
+    }
+
     if (pathname.startsWith("/coordinador/ambientes")) {
       return coordinatorQuickFilters.filter((filter) => filter !== "Articulacion");
     }
@@ -101,8 +120,14 @@ export function CoordinatorShell({ children }: PropsWithChildren) {
   ) {
     const params = new URLSearchParams();
     const targetUsesSite = !href.startsWith("/coordinador/colegios");
-    if (site && targetUsesSite) {
-      params.set("site", site);
+    const targetSupportsArticulation =
+      href.startsWith("/coordinador/instructores") || href.startsWith("/coordinador/fichas");
+    const normalizedSite =
+      isCoordinatorArticulationContext(site) && !targetSupportsArticulation
+        ? coordinatorSites[0]?.id ?? ""
+        : site;
+    if (normalizedSite && targetUsesSite) {
+      params.set("site", normalizedSite);
     }
     filters.forEach((filter) => params.append("filter", filter));
     const query = params.toString();
@@ -279,7 +304,7 @@ export function CoordinatorShell({ children }: PropsWithChildren) {
                         onChange={(event) => handleSiteChange(event.target.value)}
                         className="h-10 border-primary/30 bg-white font-semibold shadow-none"
                       >
-                        {coordinatorSites.map((site) => (
+                        {siteOptions.map((site) => (
                           <option key={site.id} value={site.id}>
                             {site.label}
                           </option>

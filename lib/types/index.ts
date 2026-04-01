@@ -210,6 +210,10 @@ export type CoordinatorOperationalInstructor = {
   currentLoad: string;
   activeBlocks: number;
   status: "Disponible" | "Parcial" | "Saturado";
+  articulationSchool?: string;
+  articulationMode?: Exclude<CoordinatorArticulationMode, "No aplica">;
+  articulationShift?: Exclude<CoordinatorFichaShift, "Noche" | "Por definir">;
+  locality?: string;
 };
 
 export type CoordinatorOperationalFicha = {
@@ -383,6 +387,10 @@ export type CoordinatorFichaSummary = {
   apprenticeCount: number;
   assignedInstructor?: string;
   assignedEnvironment?: string;
+  articulationSchool?: string;
+  articulationMode?: Exclude<CoordinatorArticulationMode, "No aplica">;
+  locality?: string;
+  requiresEnvironment: boolean;
   generalStatus: CoordinatorFichaGeneralStatus;
   stateTags: CoordinatorFichaStateTag[];
   observations: string;

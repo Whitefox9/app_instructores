@@ -11,6 +11,8 @@ import {
 
 import {
   coordinatorOperationalInstructors,
+  coordinatorArticulationContextOption,
+  isCoordinatorArticulationContext,
   resolveCoordinatorFilters,
   resolveCoordinatorSite,
 } from "@/lib/mocks/coordinator-console";
@@ -115,6 +117,7 @@ export function resolveCoordinatorFichaState(
   expectedApprentices: number,
   assignedInstructor?: string,
   assignedEnvironment?: string,
+  requiresEnvironment = true,
 ): CoordinatorFichaStateTag[] {
   const tags: CoordinatorFichaStateTag[] = [];
 
@@ -130,14 +133,14 @@ export function resolveCoordinatorFichaState(
     tags.push("Sin instructor");
   }
 
-  if (!assignedEnvironment) {
+  if (requiresEnvironment && !assignedEnvironment) {
     tags.push("Sin ambiente");
   }
 
   if (
     apprenticeCount >= expectedApprentices &&
     assignedInstructor &&
-    assignedEnvironment
+    (requiresEnvironment ? assignedEnvironment : true)
   ) {
     tags.push("Lista para operacion");
   }
@@ -335,17 +338,30 @@ function buildFichaSummary(
     ? instructorIndex * 4 + fichaIndex
     : instructorIndex;
   const shift =
-    dependency === "Titulada" && globalIndex === 0 ? "Noche" : makeShift(globalIndex);
+    dependency === "Articulacion"
+      ? globalIndex % 2 === 0
+        ? "Manana"
+        : "Tarde"
+      : dependency === "Titulada" && globalIndex === 0
+        ? "Noche"
+        : makeShift(globalIndex);
   const program = fichaPrograms[dependency][globalIndex % fichaPrograms[dependency].length];
   const site = instructor.site;
+  const articulationSchool =
+    dependency === "Articulacion" ? instructor.articulationSchool : undefined;
+  const articulationMode =
+    dependency === "Articulacion" ? instructor.articulationMode : undefined;
+  const locality = dependency === "Articulacion" ? instructor.locality : undefined;
   const assignedInstructor = undefined;
   const assignedEnvironment = undefined;
   const apprenticeCount = 0;
+  const requiresEnvironment = dependency !== "Articulacion";
   const stateTags = resolveCoordinatorFichaState(
     apprenticeCount,
     30,
     assignedInstructor,
     assignedEnvironment,
+    requiresEnvironment,
   );
   const summary = {
     id: makeFichaId(
@@ -367,6 +383,10 @@ function buildFichaSummary(
     apprenticeCount,
     assignedInstructor,
     assignedEnvironment,
+    articulationSchool,
+    articulationMode,
+    locality,
+    requiresEnvironment,
     generalStatus: resolveCoordinatorFichaGeneralStatus(stateTags),
     stateTags,
     observations: makeObservation(dependency, shift, apprenticeCount),
@@ -388,6 +408,7 @@ function buildFichaSummary(
       apprenticeCount: 0,
       assignedInstructor: undefined,
       assignedEnvironment: undefined,
+      requiresEnvironment: true,
       stateTags: ["Sin aprendices", "Sin instructor", "Sin ambiente"],
       generalStatus: "Configuracion inicial" as const,
       observations: "Ficha prioritaria para demo. Aun esta en creacion y pendiente de cargar aprendices, jornada, instructor y ambiente.",
@@ -446,7 +467,10 @@ export function getCoordinatorFichaDetailById(id: string) {
 }
 
 export function getCoordinatorFichaModuleData(siteId?: string, filters?: string[] | string) {
-  const site = resolveCoordinatorSite(siteId);
+  const articulationContext = isCoordinatorArticulationContext(siteId);
+  const site = articulationContext
+    ? coordinatorArticulationContextOption
+    : resolveCoordinatorSite(siteId);
   const activeFilters = resolveCoordinatorFilters(filters);
   const dependencyFilters = activeFilters.filter(
     (filter): filter is CoordinatorOperationalDependency =>
@@ -455,7 +479,9 @@ export function getCoordinatorFichaModuleData(siteId?: string, filters?: string[
   const onlyFree = activeFilters.includes("Solo libres");
 
   const fichas = coordinatorFichaSummaries.filter((item) => {
-    const siteMatch = item.site === site.label;
+    const siteMatch = articulationContext
+      ? item.dependency === "Articulacion"
+      : item.dependency !== "Articulacion" && item.site === site.label;
     const dependencyMatch =
       !dependencyFilters.length || dependencyFilters.includes(item.dependency);
     const availabilityMatch =

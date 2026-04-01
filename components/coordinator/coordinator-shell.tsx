@@ -48,9 +48,9 @@ const navItems: CoordinatorNavItem[] = [
   { label: "Fichas", href: "/coordinador/fichas", icon: FolderKanban },
   { label: "Ambientes", href: "/coordinador/ambientes", icon: DoorOpen },
   { label: "Colegios", href: "/coordinador/colegios", icon: School },
+  { label: "Planeacion", href: "/coordinador/programas", icon: BookOpenText },
   { label: "Asignaciones", href: "/coordinador/asignaciones", icon: ClipboardList },
   { label: "Importaciones", href: "/coordinador/importacion-excel", icon: FileSpreadsheet },
-  { label: "Planeacion", href: "/coordinador/programas", icon: BookOpenText },
 ];
 
 function alertVariant(severity: "alta" | "media" | "baja") {

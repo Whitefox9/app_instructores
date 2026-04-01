@@ -106,6 +106,20 @@ export type CoordinatorEnvironmentCatalogStatus =
   | "Activo"
   | "Mantenimiento"
   | "Inactivo";
+export type CoordinatorAssignmentFlowTab = "new" | "active" | "history";
+export type CoordinatorAssignmentFlowMode = "create" | "edit" | "reassign";
+export type CoordinatorAssignmentRecordStatus =
+  | "Borrador"
+  | "Activa"
+  | "Pendiente"
+  | "Parcial"
+  | "Reasignada"
+  | "Cerrada";
+export type CoordinatorAssignmentHistoryAction =
+  | "Creada"
+  | "Editada"
+  | "Reasignada"
+  | "Cerrada";
 
 export type CoordinatorInstructor = {
   id: string;
@@ -210,6 +224,10 @@ export type CoordinatorOperationalInstructor = {
   currentLoad: string;
   activeBlocks: number;
   status: "Disponible" | "Parcial" | "Saturado";
+  articulationSchool?: string;
+  articulationMode?: Exclude<CoordinatorArticulationMode, "No aplica">;
+  articulationShift?: Exclude<CoordinatorFichaShift, "Noche" | "Por definir">;
+  locality?: string;
 };
 
 export type CoordinatorOperationalFicha = {
@@ -269,6 +287,51 @@ export type CoordinatorEnvironmentCatalogItem = {
   capacity: number;
   type: CoordinatorOperationalDependency;
   status: CoordinatorEnvironmentCatalogStatus;
+};
+
+export type CoordinatorAssignmentEnvironmentSelection = {
+  id: string;
+  rowId: string;
+  environmentName: string;
+  block: string;
+  site: string;
+  dependency: Extract<CoordinatorOperationalDependency, "Titulada" | "Complementaria">;
+};
+
+export type CoordinatorAssignmentRecord = {
+  id: string;
+  dependency: CoordinatorOperationalDependency;
+  fichaId: string;
+  fichaNumber: string;
+  program: string;
+  siteContext: string;
+  shift: CoordinatorFichaShift;
+  instructorId: string;
+  instructorName: string;
+  instructorArea: string;
+  schoolId?: string;
+  schoolName?: string;
+  locality?: string;
+  modality?: Exclude<CoordinatorArticulationMode, "No aplica">;
+  environmentName?: string;
+  selectedBlocks: string[];
+  hoursAssigned: number;
+  status: CoordinatorAssignmentRecordStatus;
+  notes: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type CoordinatorAssignmentHistoryEntry = {
+  id: string;
+  assignmentId: string;
+  action: CoordinatorAssignmentHistoryAction;
+  dependency: CoordinatorOperationalDependency;
+  fichaNumber: string;
+  instructorName: string;
+  summary: string;
+  actor: string;
+  happenedAt: string;
 };
 
 export type CoordinatorArticulationCoverageRow = {
@@ -383,6 +446,10 @@ export type CoordinatorFichaSummary = {
   apprenticeCount: number;
   assignedInstructor?: string;
   assignedEnvironment?: string;
+  articulationSchool?: string;
+  articulationMode?: Exclude<CoordinatorArticulationMode, "No aplica">;
+  locality?: string;
+  requiresEnvironment: boolean;
   generalStatus: CoordinatorFichaGeneralStatus;
   stateTags: CoordinatorFichaStateTag[];
   observations: string;

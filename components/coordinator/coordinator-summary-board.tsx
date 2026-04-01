@@ -33,6 +33,7 @@ export function CoordinatorSummaryBoard({
   instructors,
   fichas,
 }: CoordinatorSummaryBoardProps) {
+  const articulationContext = siteId === "articulacion";
   const pendingFichas = fichas.filter((item) => item.status === "Sin asignar");
   const highlightedFichas = pendingFichas.slice(0, 6);
   const shiftStats = [
@@ -89,7 +90,9 @@ export function CoordinatorSummaryBoard({
         <CardHeader>
           <CardTitle>Pendientes prioritarios</CardTitle>
           <CardDescription>
-            Vista corta de las fichas que requieren atencion primero. No se cargan listas completas aqui.
+            {articulationContext
+              ? "Vista corta de las fichas de articulacion que requieren cobertura primero. No se cargan listas completas aqui."
+              : "Vista corta de las fichas que requieren atencion primero. No se cargan listas completas aqui."}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-3">
@@ -104,7 +107,9 @@ export function CoordinatorSummaryBoard({
                     {ficha.number} · {ficha.program}
                   </p>
                   <p className="mt-1 text-sm text-muted-foreground">
-                    {ficha.site} · {ficha.block}
+                    {articulationContext
+                      ? `${ficha.schoolOptions[0] ?? "Colegio pendiente"} · ${ficha.block}`
+                      : `${ficha.site} · ${ficha.block}`}
                   </p>
                 </div>
                 <OperationalFichaStatusBadge status={ficha.status} />
@@ -129,12 +134,14 @@ export function CoordinatorSummaryBoard({
 
       <div className="grid gap-4">
         <Card>
-          <CardHeader>
-            <CardTitle>Estadisticas rapidas</CardTitle>
-            <CardDescription>
-              Lectura corta de volumen, jornada y concentracion de la carga visible.
-            </CardDescription>
-          </CardHeader>
+        <CardHeader>
+          <CardTitle>Estadisticas rapidas</CardTitle>
+          <CardDescription>
+            {articulationContext
+              ? "Lectura corta de volumen, jornada y modalidades visibles en articulacion."
+              : "Lectura corta de volumen, jornada y concentracion de la carga visible."}
+          </CardDescription>
+        </CardHeader>
           <CardContent className="space-y-4">
             <div className="grid gap-3 sm:grid-cols-2">
               {shiftStats.map((shift) => (
@@ -204,12 +211,14 @@ export function CoordinatorSummaryBoard({
         </Card>
 
         <Card>
-          <CardHeader>
-            <CardTitle>Lectura por dependencia</CardTitle>
-            <CardDescription>
-              Resumen corto para saber donde vale la pena entrar a detalle.
-            </CardDescription>
-          </CardHeader>
+        <CardHeader>
+          <CardTitle>Lectura por dependencia</CardTitle>
+          <CardDescription>
+            {articulationContext
+              ? "Resumen corto para saber si la carga visible sigue centrada en articulacion o si los filtros dejaron el tablero vacio."
+              : "Resumen corto para saber donde vale la pena entrar a detalle."}
+          </CardDescription>
+        </CardHeader>
           <CardContent className="space-y-3">
             {dependencyRows.map((row) => (
               <div
@@ -233,12 +242,14 @@ export function CoordinatorSummaryBoard({
         </Card>
 
         <Card>
-          <CardHeader>
-            <CardTitle>Siguiente paso sugerido</CardTitle>
-            <CardDescription>
-              Recomendacion corta para entrar al flujo de asignacion sin ver todo el universo.
-            </CardDescription>
-          </CardHeader>
+        <CardHeader>
+          <CardTitle>Siguiente paso sugerido</CardTitle>
+          <CardDescription>
+            {articulationContext
+              ? "Recomendacion corta para pasar de cobertura visible a planeacion con colegios."
+              : "Recomendacion corta para entrar al flujo de asignacion sin ver todo el universo."}
+          </CardDescription>
+        </CardHeader>
           <CardContent className="space-y-4">
             <div className="grid gap-3 sm:grid-cols-2">
               <div className="rounded-[1rem] border border-border/70 bg-background/70 p-4">
@@ -252,7 +263,11 @@ export function CoordinatorSummaryBoard({
                     : "Sin fichas pendientes"}
                 </p>
                 <p className="mt-1 text-sm text-muted-foreground">
-                  {suggestedFicha ? `${suggestedFicha.block} · ${suggestedFicha.shift}` : "Todo al dia"}
+                  {suggestedFicha
+                    ? articulationContext
+                      ? `${suggestedFicha.schoolOptions[0] ?? "Colegio pendiente"} · ${suggestedFicha.shift}`
+                      : `${suggestedFicha.block} · ${suggestedFicha.shift}`
+                    : "Todo al dia"}
                 </p>
               </div>
               <div className="rounded-[1rem] border border-border/70 bg-background/70 p-4">
@@ -275,7 +290,9 @@ export function CoordinatorSummaryBoard({
                 Flujo recomendado
               </div>
               <p className="mt-2 text-sm text-muted-foreground">
-                Revisa la ficha sugerida, valida el instructor compatible y entra al modulo de asignaciones solo cuando ya tengas una decision clara.
+                {articulationContext
+                  ? "Revisa la ficha sugerida, valida colegio e instructor compatible y entra a planeacion cuando ya tengas una decision clara."
+                  : "Revisa la ficha sugerida, valida el instructor compatible y entra al modulo de asignaciones solo cuando ya tengas una decision clara."}
               </p>
             </div>
 

@@ -1,6 +1,6 @@
 import { CoordinatorInstructorDirectory } from "@/components/coordinator/coordinator-instructor-directory";
 import { CoordinatorSectionHeader } from "@/components/coordinator/coordinator-section-header";
-import { getCoordinatorSiteData } from "@/lib/mocks/coordinator-console";
+import { getCoordinatorInstructorModuleData } from "@/lib/mocks/coordinator-console";
 
 type CoordinatorPageProps = {
   searchParams?: Promise<{ site?: string | string[]; filter?: string | string[] }>;
@@ -16,7 +16,7 @@ export default async function CoordinadorInstructoresPage({
     : params.filter
       ? [params.filter]
       : [];
-  const siteData = getCoordinatorSiteData(siteId, filters);
+  const siteData = getCoordinatorInstructorModuleData(siteId, filters);
   const directoryMetrics = [
     {
       label: "Perfiles visibles",
@@ -39,7 +39,7 @@ export default async function CoordinadorInstructoresPage({
     <div className="space-y-5">
       <CoordinatorSectionHeader
         title="Instructores"
-        description={`Directorio operativo de ${siteData.site.label}, enfocado en las personas y su perfil rapido.`}
+        description={`Directorio operativo con contexto administrativo en ${siteData.site.label}. En articulacion la lectura se adapta por colegio, cobertura y modalidad.`}
       />
       <CoordinatorInstructorDirectory
         key={`${siteData.site.id}-${siteData.activeFilters.join("-") || "all"}`}

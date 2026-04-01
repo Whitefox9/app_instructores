@@ -10,6 +10,7 @@ import {
   CoordinatorFichaOperationalStatus,
   CoordinatorFicha,
   CoordinatorInstructorStatus,
+  CoordinatorOperationalInstructor,
   CoordinatorOperationalDependency,
   CoordinatorSchoolStatus,
 } from "@/lib/types";
@@ -32,7 +33,7 @@ export function AvailabilityBadge({
 export function InstructorStatusBadge({
   status,
 }: {
-  status: CoordinatorInstructorStatus;
+  status: CoordinatorInstructorStatus | CoordinatorOperationalInstructor["status"];
 }) {
   const variant =
     status === "Disponible"

@@ -91,6 +91,7 @@ export function CoordinatorFichaDetailView({
       currentFicha.expectedApprentices,
       currentFicha.assignedInstructor,
       currentFicha.assignedEnvironment,
+      currentFicha.requiresEnvironment,
     );
 
     return {
@@ -322,24 +323,32 @@ export function CoordinatorFichaDetailView({
             </div>
             <div className="rounded-[1rem] border border-border/80 bg-background/70 px-4 py-3">
               <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
-                Aprendices
-              </p>
-              <p className="mt-1 font-semibold text-foreground">{completionLabel}</p>
-            </div>
-            <div className="rounded-[1rem] border border-border/80 bg-background/70 px-4 py-3">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
-                Instructor
+                {currentFicha.dependency === "Articulacion" ? "Modalidad" : "Aprendices"}
               </p>
               <p className="mt-1 font-semibold text-foreground">
-                {currentFicha.assignedInstructor ?? "Pendiente"}
+                {currentFicha.dependency === "Articulacion"
+                  ? currentFicha.articulationMode ?? "Pendiente"
+                  : completionLabel}
               </p>
             </div>
             <div className="rounded-[1rem] border border-border/80 bg-background/70 px-4 py-3">
               <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
-                Ambiente
+                {currentFicha.dependency === "Articulacion" ? "Colegio" : "Instructor"}
               </p>
               <p className="mt-1 font-semibold text-foreground">
-                {currentFicha.assignedEnvironment ?? "Pendiente"}
+                {currentFicha.dependency === "Articulacion"
+                  ? currentFicha.articulationSchool ?? "Pendiente"
+                  : currentFicha.assignedInstructor ?? "Pendiente"}
+              </p>
+            </div>
+            <div className="rounded-[1rem] border border-border/80 bg-background/70 px-4 py-3">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+                {currentFicha.dependency === "Articulacion" ? "Localidad" : "Ambiente"}
+              </p>
+              <p className="mt-1 font-semibold text-foreground">
+                {currentFicha.dependency === "Articulacion"
+                  ? currentFicha.locality ?? currentFicha.site
+                  : currentFicha.assignedEnvironment ?? "Pendiente"}
               </p>
             </div>
           </div>
@@ -400,6 +409,34 @@ export function CoordinatorFichaDetailView({
                   {currentFicha.expectedApprentices} aprendices
                 </p>
               </div>
+              {currentFicha.dependency === "Articulacion" ? (
+                <>
+                  <div className="rounded-[1rem] border border-border/70 bg-background/70 p-4">
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+                      Colegio
+                    </p>
+                    <p className="mt-1 text-sm font-medium text-foreground">
+                      {currentFicha.articulationSchool ?? "Pendiente"}
+                    </p>
+                  </div>
+                  <div className="rounded-[1rem] border border-border/70 bg-background/70 p-4">
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+                      Modalidad
+                    </p>
+                    <p className="mt-1 text-sm font-medium text-foreground">
+                      {currentFicha.articulationMode ?? "Pendiente"}
+                    </p>
+                  </div>
+                  <div className="rounded-[1rem] border border-border/70 bg-background/70 p-4">
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+                      Localidad
+                    </p>
+                    <p className="mt-1 text-sm font-medium text-foreground">
+                      {currentFicha.locality ?? currentFicha.site}
+                    </p>
+                  </div>
+                </>
+              ) : null}
               <div className="sm:col-span-2 rounded-[1rem] border border-border/70 bg-background/70 p-4">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
                   Observaciones
@@ -580,14 +617,29 @@ export function CoordinatorFichaDetailView({
                   {currentFicha.assignedInstructor ?? "Pendiente por asignar"}
                 </p>
               </div>
-              <div className="rounded-[1rem] border border-border/70 bg-background/70 p-4">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
-                  Ambiente actual
-                </p>
-                <p className="mt-1 text-sm font-medium text-foreground">
-                  {currentFicha.assignedEnvironment ?? "Pendiente por asignar"}
-                </p>
-              </div>
+              {currentFicha.requiresEnvironment ? (
+                <div className="rounded-[1rem] border border-border/70 bg-background/70 p-4">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+                    Ambiente actual
+                  </p>
+                  <p className="mt-1 text-sm font-medium text-foreground">
+                    {currentFicha.assignedEnvironment ?? "Pendiente por asignar"}
+                  </p>
+                </div>
+              ) : (
+                <div className="rounded-[1rem] border border-border/70 bg-background/70 p-4">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+                    Contexto de articulacion
+                  </p>
+                  <p className="mt-1 text-sm font-medium text-foreground">
+                    {currentFicha.articulationSchool ?? "Colegio pendiente"} ·{" "}
+                    {currentFicha.articulationMode ?? "Modalidad pendiente"}
+                  </p>
+                  <p className="mt-2 text-sm text-muted-foreground">
+                    {currentFicha.locality ?? currentFicha.site}
+                  </p>
+                </div>
+              )}
               <div className="rounded-[1rem] border border-border/70 bg-background/70 p-4">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
                   Estado operativo

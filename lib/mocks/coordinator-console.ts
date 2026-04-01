@@ -19,6 +19,11 @@ export const coordinatorSites: CoordinatorSiteOption[] = [
   { id: "corferias", label: "Corferias" },
 ];
 
+export const coordinatorArticulationContextOption: CoordinatorSiteOption = {
+  id: "articulacion",
+  label: "Articulacion",
+};
+
 export const coordinatorQuickFilters = [
   "Solo libres",
   "Articulacion",
@@ -108,13 +113,19 @@ const articulationSchoolOptions = [
   ["Colegio Distrital Palermo"],
   ["Colegio San Jorge", "Colegio Tecnico Metropolitano"],
 ];
+const articulationLocalities = [
+  "Chapinero",
+  "Teusaquillo",
+  "Barrios Unidos",
+  "Puente Aranda",
+];
 const articulationEnvironmentOptions = [
   ["Aula A-12", "Aula A-18"],
   ["Sala TIC C-04", "Aula C-07"],
   ["Laboratorio Bilinguismo", "Aula B-09"],
   ["Aula D-05", "Aula D-06"],
 ];
-const articulationModes: CoordinatorArticulationMode[] = [
+const articulationModes: Exclude<CoordinatorArticulationMode, "No aplica">[] = [
   "Compartida",
   "Unica",
   "Colegio privado",
@@ -237,6 +248,24 @@ export const coordinatorOperationalInstructors: CoordinatorOperationalInstructor
         currentLoad: "0 fichas · 0h",
         activeBlocks: 0,
         status: "Disponible",
+        articulationSchool:
+          config.dependency === "Articulacion"
+            ? articulationSchoolOptions[index % articulationSchoolOptions.length]?.[0]
+            : undefined,
+        articulationMode:
+          config.dependency === "Articulacion"
+            ? articulationModes[index % articulationModes.length]
+            : undefined,
+        articulationShift:
+          config.dependency === "Articulacion"
+            ? index % 2 === 0
+              ? "Manana"
+              : "Tarde"
+            : undefined,
+        locality:
+          config.dependency === "Articulacion"
+            ? articulationLocalities[index % articulationLocalities.length]
+            : undefined,
       };
     }),
   );
@@ -474,7 +503,26 @@ export function resolveCoordinatorSite(siteId?: string) {
   return coordinatorSites.find((site) => site.id === siteId) ?? coordinatorSites[0];
 }
 
+export function isCoordinatorArticulationContext(siteId?: string) {
+  return siteId === coordinatorArticulationContextOption.id;
+}
+
 export function getCoordinatorAlertChips(siteId?: string, filters?: string[] | string) {
+  if (isCoordinatorArticulationContext(siteId)) {
+    return [
+      {
+        id: "ALT-1",
+        label: `${coordinatorOperationalFichas.filter((item) => item.dependency === "Articulacion").length} fichas articulacion`,
+        severity: "media" as const,
+      },
+      {
+        id: "ALT-2",
+        label: `${coordinatorOperationalInstructors.filter((item) => item.dependency === "Articulacion").length} instructores articulacion`,
+        severity: "baja" as const,
+      },
+    ];
+  }
+
   const siteData = getCoordinatorSiteData(siteId, filters);
 
   return [
@@ -492,6 +540,79 @@ export function getCoordinatorAlertChips(siteId?: string, filters?: string[] | s
 }
 
 export function getCoordinatorSiteData(siteId?: string, filters?: string[] | string) {
+  if (isCoordinatorArticulationContext(siteId)) {
+    const site = coordinatorArticulationContextOption;
+    const activeFilters = resolveCoordinatorFilters(filters);
+    const dependencyFilters = activeFilters.filter(
+      (filter): filter is CoordinatorOperationalDependency =>
+        filter === "Articulacion" || filter === "Titulada" || filter === "Complementaria",
+    );
+    const onlyFree = activeFilters.includes("Solo libres");
+    const allowsArticulation =
+      dependencyFilters.length === 0 || dependencyFilters.includes("Articulacion");
+    const instructors = allowsArticulation
+      ? coordinatorOperationalInstructors.filter((item) => {
+          const dependencyMatch = item.dependency === "Articulacion";
+          const availabilityMatch = !onlyFree || item.status === "Disponible";
+
+          return dependencyMatch && availabilityMatch;
+        })
+      : [];
+    const fichas = allowsArticulation
+      ? coordinatorOperationalFichas.filter((item) => {
+          const dependencyMatch = item.dependency === "Articulacion";
+          const freeMatch = !onlyFree || item.status === "Sin asignar";
+
+          return dependencyMatch && freeMatch;
+        })
+      : [];
+    const coverage = coordinatorArticulationCoverage;
+    const schoolNames = new Set(coverage.map((item) => item.school));
+    const schools = coordinatorOperationalSchools.filter((item) => schoolNames.has(item.name));
+    const pending = fichas.filter((item) => item.status === "Sin asignar").length;
+    const readySchools = schools.filter((item) => item.status !== "Critico").length;
+    const visibleModalities = Array.from(
+      new Set(fichas.map((item) => item.articulationMode).filter((mode) => mode !== "No aplica")),
+    ).length;
+    const filterLabel = activeFilters.length ? activeFilters.join(" · ") : "Sin filtros rapidos";
+
+    return {
+      site,
+      activeFilters,
+      instructors,
+      fichas,
+      coverage,
+      schools,
+      environments: [],
+      metrics: [
+        { label: "Total instructores", value: `${instructors.length}`, tone: "neutral" as const },
+        { label: "Colegios visibles", value: `${schools.length}`, tone: "neutral" as const },
+        { label: "Fichas sin asignar", value: `${pending}`, tone: "warning" as const },
+        { label: "Colegios criticos", value: `${schools.filter((item) => item.status === "Critico").length}`, tone: "warning" as const },
+        { label: "Coberturas parciales", value: `${schools.filter((item) => item.status === "Parcial").length}`, tone: "neutral" as const },
+      ],
+      environmentMetrics: [
+        {
+          label: "Colegios listos",
+          value: `${readySchools}`,
+          tone: "neutral" as const,
+        },
+        { label: "Contexto activo", value: site.label, tone: "neutral" as const },
+        {
+          label: "Modalidades visibles",
+          value: `${visibleModalities}`,
+          tone: "neutral" as const,
+        },
+        { label: "Coberturas pendientes", value: `${coverage.filter((item) => item.status === "Pendiente").length}`, tone: "warning" as const },
+      ],
+      notes: [
+        `Articulacion consolida ${instructors.length} instructores visibles y ${fichas.length} fichas bajo ${filterLabel}.`,
+        `La lectura prioriza colegios, coberturas y modalidades; no usa ambientes del centro.`,
+        `Hay ${schools.length} colegios visibles y ${pending} fichas pendientes de cobertura en el contexto actual.`,
+      ],
+    };
+  }
+
   const site = resolveCoordinatorSite(siteId);
   const activeFilters = resolveCoordinatorFilters(filters);
   const dependencyFilters = activeFilters.filter(
@@ -572,5 +693,38 @@ export function getCoordinatorSiteData(siteId?: string, filters?: string[] | str
       `En ${site.label} hay ${pending} fichas pendientes y 0 conflictos activos bajo el filtro actual.`,
       `La configuracion por sede conserva la regla 4 articulacion, 1 titulada y 1 complementaria.`,
     ],
+  };
+}
+
+export function getCoordinatorInstructorModuleData(
+  siteId?: string,
+  filters?: string[] | string,
+) {
+  const articulationContext = isCoordinatorArticulationContext(siteId);
+  const site = articulationContext
+    ? coordinatorArticulationContextOption
+    : resolveCoordinatorSite(siteId);
+  const activeFilters = resolveCoordinatorFilters(filters);
+  const dependencyFilters = activeFilters.filter(
+    (filter): filter is CoordinatorOperationalDependency =>
+      filter === "Articulacion" || filter === "Titulada" || filter === "Complementaria",
+  );
+  const onlyFree = activeFilters.includes("Solo libres");
+
+  const instructors = coordinatorOperationalInstructors.filter((item) => {
+    const dependencyMatch =
+      !dependencyFilters.length || dependencyFilters.includes(item.dependency);
+    const availabilityMatch = !onlyFree || item.status === "Disponible";
+    const siteMatch = articulationContext
+      ? item.dependency === "Articulacion"
+      : item.dependency !== "Articulacion" && item.site === site.label;
+
+    return dependencyMatch && availabilityMatch && siteMatch;
+  });
+
+  return {
+    site,
+    activeFilters,
+    instructors,
   };
 }

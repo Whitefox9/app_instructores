@@ -26,8 +26,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
 import {
+  coordinatorArticulationContextOption,
   coordinatorCenterName,
   getCoordinatorAlertChips,
+  isCoordinatorArticulationContext,
   coordinatorQuickFilters,
   resolveCoordinatorFilters,
   coordinatorSites,
@@ -46,9 +48,9 @@ const navItems: CoordinatorNavItem[] = [
   { label: "Fichas", href: "/coordinador/fichas", icon: FolderKanban },
   { label: "Ambientes", href: "/coordinador/ambientes", icon: DoorOpen },
   { label: "Colegios", href: "/coordinador/colegios", icon: School },
+  { label: "Planeacion", href: "/coordinador/programas", icon: BookOpenText },
   { label: "Asignaciones", href: "/coordinador/asignaciones", icon: ClipboardList },
   { label: "Importaciones", href: "/coordinador/importacion-excel", icon: FileSpreadsheet },
-  { label: "Planeacion", href: "/coordinador/programas", icon: BookOpenText },
 ];
 
 function alertVariant(severity: "alta" | "media" | "baja") {
@@ -69,8 +71,24 @@ export function CoordinatorShell({ children }: PropsWithChildren) {
   const searchParams = useSearchParams();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const supportsArticulationContext = useMemo(
+    () =>
+      pathname.startsWith("/coordinador/dashboard") ||
+      pathname.startsWith("/coordinador/instructores") ||
+      pathname.startsWith("/coordinador/fichas") ||
+      pathname.startsWith("/coordinador/asignaciones") ||
+      pathname.startsWith("/coordinador/programas"),
+    [pathname],
+  );
+  const siteOptions = useMemo(
+    () =>
+      supportsArticulationContext
+        ? [...coordinatorSites, coordinatorArticulationContextOption]
+        : coordinatorSites,
+    [supportsArticulationContext],
+  );
   const selectedSite =
-    coordinatorSites.find((site) => site.id === searchParams.get("site"))?.id ??
+    siteOptions.find((site) => site.id === searchParams.get("site"))?.id ??
     coordinatorSites[0]?.id ??
     "";
   const activeQuickFilters = useMemo(
@@ -82,6 +100,14 @@ export function CoordinatorShell({ children }: PropsWithChildren) {
     [activeQuickFilters, selectedSite],
   );
   const visibleQuickFilters = useMemo(() => {
+    if (
+      pathname.startsWith("/coordinador/colegios") ||
+      pathname.startsWith("/coordinador/asignaciones") ||
+      pathname.startsWith("/coordinador/programas")
+    ) {
+      return [];
+    }
+
     if (pathname.startsWith("/coordinador/ambientes")) {
       return coordinatorQuickFilters.filter((filter) => filter !== "Articulacion");
     }
@@ -101,8 +127,18 @@ export function CoordinatorShell({ children }: PropsWithChildren) {
   ) {
     const params = new URLSearchParams();
     const targetUsesSite = !href.startsWith("/coordinador/colegios");
-    if (site && targetUsesSite) {
-      params.set("site", site);
+    const targetSupportsArticulation =
+      href.startsWith("/coordinador/dashboard") ||
+      href.startsWith("/coordinador/instructores") ||
+      href.startsWith("/coordinador/fichas") ||
+      href.startsWith("/coordinador/asignaciones") ||
+      href.startsWith("/coordinador/programas");
+    const normalizedSite =
+      isCoordinatorArticulationContext(site) && !targetSupportsArticulation
+        ? coordinatorSites[0]?.id ?? ""
+        : site;
+    if (normalizedSite && targetUsesSite) {
+      params.set("site", normalizedSite);
     }
     filters.forEach((filter) => params.append("filter", filter));
     const query = params.toString();
@@ -279,7 +315,7 @@ export function CoordinatorShell({ children }: PropsWithChildren) {
                         onChange={(event) => handleSiteChange(event.target.value)}
                         className="h-10 border-primary/30 bg-white font-semibold shadow-none"
                       >
-                        {coordinatorSites.map((site) => (
+                        {siteOptions.map((site) => (
                           <option key={site.id} value={site.id}>
                             {site.label}
                           </option>

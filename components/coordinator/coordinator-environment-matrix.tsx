@@ -74,6 +74,11 @@ export function CoordinatorEnvironmentMatrix({
     "all",
   );
   const [selectedCell, setSelectedCell] = useState<SelectedEnvironmentCell | null>(null);
+  const visibleDays = useMemo(
+    () => Array.from(new Set(blocks.map((block) => block.split(" ")[0]))),
+    [blocks],
+  );
+  const [selectedDay, setSelectedDay] = useState(visibleDays[0] ?? "Lun");
 
   const selectedSite = searchParams.get("site") ?? coordinatorSites[0]?.id ?? "";
 
@@ -122,6 +127,10 @@ export function CoordinatorEnvironmentMatrix({
       conflicts: cells.filter((cell) => cell.state === "Conflicto").length,
     };
   }, [filteredRows]);
+  const visibleBlocks = useMemo(
+    () => blocks.filter((block) => block.startsWith(`${selectedDay} `)),
+    [blocks, selectedDay],
+  );
 
   const drawerTone =
     selectedCell?.cell.state === "Conflicto"
@@ -129,7 +138,7 @@ export function CoordinatorEnvironmentMatrix({
       : selectedCell?.cell.state === "Ocupado"
         ? "border-primary/15 bg-primary/5"
         : "border-border/80 bg-background/70";
-  const gridTemplate = `240px repeat(${blocks.length}, minmax(140px, 1fr))`;
+  const gridTemplate = `240px repeat(${visibleBlocks.length}, minmax(190px, 1fr))`;
 
   return (
     <>
@@ -235,13 +244,70 @@ export function CoordinatorEnvironmentMatrix({
                   </button>
                 );
               })}
+              </div>
+            </div>
+
+          <div className="flex flex-col gap-3 rounded-[0.95rem] border border-border/70 bg-background/55 p-3">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+                  Vista por dia
+                </p>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  Cambia el dia visible para revisar manana, tarde y noche con bloques mas amplios y legibles.
+                </p>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {visibleDays.map((day) => {
+                  const active = selectedDay === day;
+
+                  return (
+                    <button
+                      key={day}
+                      type="button"
+                      onClick={() => setSelectedDay(day)}
+                      className={cn(
+                        "rounded-full border px-4 py-2 text-sm font-semibold transition-all",
+                        active
+                          ? "border-primary bg-primary text-primary-foreground"
+                          : "border-border bg-white text-muted-foreground hover:border-primary/20 hover:text-foreground",
+                      )}
+                    >
+                      {day}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div className="grid gap-3 sm:grid-cols-3">
+              <div className="rounded-[0.95rem] border border-border/70 bg-white px-4 py-3">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+                  Dia visible
+                </p>
+                <p className="mt-1 text-base font-semibold text-foreground">{selectedDay}</p>
+              </div>
+              <div className="rounded-[0.95rem] border border-border/70 bg-white px-4 py-3">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+                  Jornadas del dia
+                </p>
+                <p className="mt-1 text-sm text-foreground">
+                  {visibleBlocks.map((block) => block.split(" ").slice(1).join(" ")).join(" · ")}
+                </p>
+              </div>
+              <div className="rounded-[0.95rem] border border-border/70 bg-white px-4 py-3">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+                  Ambientes visibles
+                </p>
+                <p className="mt-1 text-base font-semibold text-foreground">{filteredRows.length}</p>
+              </div>
             </div>
           </div>
         </CardHeader>
 
         <CardContent className="p-0">
           <div className="overflow-x-auto">
-            <div className="min-w-[3240px]">
+            <div className="min-w-[1040px]">
               <div
                 className="grid border-b border-border/70 bg-background/70"
                 style={{ gridTemplateColumns: gridTemplate }}
@@ -249,7 +315,7 @@ export function CoordinatorEnvironmentMatrix({
                 <div className="sticky left-0 z-20 border-r border-border/70 bg-background/90 px-5 py-3 text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground backdrop-blur">
                   Ambiente
                 </div>
-                {blocks.map((block) => (
+                {visibleBlocks.map((block) => (
                   <div
                     key={block}
                     className="px-4 py-3 text-center text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground"
@@ -283,7 +349,7 @@ export function CoordinatorEnvironmentMatrix({
                     </div>
                   </div>
 
-                  {blocks.map((block) => {
+                  {visibleBlocks.map((block) => {
                     const cell = row.cells.find((item) => item.block === block) ?? {
                       id: `${row.id}-${block}`,
                       block,
@@ -296,7 +362,7 @@ export function CoordinatorEnvironmentMatrix({
                           type="button"
                           onClick={() => setSelectedCell({ row, block, cell })}
                           className={cn(
-                            "min-h-[118px] w-full rounded-[1rem] border px-3 py-3 text-left transition-all hover:-translate-y-[1px] hover:border-primary/30 hover:shadow-[0_10px_24px_-22px_rgba(15,23,42,0.45)]",
+                            "min-h-[132px] w-full rounded-[1rem] border px-4 py-4 text-left transition-all hover:-translate-y-[1px] hover:border-primary/30 hover:shadow-[0_10px_24px_-22px_rgba(15,23,42,0.45)]",
                             cellStyles(cell.state),
                             selectedCell?.row.id === row.id &&
                               selectedCell?.block === block &&
@@ -326,6 +392,9 @@ export function CoordinatorEnvironmentMatrix({
                           {cell.state === "Libre" ? (
                             <div className="mt-4">
                               <p className="text-sm font-medium text-foreground">Disponible</p>
+                              <p className="mt-2 text-xs uppercase tracking-[0.12em] text-muted-foreground">
+                                {block.split(" ").slice(1).join(" ")}
+                              </p>
                             </div>
                           ) : (
                             <div className="mt-3 space-y-2">
@@ -334,6 +403,9 @@ export function CoordinatorEnvironmentMatrix({
                               </p>
                               <p className="text-xs leading-5 text-muted-foreground">
                                 {shortInstructorName(cell.instructor)}
+                              </p>
+                              <p className="text-[11px] uppercase tracking-[0.12em] text-muted-foreground">
+                                {block.split(" ").slice(1).join(" ")}
                               </p>
                               <Badge variant="outline" className="px-2.5 py-1 text-[10px]">
                                 {row.type}

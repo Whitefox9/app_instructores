@@ -4,7 +4,10 @@ import Image from "next/image";
 import { useMemo, useState } from "react";
 import { Mail, Phone, UserRound } from "lucide-react";
 
-import { OperationalDependencyBadge } from "@/components/coordinator/coordinator-badges";
+import {
+  InstructorStatusBadge,
+  OperationalDependencyBadge,
+} from "@/components/coordinator/coordinator-badges";
 import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/ui/empty-state";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -32,12 +35,18 @@ export function CoordinatorInstructorDirectory({
   metrics,
 }: CoordinatorInstructorDirectoryProps) {
   const [search, setSearch] = useState("");
+  const [dependencyFilter, setDependencyFilter] = useState<"Todas" | CoordinatorOperationalDependency>(
+    "Todas",
+  );
   const [areaFilter, setAreaFilter] = useState("Todas");
   const [programFilter, setProgramFilter] = useState("Todos");
+  const [statusFilter, setStatusFilter] = useState("Todos");
   const [selectedInstructorId, setSelectedInstructorId] = useState(instructors[0]?.id ?? "");
 
+  const dependencyOptions = ["Todas", ...dependencies] as const;
   const areaOptions = ["Todas", ...new Set(instructors.map((item) => item.area))];
   const programOptions = ["Todos", ...new Set(instructors.map((item) => item.programType))];
+  const statusOptions = ["Todos", ...new Set(instructors.map((item) => item.status))];
 
   const filtered = useMemo(() => {
     const normalized = search.trim().toLowerCase();
@@ -48,12 +57,21 @@ export function CoordinatorInstructorDirectory({
         item.name.toLowerCase().includes(normalized) ||
         item.phone.includes(normalized) ||
         item.personalEmail.toLowerCase().includes(normalized);
+      const matchesDependency =
+        dependencyFilter === "Todas" || item.dependency === dependencyFilter;
       const matchesArea = areaFilter === "Todas" || item.area === areaFilter;
       const matchesProgram = programFilter === "Todos" || item.programType === programFilter;
+      const matchesStatus = statusFilter === "Todos" || item.status === statusFilter;
 
-      return matchesSearch && matchesArea && matchesProgram;
+      return (
+        matchesSearch &&
+        matchesDependency &&
+        matchesArea &&
+        matchesProgram &&
+        matchesStatus
+      );
     });
-  }, [areaFilter, instructors, programFilter, search]);
+  }, [areaFilter, dependencyFilter, instructors, programFilter, search, statusFilter]);
 
   const selectedInstructor = useMemo(
     () => filtered.find((item) => item.id === selectedInstructorId) ?? filtered[0],
@@ -88,16 +106,30 @@ export function CoordinatorInstructorDirectory({
           <div>
             <CardTitle>Directorio de instructores</CardTitle>
             <CardDescription>
-              Vista humana del equipo docente con acceso rapido al perfil sin salir del modulo.
+              Vista humana del equipo docente con acceso rapido al perfil. La sede activa sigue siendo administrativa; articulacion se lee por colegio y cobertura.
             </CardDescription>
           </div>
-          <div className="grid gap-2 lg:grid-cols-[minmax(240px,1fr)_220px_220px]">
+          <div className="grid gap-2 lg:grid-cols-[minmax(220px,1fr)_180px_220px_220px_170px]">
             <input
               value={search}
               onChange={(event) => setSearch(event.target.value)}
               placeholder="Buscar por nombre, telefono o correo"
               className="flex h-10 w-full rounded-[0.95rem] border border-input bg-white px-3 py-2 text-sm text-foreground shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             />
+            <Select
+              value={dependencyFilter}
+              onChange={(event) =>
+                setDependencyFilter(
+                  event.target.value as "Todas" | CoordinatorOperationalDependency,
+                )
+              }
+            >
+              {dependencyOptions.map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </Select>
             <Select value={areaFilter} onChange={(event) => setAreaFilter(event.target.value)}>
               {areaOptions.map((option) => (
                 <option key={option} value={option}>
@@ -107,6 +139,13 @@ export function CoordinatorInstructorDirectory({
             </Select>
             <Select value={programFilter} onChange={(event) => setProgramFilter(event.target.value)}>
               {programOptions.map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </Select>
+            <Select value={statusFilter} onChange={(event) => setStatusFilter(event.target.value)}>
+              {statusOptions.map((option) => (
                 <option key={option} value={option}>
                   {option}
                 </option>
@@ -175,7 +214,10 @@ export function CoordinatorInstructorDirectory({
                                 className="h-16 w-16 rounded-[1rem] border border-border/70 object-cover"
                               />
                               <div className="min-w-0 flex-1">
-                                <p className="truncate font-semibold text-foreground">{item.name}</p>
+                                <div className="flex flex-wrap items-center gap-2">
+                                  <p className="truncate font-semibold text-foreground">{item.name}</p>
+                                  <OperationalDependencyBadge dependency={item.dependency} />
+                                </div>
                                 <div className="mt-2 space-y-1 text-sm text-muted-foreground">
                                   <p className="flex items-center gap-2">
                                     <Phone className="h-3.5 w-3.5" />
@@ -233,6 +275,42 @@ export function CoordinatorInstructorDirectory({
                       </div>
 
                       <div className="grid gap-3">
+                        {selectedInstructor.dependency === "Articulacion" ? (
+                          <div className="grid gap-3 sm:grid-cols-2">
+                            <div className="rounded-[1rem] border border-primary/15 bg-primary/5 p-4">
+                              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-primary">
+                                Colegio base
+                              </p>
+                              <p className="mt-1 text-sm text-foreground">
+                                {selectedInstructor.articulationSchool ?? "Pendiente"}
+                              </p>
+                            </div>
+                            <div className="rounded-[1rem] border border-primary/15 bg-primary/5 p-4">
+                              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-primary">
+                                Modalidad
+                              </p>
+                              <p className="mt-1 text-sm text-foreground">
+                                {selectedInstructor.articulationMode ?? "Pendiente"}
+                              </p>
+                            </div>
+                            <div className="rounded-[1rem] border border-primary/15 bg-primary/5 p-4">
+                              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-primary">
+                                Jornada
+                              </p>
+                              <p className="mt-1 text-sm text-foreground">
+                                {selectedInstructor.articulationShift ?? "Pendiente"}
+                              </p>
+                            </div>
+                            <div className="rounded-[1rem] border border-primary/15 bg-primary/5 p-4">
+                              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-primary">
+                                Localidad
+                              </p>
+                              <p className="mt-1 text-sm text-foreground">
+                                {selectedInstructor.locality ?? selectedInstructor.site}
+                              </p>
+                            </div>
+                          </div>
+                        ) : null}
                         <div className="rounded-[1rem] border border-border/70 bg-background/70 p-4">
                           <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
                             Profesion
@@ -263,6 +341,14 @@ export function CoordinatorInstructorDirectory({
                             <p className="mt-1 text-sm text-foreground">
                               {selectedInstructor.programType}
                             </p>
+                          </div>
+                        </div>
+                        <div className="rounded-[1rem] border border-border/70 bg-background/70 p-4">
+                          <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+                            Estado
+                          </p>
+                          <div className="mt-2">
+                            <InstructorStatusBadge status={selectedInstructor.status} />
                           </div>
                         </div>
                         <div className="grid gap-3 sm:grid-cols-2">

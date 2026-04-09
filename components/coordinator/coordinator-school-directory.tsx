@@ -195,7 +195,7 @@ export function CoordinatorSchoolDirectory({
   return (
     <>
       <div className="space-y-4">
-        <Card className="border-border/70 bg-white/82 shadow-none">
+        <Card className="border-border/70 bg-card/80 shadow-none">
           <CardHeader className="gap-4">
             <div className="flex flex-col gap-3 xl:flex-row xl:items-start xl:justify-between">
               <div>
@@ -231,7 +231,7 @@ export function CoordinatorSchoolDirectory({
                         "rounded-full border px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.12em] transition-all",
                         active
                           ? "border-primary bg-primary text-primary-foreground"
-                          : "border-border bg-white text-muted-foreground hover:text-foreground",
+                          : "border-border bg-card text-muted-foreground hover:text-foreground",
                       )}
                     >
                       {filter}
@@ -275,19 +275,19 @@ export function CoordinatorSchoolDirectory({
                           {school.city}
                         </span>
                       </p>
-                      <div className="rounded-[0.95rem] border border-border/70 bg-white px-3 py-3">
+                      <div className="rounded-[0.95rem] border border-border/70 bg-card px-3 py-3">
                         <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
                           Horario configurado
                         </p>
                         <p className="mt-1 text-sm text-foreground">{school.scheduleLabel}</p>
                       </div>
-                      <div className="rounded-[0.95rem] border border-border/70 bg-white px-3 py-3">
+                      <div className="rounded-[0.95rem] border border-border/70 bg-card px-3 py-3">
                         <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
                           Dias de operacion
                         </p>
                         <p className="mt-1 text-sm text-foreground">{school.operatingDays}</p>
                       </div>
-                      <div className="rounded-[0.95rem] border border-border/70 bg-white px-3 py-3">
+                      <div className="rounded-[0.95rem] border border-border/70 bg-card px-3 py-3">
                         <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
                           Cobertura SENA
                         </p>
@@ -318,7 +318,7 @@ export function CoordinatorSchoolDirectory({
       {drawerOpen ? (
         <>
           <div className="fixed inset-0 z-40 bg-slate-950/20" onClick={closeDrawer} />
-          <aside className="fixed inset-y-0 right-0 z-50 w-full max-w-md border-l border-border/80 bg-white/95 shadow-2xl backdrop-blur-xl">
+          <aside className="fixed inset-y-0 right-0 z-50 w-full max-w-md border-l border-border/80 bg-card/95 shadow-2xl backdrop-blur-xl">
             <div className="flex h-full flex-col">
               <div className="flex items-start justify-between gap-3 border-b border-border/70 px-5 py-4">
                 <div>
@@ -433,7 +433,7 @@ export function CoordinatorSchoolDirectory({
       {detailSchool ? (
         <>
           <div className="fixed inset-0 z-40 bg-slate-950/20" onClick={closeDetail} />
-          <aside className="fixed inset-y-0 right-0 z-50 w-full max-w-[720px] border-l border-border/80 bg-white/95 shadow-2xl backdrop-blur-xl">
+          <aside className="fixed inset-y-0 right-0 z-50 w-full max-w-[720px] border-l border-border/80 bg-card/95 shadow-2xl backdrop-blur-xl">
             <div className="flex h-full flex-col">
               <div className="flex items-start justify-between gap-3 border-b border-border/70 px-5 py-4">
                 <div>
@@ -481,7 +481,7 @@ export function CoordinatorSchoolDirectory({
                       <div className="mt-3 flex flex-wrap gap-2">
                         {detailSchool.scheduleWindows.length ? (
                           detailSchool.scheduleWindows.map((window) => (
-                            <Badge key={window} variant="outline" className="bg-white">
+                            <Badge key={window} variant="outline" className="bg-card">
                               {window}
                             </Badge>
                           ))
@@ -513,7 +513,7 @@ export function CoordinatorSchoolDirectory({
                           {detailSchool.associatedFichas.map((ficha) => (
                             <div
                               key={ficha.id}
-                              className="rounded-[0.95rem] border border-border/70 bg-white px-3 py-3"
+                              className="rounded-[0.95rem] border border-border/70 bg-card px-3 py-3"
                             >
                               <div className="flex items-center justify-between gap-3">
                                 <div>
@@ -536,7 +536,7 @@ export function CoordinatorSchoolDirectory({
                           ))}
                         </div>
                       ) : (
-                        <div className="mt-3 rounded-[0.95rem] border border-dashed border-border/80 bg-white/70 px-3 py-4 text-sm text-muted-foreground">
+                        <div className="mt-3 rounded-[0.95rem] border border-dashed border-border/80 bg-card/70 px-3 py-4 text-sm text-muted-foreground">
                           Aun no hay fichas asociadas a este colegio.
                         </div>
                       )}
@@ -591,10 +591,10 @@ export function CoordinatorSchoolDirectory({
                         <Badge variant={detailIsReady ? "success" : "warning"}>
                           {detailIsReady ? "Listo para asignacion" : "Pendiente"}
                         </Badge>
-                        <Badge variant="outline" className="bg-white">
+                        <Badge variant="outline" className="bg-card">
                           {detailSchool.site}
                         </Badge>
-                        <Badge variant="outline" className="bg-white">
+                        <Badge variant="outline" className="bg-card">
                           <MapPin className="mr-1 h-3.5 w-3.5" />
                           {detailSchool.city}
                         </Badge>

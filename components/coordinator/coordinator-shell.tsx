@@ -25,6 +25,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 import {
   coordinatorArticulationContextOption,
   coordinatorCenterName,
@@ -165,7 +166,7 @@ export function CoordinatorShell({ children }: PropsWithChildren) {
   }
 
   return (
-    <div className="min-h-screen bg-[linear-gradient(180deg,rgba(248,250,252,0.92)_0%,rgba(244,247,245,0.96)_100%)]">
+    <div className="min-h-screen bg-[linear-gradient(180deg,rgba(248,250,252,0.92)_0%,rgba(244,247,245,0.96)_100%)] dark:bg-[radial-gradient(circle_at_top_left,rgba(57,169,0,0.08),transparent_24%),linear-gradient(180deg,rgba(14,19,31,0.98)_0%,rgba(17,24,39,1)_100%)]">
       <div
         className={cn(
           "grid min-h-screen",
@@ -182,12 +183,12 @@ export function CoordinatorShell({ children }: PropsWithChildren) {
 
         <aside
           className={cn(
-            "fixed inset-y-0 left-0 z-50 flex w-[220px] flex-col border-r border-slate-200/85 bg-[linear-gradient(180deg,rgba(255,255,255,0.96)_0%,rgba(247,250,248,0.94)_100%)] px-3.5 py-5 shadow-[0_18px_42px_-30px_rgba(15,23,42,0.28)] backdrop-blur-xl transition-transform xl:sticky xl:top-0 xl:h-screen xl:translate-x-0",
+            "fixed inset-y-0 left-0 z-50 flex w-[220px] flex-col border-r border-border/80 bg-[linear-gradient(180deg,hsl(var(--card)/0.96)_0%,hsl(var(--card)/0.9)_100%)] px-3.5 py-5 shadow-[0_18px_42px_-30px_rgba(15,23,42,0.28)] backdrop-blur-xl transition-transform xl:sticky xl:top-0 xl:h-screen xl:translate-x-0",
             sidebarCollapsed && "xl:w-[76px] xl:px-2.5",
             mobileOpen ? "translate-x-0" : "-translate-x-full",
           )}
         >
-          <div className="rounded-[1.1rem] border border-white/70 bg-white/55 px-2 py-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.7)]">
+          <div className="rounded-[1.1rem] border border-border/70 bg-[hsl(var(--card)/0.55)] px-2 py-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.12)]">
             <div className="flex items-center justify-between gap-3 px-2 pb-4">
               <div className={cn(sidebarCollapsed && "xl:hidden")}>
                 <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground">SENA</p>
@@ -223,7 +224,7 @@ export function CoordinatorShell({ children }: PropsWithChildren) {
             </div>
           </div>
 
-          <nav className="mt-3 space-y-1 rounded-[1.1rem] border border-white/65 bg-white/50 p-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.65)]">
+          <nav className="mt-3 space-y-1 rounded-[1.1rem] border border-border/70 bg-[hsl(var(--card)/0.5)] p-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]">
             {navItems.map((item) => {
               const active = pathname.startsWith(item.href);
               const Icon = item.icon;
@@ -249,7 +250,7 @@ export function CoordinatorShell({ children }: PropsWithChildren) {
                   {active ? (
                     <span
                       className={cn(
-                        "h-2 w-2 rounded-full bg-white/80",
+                        "h-2 w-2 rounded-full bg-primary-foreground/80",
                         sidebarCollapsed && "xl:hidden",
                       )}
                     />
@@ -259,7 +260,7 @@ export function CoordinatorShell({ children }: PropsWithChildren) {
             })}
           </nav>
 
-          <div className="mt-auto rounded-[1.1rem] border border-white/65 bg-white/50 p-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.65)]">
+          <div className="mt-auto rounded-[1.1rem] border border-border/70 bg-[hsl(var(--card)/0.5)] p-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]">
             <Button
               asChild
               variant="ghost"
@@ -277,7 +278,7 @@ export function CoordinatorShell({ children }: PropsWithChildren) {
         </aside>
 
         <div className="flex min-h-screen flex-col">
-          <header className="sticky top-0 z-30 border-b border-slate-200/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.95)_0%,rgba(248,251,249,0.9)_100%)] shadow-[0_16px_30px_-28px_rgba(15,23,42,0.32)] backdrop-blur-xl">
+          <header className="sticky top-0 z-30 border-b border-border/80 bg-[linear-gradient(180deg,hsl(var(--card)/0.95)_0%,hsl(var(--card)/0.88)_100%)] shadow-[0_16px_30px_-28px_rgba(15,23,42,0.32)] backdrop-blur-xl">
             <div className="flex flex-col gap-4 px-4 py-4 sm:px-6 xl:px-8">
               <div className="flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
                 <div className="flex items-center gap-3">
@@ -301,10 +302,13 @@ export function CoordinatorShell({ children }: PropsWithChildren) {
                   className={cn(
                     "grid gap-3 xl:items-center",
                     usesSiteSelector
-                      ? "xl:grid-cols-[220px_minmax(260px,360px)]"
-                      : "xl:grid-cols-[minmax(320px,420px)]",
+                      ? "xl:grid-cols-[auto_220px_minmax(260px,360px)]"
+                      : "xl:grid-cols-[auto_minmax(320px,420px)]",
                   )}
                 >
+                  <div className="flex items-center justify-start xl:justify-end">
+                    <ThemeToggle />
+                  </div>
                   {usesSiteSelector ? (
                     <div className="rounded-[1rem] border border-primary/25 bg-primary/5 px-3 py-2">
                       <p className="mb-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-primary">
@@ -313,7 +317,7 @@ export function CoordinatorShell({ children }: PropsWithChildren) {
                       <Select
                         value={selectedSite}
                         onChange={(event) => handleSiteChange(event.target.value)}
-                        className="h-10 border-primary/30 bg-white font-semibold shadow-none"
+                        className="h-10 border-primary/30 bg-card font-semibold shadow-none"
                       >
                         {siteOptions.map((site) => (
                           <option key={site.id} value={site.id}>
@@ -348,7 +352,7 @@ export function CoordinatorShell({ children }: PropsWithChildren) {
                           "rounded-full border px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.1em] transition-all",
                           active
                             ? "border-primary bg-primary text-primary-foreground"
-                            : "border-border bg-white text-muted-foreground hover:text-foreground",
+                            : "border-border bg-card text-muted-foreground hover:text-foreground",
                         )}
                       >
                         {filter}

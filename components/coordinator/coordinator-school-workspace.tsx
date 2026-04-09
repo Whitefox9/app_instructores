@@ -35,7 +35,7 @@ export function CoordinatorSchoolWorkspace({
 
   return (
     <div className="space-y-4">
-      <div className="flex flex-col gap-3 rounded-[1rem] border border-border/70 bg-white/75 px-4 py-4 backdrop-blur">
+      <div className="flex flex-col gap-3 rounded-[1rem] border border-border/70 bg-card/75 px-4 py-4 backdrop-blur">
         <div>
           <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-primary">
             Colegios
@@ -61,7 +61,7 @@ export function CoordinatorSchoolWorkspace({
                   "rounded-full border px-4 py-2 text-sm font-semibold transition-all",
                   active
                     ? "border-primary bg-primary text-primary-foreground shadow-[0_10px_20px_-16px_rgba(22,163,74,0.65)]"
-                    : "border-border bg-white text-muted-foreground hover:border-primary/20 hover:text-foreground",
+                    : "border-border bg-card text-muted-foreground hover:border-primary/20 hover:text-foreground",
                 )}
               >
                 {option.label}

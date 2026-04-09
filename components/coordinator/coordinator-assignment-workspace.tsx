@@ -396,7 +396,7 @@ export function CoordinatorAssignmentWorkspace({
     <div className="space-y-5">
       <CoordinatorMetricStrip metrics={metrics} />
 
-      <div className="rounded-[1rem] border border-border/70 bg-white/80 px-4 py-4 backdrop-blur">
+      <div className="rounded-[1rem] border border-border/70 bg-card/80 px-4 py-4 backdrop-blur">
         <div className="flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
           <div>
             <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-primary">
@@ -422,7 +422,7 @@ export function CoordinatorAssignmentWorkspace({
                     "rounded-full border px-4 py-2 text-sm font-semibold transition-all",
                     active
                       ? "border-primary bg-primary text-primary-foreground shadow-[0_10px_20px_-16px_rgba(22,163,74,0.65)]"
-                      : "border-border bg-white text-muted-foreground hover:border-primary/20 hover:text-foreground",
+                      : "border-border bg-card text-muted-foreground hover:border-primary/20 hover:text-foreground",
                   )}
                 >
                   {tab.label}
@@ -474,7 +474,7 @@ export function CoordinatorAssignmentWorkspace({
                             "rounded-full border px-4 py-2 text-sm font-semibold transition-all",
                             active
                               ? "border-primary bg-primary text-primary-foreground"
-                              : "border-border bg-white text-muted-foreground hover:border-primary/20 hover:text-foreground",
+                              : "border-border bg-card text-muted-foreground hover:border-primary/20 hover:text-foreground",
                           )}
                         >
                           {dependency}
@@ -546,7 +546,7 @@ export function CoordinatorAssignmentWorkspace({
                           ? "border-primary bg-primary/5 shadow-[0_12px_24px_-20px_rgba(22,163,74,0.6)]"
                           : reserved
                             ? "border-border bg-slate-50 text-muted-foreground opacity-70"
-                            : "border-border bg-white hover:border-primary/20",
+                            : "border-border bg-card hover:border-primary/20",
                       )}
                     >
                       <div className="flex flex-wrap gap-2">
@@ -599,7 +599,7 @@ export function CoordinatorAssignmentWorkspace({
                           ? "border-primary bg-primary/5 shadow-[0_12px_24px_-20px_rgba(22,163,74,0.6)]"
                           : reserved
                             ? "border-border bg-slate-50 text-muted-foreground opacity-70"
-                            : "border-border bg-white hover:border-primary/20",
+                            : "border-border bg-card hover:border-primary/20",
                       )}
                     >
                       <div className="flex items-start gap-3">
@@ -677,7 +677,7 @@ export function CoordinatorAssignmentWorkspace({
                                 "rounded-full border px-4 py-2 text-sm font-semibold transition-all",
                                 selectedProgrammingDay === day
                                   ? "border-primary bg-primary text-primary-foreground"
-                                  : "border-border bg-white text-muted-foreground hover:border-primary/20 hover:text-foreground",
+                                  : "border-border bg-card text-muted-foreground hover:border-primary/20 hover:text-foreground",
                               )}
                             >
                               {day}
@@ -686,13 +686,13 @@ export function CoordinatorAssignmentWorkspace({
                         </div>
 
                         <div className="grid gap-3 sm:grid-cols-3">
-                          <div className="rounded-[0.95rem] border border-border/70 bg-white px-3 py-3">
+                          <div className="rounded-[0.95rem] border border-border/70 bg-card px-3 py-3">
                             <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
                               Dia visible
                             </p>
                             <p className="mt-1 text-sm text-foreground">{selectedProgrammingDay}</p>
                           </div>
-                          <div className="rounded-[0.95rem] border border-border/70 bg-white px-3 py-3">
+                          <div className="rounded-[0.95rem] border border-border/70 bg-card px-3 py-3">
                             <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
                               Jornadas del dia
                             </p>
@@ -702,7 +702,7 @@ export function CoordinatorAssignmentWorkspace({
                                 .join(" · ")}
                             </p>
                           </div>
-                          <div className="rounded-[0.95rem] border border-border/70 bg-white px-3 py-3">
+                          <div className="rounded-[0.95rem] border border-border/70 bg-card px-3 py-3">
                             <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
                               Seleccion actual
                             </p>
@@ -743,7 +743,7 @@ export function CoordinatorAssignmentWorkspace({
                                   gridTemplateColumns: `220px repeat(${visibleProgrammingBlocks.length}, minmax(120px, 1fr))`,
                                 }}
                               >
-                                <div className="rounded-[0.95rem] border border-border/70 bg-white px-3 py-3">
+                                <div className="rounded-[0.95rem] border border-border/70 bg-card px-3 py-3">
                                   <p className="font-semibold text-foreground">{row.name}</p>
                                   <p className="text-xs uppercase tracking-[0.14em] text-muted-foreground">
                                     {row.type} · {row.capacity} cupos
@@ -771,7 +771,7 @@ export function CoordinatorAssignmentWorkspace({
                                             ? "border-primary bg-primary text-primary-foreground shadow-[0_12px_24px_-20px_rgba(22,163,74,0.7)]"
                                             : reserved
                                               ? "border-warning/30 bg-warning/5 text-foreground"
-                                              : "border-border/70 bg-white hover:border-primary/25 hover:bg-primary/5",
+                                              : "border-border/70 bg-card hover:border-primary/25 hover:bg-primary/5",
                                         )}
                                       >
                                         <p className="text-[11px] font-semibold uppercase tracking-[0.14em]">
@@ -898,7 +898,7 @@ export function CoordinatorAssignmentWorkspace({
                       Resumen articulacion
                     </div>
                     <div className="mt-3 grid gap-3 sm:grid-cols-2">
-                      <div className="rounded-[0.95rem] border border-amber-200/70 bg-white/85 px-3 py-3">
+                      <div className="rounded-[0.95rem] border border-amber-200/70 bg-card/85 px-3 py-3">
                         <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
                           Colegio
                         </p>
@@ -908,7 +908,7 @@ export function CoordinatorAssignmentWorkspace({
                             : "Pendiente"}
                         </p>
                       </div>
-                      <div className="rounded-[0.95rem] border border-amber-200/70 bg-white/85 px-3 py-3">
+                      <div className="rounded-[0.95rem] border border-amber-200/70 bg-card/85 px-3 py-3">
                         <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
                           Modalidad
                         </p>
@@ -916,19 +916,19 @@ export function CoordinatorAssignmentWorkspace({
                           <ArticulationModeBadge mode={selectedModality} />
                         </div>
                       </div>
-                      <div className="rounded-[0.95rem] border border-amber-200/70 bg-white/85 px-3 py-3">
+                      <div className="rounded-[0.95rem] border border-amber-200/70 bg-card/85 px-3 py-3">
                         <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
                           Jornada
                         </p>
                         <p className="mt-1 text-sm text-foreground">{selectedShift}</p>
                       </div>
-                      <div className="rounded-[0.95rem] border border-amber-200/70 bg-white/85 px-3 py-3">
+                      <div className="rounded-[0.95rem] border border-amber-200/70 bg-card/85 px-3 py-3">
                         <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
                           Horas SENA
                         </p>
                         <p className="mt-1 text-sm text-foreground">{articulationSenaHours}h</p>
                       </div>
-                      <div className="rounded-[0.95rem] border border-amber-200/70 bg-white/85 px-3 py-3 sm:col-span-2">
+                      <div className="rounded-[0.95rem] border border-amber-200/70 bg-card/85 px-3 py-3 sm:col-span-2">
                         <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
                           Estado
                         </p>
@@ -955,13 +955,13 @@ export function CoordinatorAssignmentWorkspace({
                       </p>
                       {selectedEnvironmentName ? (
                         <div className="grid gap-3 pt-1 sm:grid-cols-3">
-                          <div className="rounded-[0.95rem] border border-border/70 bg-white px-3 py-3">
+                          <div className="rounded-[0.95rem] border border-border/70 bg-card px-3 py-3">
                             <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
                               Ambiente
                             </p>
                             <p className="mt-1 text-sm text-foreground">{selectedEnvironmentName}</p>
                           </div>
-                          <div className="rounded-[0.95rem] border border-border/70 bg-white px-3 py-3">
+                          <div className="rounded-[0.95rem] border border-border/70 bg-card px-3 py-3">
                             <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
                               Dias
                             </p>
@@ -969,7 +969,7 @@ export function CoordinatorAssignmentWorkspace({
                               {selectedDays.join(" · ") || "Pendiente"}
                             </p>
                           </div>
-                          <div className="rounded-[0.95rem] border border-border/70 bg-white px-3 py-3">
+                          <div className="rounded-[0.95rem] border border-border/70 bg-card px-3 py-3">
                             <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
                               Jornadas
                             </p>
@@ -992,7 +992,7 @@ export function CoordinatorAssignmentWorkspace({
                   </div>
                 )}
 
-                <div className="rounded-[1rem] border border-dashed border-border/80 bg-white p-4">
+                <div className="rounded-[1rem] border border-dashed border-border/80 bg-card p-4">
                   <div className="flex items-center gap-2 text-sm font-medium text-foreground">
                     <CalendarClock className="h-4 w-4 text-primary" />
                     Regla aplicada

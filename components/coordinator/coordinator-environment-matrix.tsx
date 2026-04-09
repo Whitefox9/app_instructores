@@ -25,14 +25,14 @@ type SelectedEnvironmentCell = {
 
 function cellStyles(state: CoordinatorEnvironmentMatrixRow["cells"][number]["state"]) {
   if (state === "Conflicto") {
-    return "border-danger/35 bg-[linear-gradient(135deg,rgba(239,68,68,0.08),rgba(255,255,255,0.95))] ring-1 ring-danger/20";
+    return "border-danger/35 bg-[linear-gradient(135deg,rgba(239,68,68,0.10),hsl(var(--card)/0.96))] ring-1 ring-danger/20";
   }
 
   if (state === "Ocupado") {
-    return "border-primary/20 bg-[linear-gradient(135deg,rgba(22,163,74,0.07),rgba(255,255,255,0.98))]";
+    return "border-primary/20 bg-[linear-gradient(135deg,rgba(22,163,74,0.10),hsl(var(--card)/0.98))]";
   }
 
-  return "border-success/20 bg-[linear-gradient(135deg,rgba(220,252,231,0.75),rgba(255,255,255,0.98))]";
+  return "border-success/20 bg-[linear-gradient(135deg,rgba(220,252,231,0.18),hsl(var(--card)/0.98))]";
 }
 
 function stateLabel(state: CoordinatorEnvironmentMatrixRow["cells"][number]["state"]) {
@@ -142,8 +142,8 @@ export function CoordinatorEnvironmentMatrix({
 
   return (
     <>
-      <Card className="overflow-hidden border-border/70 bg-white/82 shadow-none">
-        <CardHeader className="gap-4 border-b border-border/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.92),rgba(248,250,252,0.88))]">
+      <Card className="overflow-hidden border-border/70 bg-card/80 shadow-none">
+        <CardHeader className="gap-4 border-b border-border/70 bg-[linear-gradient(180deg,hsl(var(--card)/0.94),hsl(var(--background)/0.88))]">
           <div className="flex flex-col gap-3 xl:flex-row xl:items-start xl:justify-between">
             <div>
               <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-primary">
@@ -155,14 +155,14 @@ export function CoordinatorEnvironmentMatrix({
               </CardDescription>
             </div>
             <div className="flex flex-wrap gap-2 text-xs text-muted-foreground">
-              <span className="rounded-full border border-border/80 bg-white px-3 py-1">Libre</span>
+              <span className="rounded-full border border-border/80 bg-card px-3 py-1">Libre</span>
               <span className="rounded-full border border-primary/15 bg-primary/6 px-3 py-1">Ocupado</span>
               <span className="rounded-full border border-danger/20 bg-danger/8 px-3 py-1">Conflicto</span>
             </div>
           </div>
 
           <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-            <div className="rounded-[0.95rem] border border-border/70 bg-white px-4 py-3">
+            <div className="rounded-[0.95rem] border border-border/70 bg-card px-4 py-3">
               <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
                 Ambientes visibles
               </p>
@@ -237,7 +237,7 @@ export function CoordinatorEnvironmentMatrix({
                       "rounded-full border px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.12em] transition-all",
                       active
                         ? "border-primary bg-primary text-primary-foreground"
-                        : "border-border bg-white text-muted-foreground hover:text-foreground",
+                        : "border-border bg-card text-muted-foreground hover:text-foreground",
                     )}
                   >
                     {filter.label}
@@ -270,7 +270,7 @@ export function CoordinatorEnvironmentMatrix({
                         "rounded-full border px-4 py-2 text-sm font-semibold transition-all",
                         active
                           ? "border-primary bg-primary text-primary-foreground"
-                          : "border-border bg-white text-muted-foreground hover:border-primary/20 hover:text-foreground",
+                          : "border-border bg-card text-muted-foreground hover:border-primary/20 hover:text-foreground",
                       )}
                     >
                       {day}
@@ -281,13 +281,13 @@ export function CoordinatorEnvironmentMatrix({
             </div>
 
             <div className="grid gap-3 sm:grid-cols-3">
-              <div className="rounded-[0.95rem] border border-border/70 bg-white px-4 py-3">
+              <div className="rounded-[0.95rem] border border-border/70 bg-card px-4 py-3">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
                   Dia visible
                 </p>
                 <p className="mt-1 text-base font-semibold text-foreground">{selectedDay}</p>
               </div>
-              <div className="rounded-[0.95rem] border border-border/70 bg-white px-4 py-3">
+              <div className="rounded-[0.95rem] border border-border/70 bg-card px-4 py-3">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
                   Jornadas del dia
                 </p>
@@ -295,7 +295,7 @@ export function CoordinatorEnvironmentMatrix({
                   {visibleBlocks.map((block) => block.split(" ").slice(1).join(" ")).join(" · ")}
                 </p>
               </div>
-              <div className="rounded-[0.95rem] border border-border/70 bg-white px-4 py-3">
+              <div className="rounded-[0.95rem] border border-border/70 bg-card px-4 py-3">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
                   Ambientes visibles
                 </p>
@@ -331,7 +331,7 @@ export function CoordinatorEnvironmentMatrix({
                   className="grid border-b border-border/60 last:border-0"
                   style={{ gridTemplateColumns: gridTemplate }}
                 >
-                  <div className="sticky left-0 z-10 border-r border-border/70 bg-white/95 px-5 py-4 backdrop-blur">
+                  <div className="sticky left-0 z-10 border-r border-border/70 bg-card/95 px-5 py-4 backdrop-blur">
                     <p className="font-semibold text-foreground">{row.name}</p>
                     <p className="mt-1 text-sm text-muted-foreground">
                       {row.site} · {row.type}
@@ -435,7 +435,7 @@ export function CoordinatorEnvironmentMatrix({
             className="fixed inset-0 z-40 bg-slate-950/20"
             onClick={() => setSelectedCell(null)}
           />
-          <aside className="fixed inset-y-0 right-0 z-50 w-full max-w-md border-l border-border/80 bg-white/95 shadow-2xl backdrop-blur-xl">
+          <aside className="fixed inset-y-0 right-0 z-50 w-full max-w-md border-l border-border/80 bg-card/95 shadow-2xl backdrop-blur-xl">
             <div className="flex h-full flex-col">
               <div className="flex items-start justify-between gap-3 border-b border-border/70 px-5 py-4">
                 <div>

@@ -558,7 +558,7 @@ export function CoordinatorFichaDetailView({
                   {visibleApprentices.map((item) => (
                     <div
                       key={item.id}
-                      className="rounded-[1rem] border border-border/70 bg-white px-4 py-3"
+                      className="rounded-[1rem] border border-border/70 bg-card px-4 py-3"
                     >
                       <div className="grid gap-3 md:grid-cols-[minmax(0,1.1fr)_140px_minmax(0,1fr)] md:items-center">
                         <div className="min-w-0">

@@ -13,7 +13,7 @@ export function CoordinatorMetricStrip({
       {metrics.map((metric) => (
         <div
           key={metric.label}
-          className="rounded-[1rem] border border-border/80 bg-white px-4 py-3"
+          className="rounded-[1rem] border border-border/80 bg-card px-4 py-3 shadow-[0_10px_24px_-20px_rgba(15,23,42,0.28)]"
         >
           <div className="flex items-center justify-between gap-3">
             <div>

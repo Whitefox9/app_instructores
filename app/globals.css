@@ -30,6 +30,32 @@
     --radius: 1rem;
   }
 
+  .dark {
+    --background: 222 24% 10%;
+    --foreground: 210 22% 94%;
+    --card: 222 20% 14%;
+    --card-foreground: 210 22% 94%;
+    --popover: 222 20% 14%;
+    --popover-foreground: 210 22% 94%;
+    --primary: 98 90% 42%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 218 28% 19%;
+    --secondary-foreground: 210 22% 92%;
+    --muted: 221 18% 17%;
+    --muted-foreground: 214 14% 72%;
+    --accent: 184 42% 18%;
+    --accent-foreground: 184 82% 84%;
+    --success: 98 85% 42%;
+    --success-foreground: 150 40% 98%;
+    --warning: 43 92% 56%;
+    --warning-foreground: 32 58% 14%;
+    --danger: 0 82% 62%;
+    --danger-foreground: 0 0% 100%;
+    --border: 220 16% 24%;
+    --input: 220 16% 24%;
+    --ring: 98 90% 42%;
+  }
+
   * {
     @apply border-border;
   }
@@ -42,6 +68,13 @@
     @apply min-h-screen bg-background text-foreground antialiased;
     background: linear-gradient(180deg, rgba(255, 255, 255, 1), rgba(248, 250, 252, 1));
     font-family: var(--font-sans), sans-serif;
+  }
+
+  .dark body {
+    background:
+      radial-gradient(circle at top left, rgba(57, 169, 0, 0.1), transparent 28%),
+      radial-gradient(circle at top right, rgba(47, 85, 212, 0.12), transparent 26%),
+      linear-gradient(180deg, rgba(14, 19, 31, 1), rgba(17, 24, 39, 1));
   }
 
   ::selection {
@@ -77,5 +110,34 @@
 
   .sena-top-strip {
     background: linear-gradient(90deg, #2f55d4 0%, #17b9cf 65%, #16c0c8 100%);
+  }
+
+  .instructor-shell {
+    --background: 220 38% 98%;
+    --foreground: 222 30% 20%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 30% 20%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 30% 20%;
+    --primary: 221 82% 59%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 220 80% 97%;
+    --secondary-foreground: 221 62% 46%;
+    --muted: 220 30% 96%;
+    --muted-foreground: 220 12% 46%;
+    --accent: 217 100% 96%;
+    --accent-foreground: 221 62% 46%;
+    --success: 142 62% 42%;
+    --success-foreground: 0 0% 100%;
+    --warning: 38 95% 58%;
+    --warning-foreground: 24 44% 22%;
+    --danger: 4 88% 63%;
+    --danger-foreground: 0 0% 100%;
+    --border: 220 28% 90%;
+    --input: 220 28% 90%;
+    --ring: 221 82% 59%;
+    background:
+      radial-gradient(circle at top right, rgba(74, 117, 255, 0.08), transparent 22%),
+      linear-gradient(180deg, #f6f8fc 0%, #f7f9fd 100%);
   }
 }

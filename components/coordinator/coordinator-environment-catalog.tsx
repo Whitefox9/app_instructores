@@ -134,7 +134,7 @@ export function CoordinatorEnvironmentCatalog({
 
   return (
     <>
-      <Card className="border-border/70 bg-white/78 shadow-none">
+      <Card className="border-border/70 bg-card/80 shadow-none">
         <CardHeader className="gap-4">
           <div className="flex flex-col gap-3 xl:flex-row xl:items-start xl:justify-between">
             <div>
@@ -196,7 +196,7 @@ export function CoordinatorEnvironmentCatalog({
       {mode ? (
         <>
           <div className="fixed inset-0 z-40 bg-slate-950/20" onClick={closePanel} />
-          <aside className="fixed inset-y-0 right-0 z-50 w-full max-w-md border-l border-border/80 bg-white/95 shadow-2xl backdrop-blur-xl">
+          <aside className="fixed inset-y-0 right-0 z-50 w-full max-w-md border-l border-border/80 bg-card/95 shadow-2xl backdrop-blur-xl">
             <div className="flex h-full flex-col">
               <div className="flex items-start justify-between gap-3 border-b border-border/70 px-5 py-4">
                 <div>

@@ -10,6 +10,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 
 const accessOptions = [
   {
@@ -40,14 +41,14 @@ const highlights = [
 
 export function LoginForm() {
   return (
-    <div className="relative min-h-screen overflow-hidden bg-[radial-gradient(circle_at_top_left,rgba(57,169,0,0.14),transparent_28%),radial-gradient(circle_at_top_right,rgba(47,85,212,0.12),transparent_26%),linear-gradient(180deg,#f7faf8_0%,#f4f7f5_52%,#eef3f0_100%)]">
+    <div className="relative min-h-screen overflow-hidden bg-[radial-gradient(circle_at_top_left,rgba(57,169,0,0.14),transparent_28%),radial-gradient(circle_at_top_right,rgba(47,85,212,0.12),transparent_26%),linear-gradient(180deg,#f7faf8_0%,#f4f7f5_52%,#eef3f0_100%)] dark:bg-[radial-gradient(circle_at_top_left,rgba(57,169,0,0.12),transparent_28%),radial-gradient(circle_at_top_right,rgba(47,85,212,0.14),transparent_26%),linear-gradient(180deg,#0f1724_0%,#121a2b_52%,#101827_100%)]">
       <div className="absolute inset-x-0 top-0 h-1 sena-top-strip" />
       <div className="absolute left-[-8rem] top-20 h-56 w-56 rounded-full bg-primary/10 blur-3xl" />
       <div className="absolute bottom-[-5rem] right-[-4rem] h-72 w-72 rounded-full bg-secondary/70 blur-3xl" />
 
       <div className="relative mx-auto flex min-h-screen w-full max-w-[1380px] items-start px-4 py-10 sm:px-6 xl:px-10">
         <div className="grid w-full items-start gap-6 xl:grid-cols-[1.05fr_0.95fr]">
-          <section className="flex flex-col justify-between rounded-[2rem] border border-white/80 bg-[linear-gradient(155deg,rgba(255,255,255,0.88)_0%,rgba(247,251,249,0.8)_100%)] p-6 shadow-[0_30px_80px_-56px_rgba(15,23,42,0.45)] backdrop-blur-xl sm:p-8 xl:min-h-[720px] xl:p-10">
+          <section className="flex flex-col justify-between rounded-[2rem] border border-border/80 bg-[linear-gradient(155deg,hsl(var(--card)/0.88)_0%,hsl(var(--card)/0.8)_100%)] p-6 shadow-[0_30px_80px_-56px_rgba(15,23,42,0.45)] backdrop-blur-xl sm:p-8 xl:min-h-[720px] xl:p-10">
             <div className="space-y-8">
               <div className="flex items-center gap-3">
                 <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-primary/15 bg-primary/10">
@@ -84,7 +85,7 @@ export function LoginForm() {
                 {highlights.map((item) => (
                   <div
                     key={item}
-                    className="flex items-start gap-3 rounded-[1.15rem] border border-border/70 bg-white/75 px-4 py-4"
+                    className="flex items-start gap-3 rounded-[1.15rem] border border-border/70 bg-[hsl(var(--card)/0.72)] px-4 py-4"
                   >
                     <div className="mt-0.5 flex h-8 w-8 items-center justify-center rounded-full bg-primary/10">
                       <ArrowRight className="h-4 w-4 text-primary" />
@@ -95,7 +96,7 @@ export function LoginForm() {
               </div>
             </div>
 
-            <div className="mt-10 grid gap-4 rounded-[1.4rem] border border-border/70 bg-white/75 p-5 sm:grid-cols-3">
+            <div className="mt-10 grid gap-4 rounded-[1.4rem] border border-border/70 bg-[hsl(var(--card)/0.72)] p-5 sm:grid-cols-3">
               <div>
                 <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
                   Cobertura
@@ -121,12 +122,15 @@ export function LoginForm() {
           </section>
 
           <div className="flex items-start xl:justify-end">
-            <Card className="w-full max-w-[560px] rounded-[2rem] border border-white/85 bg-white/88 shadow-[0_32px_80px_-54px_rgba(15,23,42,0.45)] backdrop-blur-xl">
+            <Card className="w-full max-w-[560px] rounded-[2rem] border border-border/80 bg-[hsl(var(--card)/0.88)] shadow-[0_32px_80px_-54px_rgba(15,23,42,0.45)] backdrop-blur-xl">
               <CardContent className="space-y-7 p-6 sm:p-8 xl:p-10">
                 <div className="space-y-3">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary">
-                    Inicio de sesion
-                  </p>
+                  <div className="flex items-start justify-between gap-3">
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary">
+                      Inicio de sesion
+                    </p>
+                    <ThemeToggle />
+                  </div>
                   <div className="space-y-2">
                     <h2 className="text-3xl text-foreground">Ingresa al sistema</h2>
                     <p className="text-sm leading-6 text-muted-foreground">
@@ -199,7 +203,7 @@ export function LoginForm() {
                     {accessOptions.map((option) => (
                       <div
                         key={option.title}
-                        className="flex flex-col gap-3 rounded-[1.1rem] border border-border/70 bg-white px-4 py-4 sm:flex-row sm:items-center sm:justify-between"
+                        className="flex flex-col gap-3 rounded-[1.1rem] border border-border/70 bg-card px-4 py-4 sm:flex-row sm:items-center sm:justify-between"
                       >
                         <div className="space-y-1">
                           <p className="font-semibold text-foreground">{option.title}</p>

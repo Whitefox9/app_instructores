@@ -1,17 +1,23 @@
 import type { Metadata } from "next";
-import { Manrope, Source_Serif_4 } from "next/font/google";
+import type { CSSProperties } from "react";
 
 import "@/app/globals.css";
 
-const sans = Manrope({
-  subsets: ["latin"],
-  variable: "--font-sans",
-});
-
-const display = Source_Serif_4({
-  subsets: ["latin"],
-  variable: "--font-display",
-});
+const themeScript = `
+(() => {
+  try {
+    const storedTheme = localStorage.getItem("theme");
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const theme = storedTheme === "dark" || storedTheme === "light"
+      ? storedTheme
+      : prefersDark
+        ? "dark"
+        : "light";
+    document.documentElement.classList.toggle("dark", theme === "dark");
+    document.documentElement.style.colorScheme = theme;
+  } catch (error) {}
+})();
+`;
 
 export const metadata: Metadata = {
   title: "Gestor de Instructores",
@@ -24,8 +30,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es">
-      <body className={`${sans.variable} ${display.variable}`}>
+    <html lang="es" suppressHydrationWarning>
+      <body
+        style={
+          {
+            "--font-sans": '"Segoe UI", "Helvetica Neue", Arial, sans-serif',
+            "--font-display": '"Georgia", "Times New Roman", serif',
+          } as CSSProperties
+        }
+        suppressHydrationWarning
+      >
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <div className="sena-top-strip h-2 w-full" />
         {children}
       </body>

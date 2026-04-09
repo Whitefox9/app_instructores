@@ -30,8 +30,8 @@ export const roleProfiles: Record<UserRole, RoleProfile> = {
     userName: "Laura Romero",
     userTitle: "Instructor titular",
     team: "Formacion presencial",
-    summary: "Consulta de agenda, asignaciones y detalle de fichas activas.",
-    quickAction: "Consultar agenda de hoy",
+    summary: "Consulta de agenda, asignaciones, detalle de fichas y asistencia operativa.",
+    quickAction: "Registrar asistencia",
     homeHref: "/instructor/inicio",
   },
 };
@@ -56,6 +56,7 @@ export const navigationByRole: Record<UserRole, NavItem[]> = {
   ],
   instructor: [
     { href: "/instructor/inicio", label: "Inicio", icon: "house" },
+    { href: "/instructor/asistencia", label: "Asistencia", icon: "clipboard-list" },
     { href: "/instructor/mis-asignaciones", label: "Mis asignaciones", icon: "clipboard-list" },
     { href: "/instructor/agenda", label: "Agenda", icon: "calendar-days" },
   ],

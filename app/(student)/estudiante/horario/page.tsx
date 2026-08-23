@@ -23,7 +23,12 @@ export default function StudentSchedulePage() {
                   <span className="flex items-center gap-2"><GraduationCap className="h-4 w-4" />{session.professor}</span>
                   <span className="flex items-center gap-2"><MapPin className="h-4 w-4" />{session.room}</span>
                 </div>
-                <Badge className="mt-4" variant={session.status === "Cambio reciente" ? "warning" : "secondary"}>{session.status}</Badge>
+                <Badge
+                  className={session.status === "Cambio reciente" ? "mt-4 border-amber-400/60 bg-amber-400/20 text-amber-700 dark:text-amber-200" : "mt-4"}
+                  variant={session.status === "Cambio reciente" ? "warning" : "secondary"}
+                >
+                  {session.status}
+                </Badge>
               </div>
             </CardContent>
           </Card>

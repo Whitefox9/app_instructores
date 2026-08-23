@@ -117,7 +117,7 @@ export function CoordinatorSummaryBoard({
               <div className="mt-3 flex flex-wrap gap-2">
                 <OperationalDependencyBadge dependency={ficha.dependency} />
                 <ArticulationModeBadge mode={ficha.articulationMode} />
-                <span className="rounded-full border border-border/70 bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+                <span className="rounded-full border border-border/70 bg-card px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
                   {ficha.shift}
                 </span>
               </div>
@@ -171,7 +171,7 @@ export function CoordinatorSummaryBoard({
                   modalityStats.map(([mode, count]) => (
                     <span
                       key={mode}
-                      className="rounded-full border border-border/70 bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-muted-foreground"
+                      className="rounded-full border border-border/70 bg-card px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-muted-foreground"
                     >
                       {mode} · {count}
                     </span>
@@ -192,7 +192,7 @@ export function CoordinatorSummaryBoard({
                   programStats.map(([program, count]) => (
                     <div
                       key={program}
-                      className="flex items-center justify-between gap-3 rounded-[0.9rem] border border-border/70 bg-white px-3 py-2"
+                      className="flex items-center justify-between gap-3 rounded-[0.9rem] border border-border/70 bg-card px-3 py-2"
                     >
                       <p className="text-sm text-foreground">{program}</p>
                       <span className="text-xs font-semibold uppercase tracking-[0.12em] text-muted-foreground">

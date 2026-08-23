@@ -43,27 +43,27 @@ const schoolTemplates = {
 function buildCoverageSummary(kind: CoordinatorSchoolKind, index: number) {
   if (kind === "Publico") {
     return index % 2 === 0
-      ? "40h SENA / mes"
-      : "20h + 20h compartida SENA";
+      ? "40h institucionales / mes"
+      : "20h + 20h de cobertura compartida";
   }
 
   if (kind === "Tecnico") {
-    return "20h SENA + 20h colegio";
+    return "20h institucionales + 20h del colegio";
   }
 
-  return "20h acompanamiento SENA";
+  return "20h de acompanamiento institucional";
 }
 
 function buildRule(kind: CoordinatorSchoolKind) {
   if (kind === "Publico") {
-    return "En colegio publico el instructor SENA puede cubrir hasta 40 horas al mes.";
+    return "En colegio publico el profesor asignado puede cubrir hasta 40 horas al mes.";
   }
 
   if (kind === "Tecnico") {
-    return "En colegio tecnico la cobertura se divide 20 horas SENA y 20 horas del colegio.";
+    return "En colegio tecnico la cobertura se divide entre 20 horas institucionales y 20 horas del colegio.";
   }
 
-  return "En colegio privado el SENA acompana 20 horas y el desarrollo principal recae en el colegio.";
+  return "En colegio privado la institucion acompana 20 horas y el desarrollo principal recae en el colegio.";
 }
 
 function buildStatus(kind: CoordinatorSchoolKind, index: number): CoordinatorSchoolOperationalStatus {
@@ -151,16 +151,16 @@ function buildDetail(school: CoordinatorSchoolCard, index: number): CoordinatorS
       : [],
     participationMode:
       school.kind === "Publico"
-        ? "Cobertura directa SENA o ficha compartida."
+        ? "Cobertura institucional directa o grupo compartido."
         : school.kind === "Tecnico"
-          ? "Participacion mixta entre SENA y el colegio."
-          : "Acompanamiento parcial del instructor SENA.",
+          ? "Participacion mixta entre la institucion y el colegio."
+          : "Acompanamiento parcial del profesor asignado.",
     observations:
       school.kind === "Publico"
         ? "El colegio permite cobertura mensual amplia y puede operar con ficha compartida."
         : school.kind === "Tecnico"
           ? "La participacion del colegio es estructural en el desarrollo de la formacion."
-          : "El colegio asume el desarrollo principal y el SENA acompana segun franja definida.",
+          : "El colegio asume el desarrollo principal y la institucion acompana segun la franja definida.",
     associatedFichas,
   };
 }

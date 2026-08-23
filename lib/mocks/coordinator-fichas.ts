@@ -80,7 +80,7 @@ const learnerLastNames = [
 const mockUsers = [
   "Natalia Barbosa",
   "Coord. Laura Herrera",
-  "Mesa academica SENA",
+  "Mesa academica institucional",
   "Daniela Lopez",
 ];
 

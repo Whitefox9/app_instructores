@@ -124,7 +124,7 @@ export function ImportWorkbench({
   return (
     <div className="space-y-6">
       <div className="grid gap-6 xl:grid-cols-[1.05fr_0.95fr]">
-        <Card className="border-dashed border-primary/20 bg-gradient-to-br from-white via-white to-secondary/50">
+        <Card className="border-dashed border-primary/20 bg-[linear-gradient(135deg,hsl(var(--card)),hsl(var(--card)),hsl(var(--secondary)/0.55))]">
           <CardHeader>
             <div className="flex items-start justify-between gap-4">
               <div>
@@ -162,7 +162,7 @@ export function ImportWorkbench({
                   "rounded-[1.5rem] border px-4 py-4 text-left transition-all",
                   stage === "uploaded"
                     ? "border-primary bg-primary text-primary-foreground"
-                    : "border-border bg-white/80 text-foreground",
+                    : "border-border bg-card/80 text-foreground",
                 )}
               >
                 <p className="text-xs uppercase tracking-[0.24em] opacity-80">Paso 1</p>
@@ -175,7 +175,7 @@ export function ImportWorkbench({
                   "rounded-[1.5rem] border px-4 py-4 text-left transition-all",
                   stage === "detected"
                     ? "border-primary bg-primary text-primary-foreground"
-                    : "border-border bg-white/80 text-foreground",
+                    : "border-border bg-card/80 text-foreground",
                 )}
               >
                 <p className="text-xs uppercase tracking-[0.24em] opacity-80">Paso 2</p>
@@ -188,7 +188,7 @@ export function ImportWorkbench({
                   "rounded-[1.5rem] border px-4 py-4 text-left transition-all",
                   stage === "validated"
                     ? "border-primary bg-primary text-primary-foreground"
-                    : "border-border bg-white/80 text-foreground",
+                    : "border-border bg-card/80 text-foreground",
                 )}
               >
                 <p className="text-xs uppercase tracking-[0.24em] opacity-80">Paso 3</p>
@@ -196,7 +196,7 @@ export function ImportWorkbench({
               </button>
             </div>
 
-            <div className="rounded-[1.5rem] border border-border/70 bg-white/80 p-4 text-sm text-muted-foreground">
+            <div className="rounded-[1.5rem] border border-border/70 bg-card/80 p-4 text-sm text-muted-foreground">
               {statusLine}
             </div>
 

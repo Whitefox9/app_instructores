@@ -89,7 +89,7 @@ export function CoordinatorInstructorDirectory({
         {metrics.map((metric) => (
           <div
             key={metric.label}
-            className="rounded-[1rem] border border-border/80 bg-white px-4 py-3"
+            className="rounded-[1rem] border border-border/80 bg-card px-4 py-3"
           >
             <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
               {metric.label}
@@ -114,7 +114,7 @@ export function CoordinatorInstructorDirectory({
               value={search}
               onChange={(event) => setSearch(event.target.value)}
               placeholder="Buscar por nombre, telefono o correo"
-              className="flex h-10 w-full rounded-[0.95rem] border border-input bg-white px-3 py-2 text-sm text-foreground shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="flex h-10 w-full rounded-[0.95rem] border border-input bg-card px-3 py-2 text-sm text-foreground shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             />
             <Select
               value={dependencyFilter}
@@ -202,7 +202,7 @@ export function CoordinatorInstructorDirectory({
                                 "flex items-center gap-4 rounded-[1rem] border px-4 py-4 text-left transition-all",
                                 active
                                   ? "border-primary bg-primary/5"
-                                  : "border-border/70 bg-white hover:border-primary/30 hover:bg-secondary/60",
+                                  : "border-border/70 bg-card/80 hover:border-primary/30 hover:bg-secondary/60",
                               )}
                             >
                               <Image

@@ -123,7 +123,7 @@ export function CoordinatorArticulationPlanningPanel({
 
           <div className="rounded-[1rem] border border-amber-200/70 bg-white/85 px-4 py-4">
             <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
-              Cobertura SENA
+              Cobertura institucional
             </p>
             <p className="mt-2 text-2xl font-semibold text-foreground">{senaHours}h</p>
             <div className="mt-2 flex flex-wrap gap-2">

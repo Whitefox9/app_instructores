@@ -1,4 +1,4 @@
-export type UserRole = "admin" | "coordinador" | "instructor";
+export type UserRole = "admin" | "coordinador" | "instructor" | "estudiante";
 
 export type IconName =
   | "layout-dashboard"
@@ -16,7 +16,8 @@ export type IconName =
   | "sheet"
   | "house"
   | "calendar-days"
-  | "clipboard-list";
+  | "clipboard-list"
+  | "user-round";
 
 export type NavItem = {
   href: string;
@@ -600,4 +601,53 @@ export type InstructorEvidenceEntry = {
   dueLabel: string;
   channel: string;
   state: InstructorEvidenceState;
+};
+
+export type InstructorAttendanceMark = "A" | "CE" | "SE" | "T";
+
+export type InstructorAttendanceLearner = {
+  id: string;
+  apprentice: string;
+  document: string;
+  status: InstructorAttendanceMark | null;
+  observation: string;
+};
+
+export type InstructorAttendanceHistoryRecord = {
+  id: string;
+  date: string;
+  blockLabel: string;
+  registeredAt: string;
+  attendanceRate: number;
+  counts: Record<InstructorAttendanceMark, number>;
+  notes: string;
+};
+
+export type InstructorAttendanceSheet = {
+  id: string;
+  date: string;
+  ficha: string;
+  programa: string;
+  jornada: string;
+  ambiente?: string;
+  colegio?: string;
+  instructor: string;
+  horario: string;
+  totalAprendices: number;
+  learners: InstructorAttendanceLearner[];
+  history: InstructorAttendanceHistoryRecord[];
+};
+
+export type InstructorAttendanceLearnerHistoryEntry = {
+  id: string;
+  learnerId: string;
+  learnerName: string;
+  learnerDocument: string;
+  date: string;
+  status: InstructorAttendanceMark;
+  observation: string;
+  ficha: string;
+  jornada: string;
+  ambiente?: string;
+  colegio?: string;
 };

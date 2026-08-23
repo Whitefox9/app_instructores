@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, Building2, GraduationCap, ShieldCheck } from "lucide-react";
+import { ArrowRight, Building2, GraduationCap, ShieldCheck, UserRound } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -24,6 +24,12 @@ const portals = [
     description: "Agenda personal, fichas activas y seguimiento de jornada.",
     icon: GraduationCap,
   },
+  {
+    href: "/estudiante/inicio",
+    title: "Portal estudiante",
+    description: "Horario, programa, asistencia, notificaciones y perfil academico.",
+    icon: UserRound,
+  },
 ];
 
 export default function HomePage() {
@@ -36,7 +42,7 @@ export default function HomePage() {
           </Badge>
           <div className="space-y-4">
             <h1 className="max-w-3xl text-5xl font-semibold text-foreground sm:text-6xl">
-              Gestion de instructores con una base clara, moderna y preparada para escalar.
+              Gestion academica integrada para coordinadores, profesores y estudiantes.
             </h1>
             <p className="max-w-2xl text-lg leading-8 text-muted-foreground">
               Este punto de partida organiza el proyecto por roles, layouts y componentes para que los

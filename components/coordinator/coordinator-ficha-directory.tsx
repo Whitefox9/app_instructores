@@ -246,7 +246,7 @@ export function CoordinatorFichaDirectory({
         {metrics.map((metric) => (
           <div
             key={metric.label}
-            className="rounded-[1rem] border border-border/80 bg-white px-4 py-3"
+            className="rounded-[1rem] border border-border/80 bg-card px-4 py-3"
           >
             <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
               {metric.label}
@@ -341,7 +341,7 @@ export function CoordinatorFichaDirectory({
               {filtered.map((item) => (
                 <article
                   key={item.id}
-                  className="rounded-[1.1rem] border border-border/80 bg-white p-4 transition-colors hover:border-primary/30"
+                  className="rounded-[1.1rem] border border-border/80 bg-card/80 p-4 transition-colors hover:border-primary/30"
                 >
                   <div className="flex items-start justify-between gap-3">
                     <div>
@@ -424,7 +424,7 @@ export function CoordinatorFichaDirectory({
 
       {drawerMode ? (
         <div className="fixed inset-0 z-40 bg-slate-950/25">
-          <div className="absolute inset-y-0 right-0 w-full max-w-xl border-l border-border/80 bg-white shadow-2xl">
+          <div className="absolute inset-y-0 right-0 w-full max-w-xl border-l border-border/80 bg-card/95 shadow-2xl backdrop-blur-xl">
             <div className="flex h-full flex-col">
               <div className="border-b border-border/80 px-5 py-4">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-primary">

@@ -26,6 +26,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { institutionBrand } from "@/lib/config/brand";
 import {
   coordinatorArticulationContextOption,
   coordinatorCenterName,
@@ -191,7 +192,7 @@ export function CoordinatorShell({ children }: PropsWithChildren) {
           <div className="rounded-[1.1rem] border border-border/70 bg-[hsl(var(--card)/0.55)] px-2 py-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.12)]">
             <div className="flex items-center justify-between gap-3 px-2 pb-4">
               <div className={cn(sidebarCollapsed && "xl:hidden")}>
-                <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground">SENA</p>
+                <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground">{institutionBrand.shortName}</p>
                 <p className="mt-2 text-base font-semibold text-foreground">Coordinacion</p>
               </div>
               <div

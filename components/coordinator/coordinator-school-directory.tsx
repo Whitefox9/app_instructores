@@ -152,7 +152,7 @@ export function CoordinatorSchoolDirectory({
       scheduleLabel: form.scheduleLabel.trim() || "Pendiente configurar horario",
       operatingDays: form.operatingDays.trim() || "Sin dias definidos",
       senaCoverageSummary:
-        form.senaCoverageSummary.trim() || "Cobertura SENA pendiente por definir",
+        form.senaCoverageSummary.trim() || "Cobertura institucional pendiente por definir",
       monthlyRule:
         form.monthlyRule.trim() || "Regla operativa pendiente de configurar.",
       operationalStatus: form.operationalStatus,
@@ -201,7 +201,7 @@ export function CoordinatorSchoolDirectory({
               <div>
                 <CardTitle>Colegios de articulacion</CardTitle>
                 <CardDescription>
-                  Vista operativa para revisar tipo de colegio, horario y cobertura SENA
+                  Vista operativa para revisar tipo de colegio, horario y cobertura institucional
                   antes de preparar la asignacion de instructores de articulacion.
                 </CardDescription>
               </div>
@@ -289,7 +289,7 @@ export function CoordinatorSchoolDirectory({
                       </div>
                       <div className="rounded-[0.95rem] border border-border/70 bg-card px-3 py-3">
                         <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
-                          Cobertura SENA
+                          Cobertura institucional
                         </p>
                         <p className="mt-1 text-sm text-foreground">
                           {school.senaCoverageSummary}
@@ -395,7 +395,7 @@ export function CoordinatorSchoolDirectory({
                       senaCoverageSummary: event.target.value,
                     }))
                   }
-                  placeholder="Cobertura SENA"
+                  placeholder="Cobertura institucional"
                 />
                 <Select
                   value={form.operationalStatus}

@@ -158,7 +158,7 @@ export function CoordinatorSchoolDetailView({
             <CardHeader>
               <CardTitle>Condicion operativa</CardTitle>
               <CardDescription>
-                Lectura de la participacion del SENA y del tipo de acompanamiento esperado.
+                Lectura de la participacion institucional y del tipo de acompanamiento esperado.
               </CardDescription>
             </CardHeader>
             <CardContent className="grid gap-3 sm:grid-cols-2">
@@ -170,7 +170,7 @@ export function CoordinatorSchoolDetailView({
               </div>
               <div className="rounded-[1rem] border border-border/70 bg-background/70 p-4">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
-                  Cobertura SENA
+                  Cobertura institucional
                 </p>
                 <p className="mt-1 text-sm font-medium text-foreground">
                   {school.senaCoverageSummary}

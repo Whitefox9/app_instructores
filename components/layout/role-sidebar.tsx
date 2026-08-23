@@ -19,11 +19,13 @@ import {
   School,
   Sheet,
   ShieldCheck,
+  UserRound,
   Users,
 } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { institutionBrand } from "@/lib/config/brand";
 import { navigationByRole, roleProfiles } from "@/lib/mocks/navigation";
 import { IconName, UserRole } from "@/lib/types";
 import { cn } from "@/lib/utils";
@@ -45,6 +47,7 @@ const iconMap: Record<IconName, typeof LayoutDashboard> = {
   house: House,
   "calendar-days": CalendarDays,
   "clipboard-list": ClipboardList,
+  "user-round": UserRound,
 };
 
 type RoleSidebarProps = {
@@ -96,7 +99,7 @@ export function RoleSidebar({
                     isInstructor ? "text-white/60" : "text-muted-foreground",
                   )}
                 >
-                  App Instructores
+                  {institutionBrand.productName}
                 </p>
                 <p className={cn("mt-1 text-base font-semibold", isInstructor ? "text-white" : "text-foreground")}>
                   {profile.label}

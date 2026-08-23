@@ -7,6 +7,7 @@ import { Bell, ChevronsLeftRightEllipsis, LogOut, Menu, Search, Sparkles } from 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { institutionBrand } from "@/lib/config/brand";
 import { getRoleProfile } from "@/lib/permissions";
 import { UserRole } from "@/lib/types";
 import { cn, formatPageTitle } from "@/lib/utils";
@@ -50,7 +51,7 @@ export function TopHeader({
             ) : null}
             <div className="space-y-1">
               <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground">
-                {isInstructor ? "Modulo operativo" : `SENA · ${profile.label}`}
+                {isInstructor ? "Modulo operativo" : `${institutionBrand.shortName} · ${profile.label}`}
               </p>
               <p className="text-xl font-semibold text-foreground">
                 {formatPageTitle(currentSegment)}

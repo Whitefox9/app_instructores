@@ -387,8 +387,8 @@ export function CoordinatorAssignmentsOverview({
                 : assignment.environmentName ?? "Ambiente pendiente";
               const secondaryContext = isArticulation
                 ? assignment.modality
-                  ? `${assignment.modality} · ${assignment.hoursAssigned}h SENA`
-                  : `${assignment.hoursAssigned}h SENA`
+                  ? `${assignment.modality} · ${assignment.hoursAssigned}h institucionales`
+                  : `${assignment.hoursAssigned}h institucionales`
                 : `${assignment.selectedBlocks.length} bloques`;
               const quickReading = isArticulation
                 ? `${contextLabel} · ${assignment.shift}`
@@ -584,7 +584,7 @@ export function CoordinatorAssignmentsOverview({
                     </div>
                     <div className="rounded-[0.95rem] border border-white/70 bg-white px-4 py-4">
                       <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
-                        Horas SENA
+                        Horas institucionales
                       </p>
                       <p className="mt-2 text-sm font-medium text-foreground">
                         {selectedAssignment.hoursAssigned} horas

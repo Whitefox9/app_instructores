@@ -1,4 +1,4 @@
-export type UserRole = "admin" | "coordinador" | "instructor";
+export type UserRole = "admin" | "coordinador" | "instructor" | "estudiante";
 
 export type IconName =
   | "layout-dashboard"
@@ -16,7 +16,8 @@ export type IconName =
   | "sheet"
   | "house"
   | "calendar-days"
-  | "clipboard-list";
+  | "clipboard-list"
+  | "user-round";
 
 export type NavItem = {
   href: string;

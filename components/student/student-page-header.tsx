@@ -13,8 +13,8 @@ export function StudentPageHeader({ title, description, icon: Icon }: StudentPag
         <Icon className="h-6 w-6" />
       </div>
       <div>
-        <h1 className="text-3xl font-bold text-foreground sm:text-4xl">{title}</h1>
-        <p className="mt-2 text-sm leading-6 text-muted-foreground sm:text-base">{description}</p>
+        <h1 className="text-3xl font-bold text-[#202632] sm:text-4xl">{title}</h1>
+        <p className="mt-2 text-sm leading-6 text-[#667085] sm:text-base">{description}</p>
       </div>
     </header>
   );

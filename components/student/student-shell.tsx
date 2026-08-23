@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Bell, BookOpenText, CalendarDays, ClipboardCheck, House, LogOut, UserRound } from "lucide-react";
+import { useState } from "react";
+import { Bell, BookOpenText, CalendarDays, ClipboardCheck, House, LogOut, UserRound, X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { institutionBrand } from "@/lib/config/brand";
@@ -20,10 +21,11 @@ const navigation = [
 export function StudentShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const unread = studentNotifications.filter((notification) => notification.unread).length;
+  const [notificationsOpen, setNotificationsOpen] = useState(false);
 
   return (
     <div className="student-shell min-h-screen pb-24 md:pb-0">
-      <header className="bg-[linear-gradient(110deg,#d22020_0%,#b7191f_68%,#95131a_100%)] text-white shadow-sm">
+      <header className="relative bg-[linear-gradient(110deg,#d22020_0%,#b7191f_68%,#95131a_100%)] text-white shadow-sm">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-4 sm:px-6">
           <Link href="/estudiante/inicio" className="flex min-w-0 items-center gap-3">
             <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/45 text-xs font-black tracking-wider">
@@ -36,7 +38,15 @@ export function StudentShell({ children }: { children: React.ReactNode }) {
           </Link>
 
           <div className="flex items-center gap-2 sm:gap-3">
-            <Button variant="ghost" size="icon" className="relative text-white hover:bg-white/12 hover:text-white" aria-label="Notificaciones">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="relative text-white hover:bg-white/12 hover:text-white"
+              aria-label="Notificaciones"
+              aria-expanded={notificationsOpen}
+              aria-controls="student-notifications"
+              onClick={() => setNotificationsOpen((current) => !current)}
+            >
               <Bell className="h-5 w-5" />
               {unread > 0 ? <span className="absolute right-1 top-1 h-2 w-2 rounded-full bg-white" /> : null}
             </Button>
@@ -49,6 +59,24 @@ export function StudentShell({ children }: { children: React.ReactNode }) {
             </Link>
           </div>
         </div>
+
+        {notificationsOpen ? (
+          <div id="student-notifications" className="absolute right-4 top-[4.75rem] z-50 w-[calc(100%-2rem)] max-w-sm rounded-2xl border border-slate-200 bg-white p-4 text-slate-900 shadow-2xl sm:right-6">
+            <div className="flex items-center justify-between gap-4">
+              <p className="font-bold">Notificaciones</p>
+              <button type="button" onClick={() => setNotificationsOpen(false)} className="rounded-full p-1 text-slate-500 hover:bg-slate-100 hover:text-slate-900" aria-label="Cerrar notificaciones">
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+            <div className="mt-3 flex gap-3 rounded-xl bg-slate-50 p-3">
+              <div className="mt-0.5 h-2.5 w-2.5 shrink-0 rounded-full bg-primary" />
+              <div>
+                <p className="text-sm font-semibold leading-5">{studentNotifications[0].label}</p>
+                <p className="mt-1 text-xs text-slate-500">Hace 5 minutos</p>
+              </div>
+            </div>
+          </div>
+        ) : null}
 
         <nav className="mx-auto hidden max-w-6xl items-center gap-1 px-6 md:flex">
           {navigation.map((item) => {

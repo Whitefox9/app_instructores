@@ -11,6 +11,7 @@ import {
   CoordinatorOperationalSchool,
   CoordinatorSiteOption,
 } from "@/lib/types";
+import { demoAcademicSystem } from "@/lib/demo/academic-system";
 
 export const coordinatorCenterName = "Centro de Gestion Financiera";
 
@@ -221,7 +222,7 @@ function makePhoto(initials: string, index: number) {
   return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
 }
 
-export const coordinatorOperationalInstructors: CoordinatorOperationalInstructor[] =
+const generatedCoordinatorInstructors: CoordinatorOperationalInstructor[] =
   dependencyConfigs.flatMap((config, dependencyIndex) =>
     Array.from({ length: config.total }, (_, index) => {
       const absoluteIndex =
@@ -269,6 +270,30 @@ export const coordinatorOperationalInstructors: CoordinatorOperationalInstructor
       };
     }),
   );
+
+const demoCoordinatorInstructor: CoordinatorOperationalInstructor = {
+  id: demoAcademicSystem.instructor.id,
+  name: demoAcademicSystem.instructor.name,
+  initials: demoAcademicSystem.instructor.initials,
+  photoUrl: makePhoto(demoAcademicSystem.instructor.initials, 7),
+  phone: demoAcademicSystem.instructor.phone,
+  personalEmail: demoAcademicSystem.instructor.email,
+  profession: "Ingeniera de sistemas",
+  dependency: "Titulada",
+  area: demoAcademicSystem.flagshipGroup.shortProgram,
+  programType: "Formacion titulada",
+  site: demoAcademicSystem.flagshipGroup.site,
+  contractStartDate: "2026-01-30",
+  contractEndDate: "2026-12-20",
+  currentLoad: "1 ficha · 16h",
+  activeBlocks: 4,
+  status: "Parcial",
+};
+
+export const coordinatorOperationalInstructors: CoordinatorOperationalInstructor[] = [
+  ...generatedCoordinatorInstructors,
+  demoCoordinatorInstructor,
+];
 
 const articulacionInstructors = coordinatorOperationalInstructors.filter(
   (item) => item.dependency === "Articulacion",

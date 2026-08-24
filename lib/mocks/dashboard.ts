@@ -1,6 +1,6 @@
 import { DashboardData, UserRole } from "@/lib/types";
 
-export const dashboardByRole: Record<UserRole, DashboardData> = {
+export const dashboardByRole: Record<Exclude<UserRole, "estudiante">, DashboardData> = {
   admin: {
     title: "Vista ejecutiva institucional",
     description:

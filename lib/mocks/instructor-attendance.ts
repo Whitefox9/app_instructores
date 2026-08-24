@@ -1,18 +1,21 @@
+import { demoAcademicSystem } from "@/lib/demo/academic-system";
 import { InstructorAttendanceSheet } from "@/lib/types";
+
+const { flagshipGroup, flagshipSession, instructor, student } = demoAcademicSystem;
 
 export const instructorAttendanceSheets: InstructorAttendanceSheet[] = [
   {
-    id: "ATT-SHEET-2874901-2026-04-09",
-    date: "2026-04-09",
-    ficha: "2874901",
-    programa: "Analisis y Desarrollo de Software",
-    jornada: "Manana",
-    ambiente: "Laboratorio B-204",
-    instructor: "Laura Romero",
-    horario: "07:00 - 11:00",
-    totalAprendices: 32,
+    id: `ATT-SHEET-${flagshipGroup.number}-${flagshipSession.date}`,
+    date: flagshipSession.date,
+    ficha: flagshipGroup.number,
+    programa: flagshipGroup.program,
+    jornada: flagshipGroup.shift,
+    ambiente: flagshipGroup.room,
+    instructor: instructor.name,
+    horario: `${flagshipSession.startTime} - ${flagshipSession.endTime}`,
+    totalAprendices: flagshipGroup.studentCount,
     learners: [
-      { id: "APR-2874901-01", apprentice: "Daniela Torres Rojas", document: "1032456781", status: "A", observation: "" },
+      { id: "APR-2874901-01", apprentice: student.name, document: student.document, status: "A", observation: "" },
       { id: "APR-2874901-02", apprentice: "Nicolas Vargas Leon", document: "1029981456", status: "A", observation: "" },
       { id: "APR-2874901-03", apprentice: "Mariana Pardo Silva", document: "1018475623", status: "T", observation: "Ingreso a las 07:18 por novedad de transporte." },
       { id: "APR-2874901-04", apprentice: "Jhonatan Prieto Mesa", document: "1007452189", status: "SE", observation: "No respondio llamada ni mensaje al corte de las 08:00." },
@@ -29,7 +32,7 @@ export const instructorAttendanceSheets: InstructorAttendanceSheet[] = [
       { id: "APR-2874901-15", apprentice: "Sofia Cardenas Muñoz", document: "1012745638", status: "A", observation: "" },
       { id: "APR-2874901-16", apprentice: "Kevin Andres Bello", document: "1045623719", status: "A", observation: "" },
       { id: "APR-2874901-17", apprentice: "Alejandra Buitrago Perez", document: "1098237465", status: "A", observation: "" },
-      { id: "APR-2874901-18", apprentice: "Cristian Camilo Lemos", document: "1023456789", status: "A", observation: "" },
+      { id: "APR-2874901-18", apprentice: "Cristian Camilo Lemos", document: "1023456790", status: "A", observation: "" },
       { id: "APR-2874901-19", apprentice: "Paula Andrea Daza", document: "1004567812", status: "A", observation: "" },
       { id: "APR-2874901-20", apprentice: "Diego Estiven Rico", document: "1056789123", status: "A", observation: "" },
       { id: "APR-2874901-21", apprentice: "Yulieth Moreno Avila", document: "1011987456", status: "A", observation: "" },
@@ -46,9 +49,9 @@ export const instructorAttendanceSheets: InstructorAttendanceSheet[] = [
       { id: "APR-2874901-32", apprentice: "Sebastian Cortes Parra", document: "1047766554", status: "A", observation: "" },
     ],
     history: [
-      { id: "HIS-2874901-2026-04-08", date: "2026-04-08", blockLabel: "07:00 - 11:00", registeredAt: "2026-04-08 11:12", attendanceRate: 88, counts: { A: 26, CE: 2, SE: 2, T: 2 }, notes: "Sesion cerrada con cuatro novedades y el resto del grupo estable." },
-      { id: "HIS-2874901-2026-04-07", date: "2026-04-07", blockLabel: "07:00 - 11:00", registeredAt: "2026-04-07 11:08", attendanceRate: 94, counts: { A: 29, CE: 1, SE: 1, T: 1 }, notes: "Jornada fluida con solo tres excepciones operativas." },
-      { id: "HIS-2874901-2026-04-04", date: "2026-04-04", blockLabel: "07:00 - 11:00", registeredAt: "2026-04-04 10:59", attendanceRate: 81, counts: { A: 24, CE: 4, SE: 3, T: 1 }, notes: "Seguimiento reforzado por ausencias y dos excusas medicas recurrentes." },
+      { id: "HIS-2874901-2026-08-20", date: "2026-08-20", blockLabel: "07:00 - 11:00", registeredAt: "2026-08-20 11:12", attendanceRate: 88, counts: { A: 26, CE: 2, SE: 2, T: 2 }, notes: "Sesion cerrada con cuatro novedades y el resto del grupo estable." },
+      { id: "HIS-2874901-2026-08-19", date: "2026-08-19", blockLabel: "07:00 - 11:00", registeredAt: "2026-08-19 11:08", attendanceRate: 94, counts: { A: 29, CE: 1, SE: 1, T: 1 }, notes: "Jornada fluida con solo tres excepciones operativas." },
+      { id: "HIS-2874901-2026-08-18", date: "2026-08-18", blockLabel: "07:00 - 11:00", registeredAt: "2026-08-18 10:59", attendanceRate: 81, counts: { A: 24, CE: 4, SE: 3, T: 1 }, notes: "Seguimiento reforzado por ausencias y dos excusas medicas recurrentes." },
     ],
   },
   {
@@ -58,7 +61,6 @@ export const instructorAttendanceSheets: InstructorAttendanceSheet[] = [
     programa: "Emprendimiento",
     jornada: "Tarde",
     ambiente: "Aula 204",
-    colegio: "Colegio San Jorge",
     instructor: "Laura Romero",
     horario: "13:00 - 17:00",
     totalAprendices: 10,
@@ -68,14 +70,14 @@ export const instructorAttendanceSheets: InstructorAttendanceSheet[] = [
       { id: "APR-3011450-03", apprentice: "Maria Paula Casallas", document: "1098563241", status: "A", observation: "" },
       { id: "APR-3011450-04", apprentice: "Cristian David Soler", document: "1007321458", status: null, observation: "" },
       { id: "APR-3011450-05", apprentice: "Yurani Cardenas Mejia", document: "1015642378", status: null, observation: "" },
-      { id: "APR-3011450-06", apprentice: "Juan David Amaya", document: "1024569871", status: "CE", observation: "Justificacion del colegio por salida pedagogica institucional." },
+      { id: "APR-3011450-06", apprentice: "Juan David Amaya", document: "1024569871", status: "CE", observation: "Justificacion academica por actividad institucional." },
       { id: "APR-3011450-07", apprentice: "Lina Marcela Bernal", document: "1009123456", status: "T", observation: "Ingreso 13:22 por traslado entre sedes." },
       { id: "APR-3011450-08", apprentice: "Andres Felipe Cuenca", document: "1056321478", status: "A", observation: "" },
       { id: "APR-3011450-09", apprentice: "Tatiana Reyes Herrera", document: "1096458723", status: "A", observation: "" },
       { id: "APR-3011450-10", apprentice: "Santiago Mosquera Diaz", document: "1028741563", status: "SE", observation: "No se presenta en porteria ni reporta novedad." },
     ],
     history: [
-      { id: "HIS-3011450-2026-04-03", date: "2026-04-03", blockLabel: "13:00 - 17:00", registeredAt: "2026-04-03 16:48", attendanceRate: 90, counts: { A: 8, CE: 1, SE: 1, T: 0 }, notes: "Coordinacion del colegio solicita confirmar ausencias recurrentes." },
+      { id: "HIS-3011450-2026-04-03", date: "2026-04-03", blockLabel: "13:00 - 17:00", registeredAt: "2026-04-03 16:48", attendanceRate: 90, counts: { A: 8, CE: 1, SE: 1, T: 0 }, notes: "Coordinacion del programa solicita confirmar ausencias recurrentes." },
       { id: "HIS-3011450-2026-04-01", date: "2026-04-01", blockLabel: "13:00 - 17:00", registeredAt: "2026-04-01 16:51", attendanceRate: 100, counts: { A: 9, CE: 0, SE: 0, T: 1 }, notes: "Un solo ingreso tarde por actividad institucional previa." },
       { id: "HIS-3011450-2026-03-27", date: "2026-03-27", blockLabel: "13:00 - 17:00", registeredAt: "2026-03-27 17:05", attendanceRate: 80, counts: { A: 7, CE: 1, SE: 2, T: 0 }, notes: "Se comparte reporte a orientacion por dos ausencias sin excusa." },
     ],

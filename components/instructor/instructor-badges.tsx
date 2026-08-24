@@ -1,29 +1,13 @@
 import { Badge } from "@/components/ui/badge";
-import {
-  InstructorArticulationMode,
-  InstructorAssignmentState,
-  InstructorDependency,
-} from "@/lib/types";
-
-export function InstructorDependencyBadge({
-  dependency,
-}: {
-  dependency: InstructorDependency;
-}) {
-  const variant =
-    dependency === "Centro"
-      ? "secondary"
-      : dependency === "Colegio"
-        ? "warning"
-        : "outline";
-
-  return <Badge variant={variant}>{dependency}</Badge>;
-}
+import { InstructorAssignmentState } from "@/lib/types";
+import { cn } from "@/lib/utils";
 
 export function InstructorStateBadge({
   state,
+  className,
 }: {
   state: InstructorAssignmentState;
+  className?: string;
 }) {
   const variant =
     state === "Confirmada"
@@ -32,15 +16,9 @@ export function InstructorStateBadge({
         ? "secondary"
         : "warning";
 
-  return <Badge variant={variant}>{state}</Badge>;
-}
-
-export function InstructorArticulationBadge({
-  articulation,
-}: {
-  articulation: InstructorArticulationMode;
-}) {
-  const variant = articulation === "No aplica" ? "outline" : "default";
-
-  return <Badge variant={variant}>{articulation}</Badge>;
+  return (
+    <Badge variant={variant} className={cn(className)}>
+      {state}
+    </Badge>
+  );
 }

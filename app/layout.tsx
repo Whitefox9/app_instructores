@@ -1,7 +1,20 @@
 import type { Metadata } from "next";
-import type { CSSProperties } from "react";
+import { Lato, Libre_Baskerville } from "next/font/google";
 
 import "@/app/globals.css";
+import { institutionBrand } from "@/lib/config/brand";
+
+const lato = Lato({
+  subsets: ["latin"],
+  weight: ["400", "700", "900"],
+  variable: "--font-lato",
+});
+
+const libreBaskerville = Libre_Baskerville({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  variable: "--font-libre-baskerville",
+});
 
 const themeScript = `
 (() => {
@@ -20,8 +33,8 @@ const themeScript = `
 `;
 
 export const metadata: Metadata = {
-  title: "Gestor de Instructores",
-  description: "Base SaaS para la gestion institucional de instructores, fichas y asignaciones.",
+  title: `${institutionBrand.productName} | ${institutionBrand.shortName}`,
+  description: institutionBrand.description,
 };
 
 export default function RootLayout({
@@ -31,17 +44,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es" suppressHydrationWarning>
-      <body
-        style={
-          {
-            "--font-sans": '"Segoe UI", "Helvetica Neue", Arial, sans-serif',
-            "--font-display": '"Georgia", "Times New Roman", serif',
-          } as CSSProperties
-        }
-        suppressHydrationWarning
-      >
+      <body className={`${lato.variable} ${libreBaskerville.variable}`} suppressHydrationWarning>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
-        <div className="sena-top-strip h-2 w-full" />
+        <div className="institution-top-strip h-2 w-full" />
         {children}
       </body>
     </html>

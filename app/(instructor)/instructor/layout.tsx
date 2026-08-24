@@ -1,9 +1,9 @@
-import { AppShell } from "@/components/layout/app-shell";
+import { InstructorShell } from "@/components/instructor/instructor-shell";
 
 export default function InstructorLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <AppShell role="instructor">{children}</AppShell>;
+  return <InstructorShell>{children}</InstructorShell>;
 }

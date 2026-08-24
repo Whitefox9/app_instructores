@@ -5,6 +5,7 @@ import {
   CoordinatorOperationalInstructor,
   CoordinatorOperationalMetric,
 } from "@/lib/types";
+import { demoAcademicSystem } from "@/lib/demo/academic-system";
 
 import {
   coordinatorArticulationContextOption,
@@ -58,6 +59,31 @@ function buildActiveAssignments(
   schools: CoordinatorSchoolCard[],
 ): CoordinatorAssignmentRecord[] {
   const records: CoordinatorAssignmentRecord[] = [];
+  const flagshipFicha = titulada.find(
+    (ficha) => ficha.number === demoAcademicSystem.flagshipGroup.number,
+  );
+
+  if (flagshipFicha) {
+    records.push({
+      id: "ASG-DEMO-2874901",
+      dependency: "Titulada",
+      fichaId: flagshipFicha.id,
+      fichaNumber: flagshipFicha.number,
+      program: flagshipFicha.program,
+      siteContext: flagshipFicha.site,
+      shift: flagshipFicha.shift,
+      instructorId: demoAcademicSystem.instructor.id,
+      instructorName: demoAcademicSystem.instructor.name,
+      instructorArea: demoAcademicSystem.instructor.specialty,
+      environmentName: demoAcademicSystem.flagshipGroup.room,
+      selectedBlocks: ["Lun Manana", "Mar Manana", "Mie Manana", "Jue Manana"],
+      hoursAssigned: 16,
+      status: "Activa",
+      notes: demoAcademicSystem.flagshipGroup.note,
+      createdAt: "2026-02-02 08:30",
+      updatedAt: "2026-08-23 09:10",
+    });
+  }
 
   const tituladaPairs = [
     {

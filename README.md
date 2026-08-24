@@ -1,16 +1,19 @@
-# App Instructores
+# Portal Academico
 
-Aplicacion SaaS en `Next.js + TypeScript + Tailwind` para gestion de instructores, fichas, ambientes y colegios en contexto SENA.
+Aplicacion web multirol en `Next.js + TypeScript + Tailwind` para demostrar la gestion academica de una institucion educativa.
 
 ## Estado actual
 
 El proyecto ya incluye una base navegable y presentable para demo con:
 
 - portal de coordinador
-- portal de instructor
+- portal de profesor
+- portal de estudiante
 - base visual del rol admin
 - modulos operativos de `Fichas`, `Ambientes` y `Colegios`
-- mocks realistas para flujo de producto
+- mocks realistas para flujos conectados de demostracion
+
+El portal de estudiante incluye `Inicio`, `Horario`, `Programa`, `Asistencia` y `Perfil`.
 
 ## Stack
 
@@ -67,10 +70,6 @@ Flujo sugerido:
 https://github.com/Whitefox9/app_instructores.git
 ```
 
-## Nota de trabajo
+## Estado de los datos
 
-Actualmente estamos trabajando sobre la rama:
-
-```text
-develop
-```
+La version actual utiliza datos simulados. La autenticacion y la persistencia se incorporaran despues de validar el recorrido multirol.

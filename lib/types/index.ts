@@ -79,423 +79,119 @@ export type DashboardData = {
   agenda: AgendaItem[];
 };
 
-export type CoordinatorAvailability = "Alta" | "Media" | "Limitada";
-export type CoordinatorInstructorStatus = "Disponible" | "Parcial" | "No disponible";
-export type CoordinatorSiteDependency = "centro" | "colegio" | "virtual";
-export type CoordinatorAssignmentStatus = "Confirmada" | "Requiere ajuste" | "Pendiente";
-export type CoordinatorSchoolStatus = "Activo" | "Seguimiento" | "Pendiente cupo";
-export type CoordinatorEnvironmentStatus = "Disponible" | "Reservado" | "Mantenimiento";
-export type CoordinatorOperationalDependency =
-  | "Articulacion"
-  | "Titulada"
-  | "Complementaria";
-export type CoordinatorArticulationMode =
-  | "No aplica"
-  | "Compartida"
-  | "Unica"
-  | "Colegio privado";
-export type CoordinatorFichaOperationalStatus =
-  | "Sin asignar"
-  | "Parcial"
-  | "Completa";
-export type CoordinatorConflictSeverity = "alta" | "media" | "baja";
-export type CoordinatorEnvironmentCellState =
-  | "Libre"
-  | "Ocupado"
-  | "Conflicto"
-  | "Mantenimiento";
-export type CoordinatorEnvironmentCatalogStatus =
-  | "Activo"
-  | "Mantenimiento"
-  | "Inactivo";
-export type CoordinatorAssignmentFlowTab = "new" | "active" | "history";
-export type CoordinatorAssignmentFlowMode = "create" | "edit" | "reassign";
-export type CoordinatorAssignmentRecordStatus =
-  | "Borrador"
-  | "Activa"
-  | "Pendiente"
-  | "Parcial"
-  | "Reasignada"
-  | "Cerrada";
-export type CoordinatorAssignmentHistoryAction =
-  | "Creada"
-  | "Editada"
-  | "Reasignada"
-  | "Cerrada";
+export type CoordinatorAcademicStatus = "Activo" | "En preparación" | "Requiere atención";
+export type CoordinatorAvailability = "Disponible" | "Parcial" | "Completa";
+export type CoordinatorAlertSeverity = "alta" | "media" | "baja";
 
-export type CoordinatorInstructor = {
-  id: string;
-  name: string;
-  specialty: string;
-  center: string;
-  city: string;
-  contractType: string;
-  modalities: string[];
-  programs: string[];
-  availability: CoordinatorAvailability;
-  hoursAssigned: number;
-  loadPercent: number;
-  status: CoordinatorInstructorStatus;
-  nextWindow: string;
-};
-
-export type CoordinatorFicha = {
-  id: string;
-  code: string;
-  program: string;
-  center: string;
-  city: string;
-  modality: string;
-  jornada: string;
-  dependency: CoordinatorSiteDependency;
-  requiresEnvironment: boolean;
-  apprentices: number;
-  schedule: string;
-  stage: string;
-  status: "Lista para asignar" | "En curso" | "Pendiente cobertura";
-  suggestedCollegeId?: string;
-};
-
-export type CoordinatorSchool = {
-  id: string;
-  name: string;
-  city: string;
-  coordinator: string;
-  contact: string;
-  activeGroups: number;
-  priorityPrograms: string[];
-  environments: string[];
-  status: CoordinatorSchoolStatus;
-  nextVisit: string;
-};
-
-export type CoordinatorEnvironment = {
-  id: string;
-  name: string;
-  siteName: string;
-  city: string;
-  capacity: number;
-  type: string;
-  dependency: Exclude<CoordinatorSiteDependency, "virtual">;
-  availability: CoordinatorEnvironmentStatus;
-  equipment: string[];
-};
-
-export type CoordinatorAssignmentDraft = {
-  id: string;
-  fichaId: string;
-  instructorId: string;
-  schoolId?: string;
-  environmentId?: string;
-  status: CoordinatorAssignmentStatus;
-  scheduleLabel: string;
-  notes: string;
-};
-
-export type CoordinatorSiteOption = {
-  id: string;
-  label: string;
-};
-
-export type CoordinatorAlertChip = {
-  id: string;
-  label: string;
-  severity: CoordinatorConflictSeverity;
-};
-
-export type CoordinatorOperationalMetric = {
+export type CoordinatorMetric = {
   label: string;
   value: string;
   tone: "neutral" | "warning" | "danger";
+  helper?: string;
 };
 
-export type CoordinatorOperationalInstructor = {
+export type CoordinatorAlert = {
+  id: string;
+  title: string;
+  detail: string;
+  severity: CoordinatorAlertSeverity;
+  href: string;
+};
+
+export type CoordinatorFaculty = {
+  id: string;
+  name: string;
+  campus: string;
+  dean: string;
+  programs: number;
+  teachers: number;
+  students: number;
+};
+
+export type CoordinatorTeacher = {
   id: string;
   name: string;
   initials: string;
-  photoUrl: string;
-  phone: string;
-  personalEmail: string;
-  profession: string;
-  dependency: CoordinatorOperationalDependency;
-  area: string;
-  programType: string;
-  site: string;
-  contractStartDate: string;
-  contractEndDate: string;
-  currentLoad: string;
-  activeBlocks: number;
-  status: "Disponible" | "Parcial" | "Saturado";
-  articulationSchool?: string;
-  articulationMode?: Exclude<CoordinatorArticulationMode, "No aplica">;
-  articulationShift?: Exclude<CoordinatorFichaShift, "Noche" | "Por definir">;
-  locality?: string;
-};
-
-export type CoordinatorOperationalFicha = {
-  id: string;
-  number: string;
-  program: string;
-  dependency: CoordinatorOperationalDependency;
-  site: string;
-  block: string;
-  shift: string;
-  articulationMode: CoordinatorArticulationMode;
-  status: CoordinatorFichaOperationalStatus;
-  requiresSchool: boolean;
-  requiresEnvironment: boolean;
-  schoolOptions: string[];
-  environmentOptions: string[];
-};
-
-export type CoordinatorOperationalSchool = {
-  id: string;
-  name: string;
-  city: string;
-  coverage: string;
-  activeFichas: number;
-  modalityMix: CoordinatorArticulationMode[];
-  coordinator: string;
-  status: "Con cobertura" | "Parcial" | "Critico";
-};
-
-export type CoordinatorAssignmentConflict = {
-  id: string;
-  severity: CoordinatorConflictSeverity;
-  message: string;
-};
-
-export type CoordinatorEnvironmentMatrixCell = {
-  id: string;
-  block: string;
-  state: CoordinatorEnvironmentCellState;
-  ficha?: string;
-  instructor?: string;
-};
-
-export type CoordinatorEnvironmentMatrixRow = {
-  id: string;
-  name: string;
-  site: string;
-  type: string;
-  capacity: number;
-  cells: CoordinatorEnvironmentMatrixCell[];
-};
-
-export type CoordinatorEnvironmentCatalogItem = {
-  id: string;
-  code: string;
-  site: string;
-  capacity: number;
-  type: CoordinatorOperationalDependency;
-  status: CoordinatorEnvironmentCatalogStatus;
-};
-
-export type CoordinatorAssignmentEnvironmentSelection = {
-  id: string;
-  rowId: string;
-  environmentName: string;
-  block: string;
-  site: string;
-  dependency: Extract<CoordinatorOperationalDependency, "Titulada" | "Complementaria">;
-};
-
-export type CoordinatorAssignmentRecord = {
-  id: string;
-  dependency: CoordinatorOperationalDependency;
-  fichaId: string;
-  fichaNumber: string;
-  program: string;
-  siteContext: string;
-  shift: CoordinatorFichaShift;
-  instructorId: string;
-  instructorName: string;
-  instructorArea: string;
-  schoolId?: string;
-  schoolName?: string;
-  locality?: string;
-  modality?: Exclude<CoordinatorArticulationMode, "No aplica">;
-  environmentName?: string;
-  selectedBlocks: string[];
-  hoursAssigned: number;
-  status: CoordinatorAssignmentRecordStatus;
-  notes: string;
-  createdAt: string;
-  updatedAt: string;
-};
-
-export type CoordinatorAssignmentHistoryEntry = {
-  id: string;
-  assignmentId: string;
-  action: CoordinatorAssignmentHistoryAction;
-  dependency: CoordinatorOperationalDependency;
-  fichaNumber: string;
-  instructorName: string;
-  summary: string;
-  actor: string;
-  happenedAt: string;
-};
-
-export type CoordinatorArticulationCoverageRow = {
-  id: string;
-  instructor: string;
-  ficha: string;
-  school: string;
-  site: string;
-  articulationMode: CoordinatorArticulationMode;
-  coverage: string;
-  status: "Cubierta" | "Parcial" | "Pendiente";
-};
-
-export type CoordinatorArticulationShift = "Manana" | "Tarde";
-
-export type CoordinatorArticulationInstructor = {
-  id: string;
-  name: string;
-  initials: string;
-  area: string;
-  site: string;
-  hoursAssigned: number;
-  status: "Libre" | "Parcial" | "Cubierto";
-};
-
-export type CoordinatorArticulationFichaUnit = {
-  id: string;
-  schoolId: string;
-  number: string;
-  program: string;
-  modality: Exclude<CoordinatorArticulationMode, "No aplica">;
-  shift: CoordinatorArticulationShift;
-  hoursRequired: number;
-  apprenticeCount: number;
-  coverageStatus: CoordinatorFichaOperationalStatus;
-  assignedInstructors: string[];
-  site: string;
-};
-
-export type CoordinatorArticulationSchoolUnit = {
-  id: string;
-  name: string;
-  address: string;
-  city: string;
-  site: string;
-  totalFichas: number;
-  generalCoverage: string;
-  fichas: CoordinatorArticulationFichaUnit[];
-};
-
-export type CoordinatorSchoolKind = "Publico" | "Privado" | "Tecnico";
-export type CoordinatorSchoolOperationalStatus =
-  | "Pendiente horario"
-  | "Con horario definido"
-  | "Listo para asignacion";
-
-export type CoordinatorSchoolCard = {
-  id: string;
-  name: string;
-  kind: CoordinatorSchoolKind;
-  address: string;
-  city: string;
-  site: string;
-  scheduleLabel: string;
-  operatingDays: string;
-  senaCoverageSummary: string;
-  monthlyRule: string;
-  operationalStatus: CoordinatorSchoolOperationalStatus;
-  hasSchedule: boolean;
-  readyForAssignment: boolean;
-};
-
-export type CoordinatorSchoolAssociatedFicha = {
-  id: string;
-  number: string;
-  program: string;
-  status: "Pendiente" | "Parcial" | "Lista";
-};
-
-export type CoordinatorSchoolDetail = CoordinatorSchoolCard & {
-  journeys: string;
-  scheduleWindows: string[];
-  participationMode: string;
-  observations: string;
-  associatedFichas: CoordinatorSchoolAssociatedFicha[];
-};
-
-export type CoordinatorFichaShift = "Manana" | "Tarde" | "Noche" | "Por definir";
-
-export type CoordinatorFichaStateTag =
-  | "Sin aprendices"
-  | "Carga parcial"
-  | "Completa"
-  | "Sin instructor"
-  | "Sin ambiente"
-  | "Lista para operacion";
-
-export type CoordinatorFichaGeneralStatus =
-  | "Configuracion inicial"
-  | "En alistamiento"
-  | "Lista para operacion";
-
-export type CoordinatorFichaSummary = {
-  id: string;
-  number: string;
-  program: string;
-  dependency: CoordinatorOperationalDependency;
-  programType: string;
-  shift: CoordinatorFichaShift;
-  site: string;
-  expectedApprentices: number;
-  apprenticeCount: number;
-  assignedInstructor?: string;
-  assignedEnvironment?: string;
-  articulationSchool?: string;
-  articulationMode?: Exclude<CoordinatorArticulationMode, "No aplica">;
-  locality?: string;
-  requiresEnvironment: boolean;
-  generalStatus: CoordinatorFichaGeneralStatus;
-  stateTags: CoordinatorFichaStateTag[];
-  observations: string;
-  createdAt: string;
-  updatedAt: string;
-  lastImportAt?: string;
-  updatedBy: string;
-};
-
-export type CoordinatorFichaLearner = {
-  id: string;
-  documentType: string;
-  documentNumber: string;
-  fullName: string;
   email: string;
   phone: string;
-  source: "Excel" | "Manual";
-  registeredAt: string;
+  faculty: string;
+  department: string;
+  specialty: string;
+  contractType: string;
+  assignedHours: number;
+  maximumHours: number;
+  groups: number;
+  availability: CoordinatorAvailability;
 };
 
-export type CoordinatorFichaTraceability = {
-  createdAt: string;
-  updatedAt: string;
-  lastImportAt?: string;
-  updatedBy: string;
-  lastImportBy?: string;
+export type CoordinatorStudentSummary = {
+  id: string;
+  documentNumber: string;
+  name: string;
+  email: string;
+  enrollmentStatus: "Matriculado" | "Pendiente";
 };
 
-export type CoordinatorFichaImportMock = {
+export type CoordinatorAcademicGroup = {
+  id: string;
+  code: string;
+  subject: string;
+  program: string;
+  faculty: string;
+  period: string;
+  modality: "Presencial" | "Virtual" | "Híbrida";
+  schedule: string;
+  teacher: string;
+  classroom: string;
+  students: number;
+  capacity: number;
+  status: CoordinatorAcademicStatus;
+  roster: CoordinatorStudentSummary[];
+};
+
+export type CoordinatorClassroom = {
+  id: string;
+  code: string;
+  name: string;
+  campus: string;
+  building: string;
+  capacity: number;
+  equipment: string[];
+  status: "Disponible" | "Ocupada" | "Mantenimiento";
+  nextAvailable: string;
+};
+
+export type CoordinatorScheduleAssignment = {
+  id: string;
+  groupCode: string;
+  subject: string;
+  teacher: string;
+  classroom: string;
+  day: string;
+  time: string;
+  status: "Confirmada" | "Pendiente" | "Conflicto";
+};
+
+export type CoordinatorTeachingLoad = {
+  id: string;
+  teacher: string;
+  faculty: string;
+  assignedHours: number;
+  maximumHours: number;
+  groups: number;
+  status: "Equilibrada" | "Disponible" | "Sobrecarga";
+};
+
+export type CoordinatorImportBatch = {
+  id: string;
   fileName: string;
-  sheetName: string;
+  category: "Docentes" | "Estudiantes" | "Grupos" | "Aulas";
+  records: number;
+  validRecords: number;
+  issues: number;
   uploadedAt: string;
-  columns: ImportColumnReport[];
-  previewRows: ImportPreviewRow[];
-  issues: ImportIssue[];
-  validLearners: CoordinatorFichaLearner[];
+  status: "Validado" | "Revisión";
 };
-
-export type CoordinatorFichaDetail = CoordinatorFichaSummary & {
-  apprentices: CoordinatorFichaLearner[];
-  traceability: CoordinatorFichaTraceability;
-  importMock?: CoordinatorFichaImportMock;
-};
-
 export type ImportColumnStatus = "Valida" | "Advertencia" | "Invalida";
 export type ImportRowStatus = "Valido" | "Con observaciones" | "Con error";
 export type ImportIssueSeverity = "alta" | "media" | "baja";
@@ -537,21 +233,19 @@ export type ImportBatchSummary = {
 };
 
 export type InstructorDependency = "Centro" | "Virtual";
-export type InstructorArticulationMode = "No aplica" | "Articulacion media" | "Doble titulacion";
 export type InstructorAssignmentState = "Confirmada" | "Programada" | "Requiere ajuste";
 
 export type InstructorAssignmentDetail = {
   id: string;
-  ficha: string;
+  group: string;
   programa: string;
   dependencia: InstructorDependency;
   sede: string;
-  ambiente: string;
-  articulacion: InstructorArticulationMode;
+  room: string;
   modalidad: string;
   jornada: string;
   horario: string;
-  aprendices: number;
+  studentCount: number;
   estado: InstructorAssignmentState;
   novedades: string;
 };
@@ -563,12 +257,11 @@ export type InstructorAgendaEntry = {
   startTime: string;
   endTime: string;
   title: string;
-  ficha: string;
+  group: string;
   programa: string;
   dependencia: InstructorDependency;
   sede: string;
-  ambiente: string;
-  articulacion: InstructorArticulationMode;
+  room: string;
   modalidad: string;
   note: string;
 };

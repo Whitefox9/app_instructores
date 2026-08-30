@@ -50,7 +50,7 @@ export function InstructorEvidencePanel({
               <div>
                 <p className="font-semibold text-foreground">{entry.title}</p>
                 <p className="mt-1 text-sm text-muted-foreground">
-                  Ficha {entry.ficha} · {entry.programa}
+                  Grupo {entry.ficha} · {entry.programa}
                 </p>
               </div>
               <Badge variant={evidenceVariant(entry.state)}>{entry.state}</Badge>

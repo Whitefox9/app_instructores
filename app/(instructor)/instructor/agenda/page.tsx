@@ -16,9 +16,9 @@ export default function InstructorAgendaPage() {
 
       <InstructorSchedule
         entries={instructorAgenda}
-        attendanceFichas={instructorAttendanceSheets.map((sheet) => sheet.ficha)}
+        attendanceGroups={instructorAttendanceSheets.map((sheet) => sheet.ficha)}
         assignmentStates={Object.fromEntries(
-          instructorAssignments.map((assignment) => [assignment.ficha, assignment.estado]),
+          instructorAssignments.map((assignment) => [assignment.group, assignment.estado]),
         )}
       />
     </div>

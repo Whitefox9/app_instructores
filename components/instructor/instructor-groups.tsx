@@ -69,7 +69,7 @@ export function InstructorGroups({ assignments }: InstructorGroupsProps) {
                 <div className="border-b bg-slate-950 px-5 py-5 text-white sm:px-6">
                   <div className="flex items-center justify-between gap-4">
                     <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">
-                      Grupo {assignment.ficha}
+                      Grupo {assignment.group}
                     </p>
                     <InstructorStateBadge
                       state={assignment.estado}
@@ -98,7 +98,7 @@ export function InstructorGroups({ assignments }: InstructorGroupsProps) {
                       <UsersRound className="mt-0.5 size-4 shrink-0 text-primary" aria-hidden="true" />
                       <span>
                         <strong className="block font-medium text-foreground">
-                          {assignment.aprendices} estudiantes
+                          {assignment.studentCount} estudiantes
                         </strong>
                         Grupo activo
                       </span>
@@ -114,7 +114,7 @@ export function InstructorGroups({ assignments }: InstructorGroupsProps) {
                       <PlaceIcon className="mt-0.5 size-4 shrink-0 text-primary" aria-hidden="true" />
                       <span>
                         <strong className="block font-medium text-foreground">
-                          {assignment.ambiente}
+                          {assignment.room}
                         </strong>
                         {assignment.sede}
                       </span>
@@ -130,7 +130,7 @@ export function InstructorGroups({ assignments }: InstructorGroupsProps) {
                       size="lg"
                       className="w-full shrink-0 px-6 sm:w-auto sm:min-w-[10rem]"
                     >
-                      <Link href={`/instructor/detalle-ficha/${assignment.ficha}`}>
+                      <Link href={`/instructor/detalle-ficha/${assignment.group}`}>
                         Abrir grupo
                         <ArrowRight className="size-4" aria-hidden="true" />
                       </Link>

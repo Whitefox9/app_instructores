@@ -103,9 +103,9 @@ export const instructorAttendanceSheets: InstructorAttendanceSheet[] = [
       { id: "APR-2901220-08", apprentice: "Brayan Estiven Correa", document: "1056677889", status: "A", observation: "" },
     ],
     history: [
-      { id: "HIS-2901220-2026-04-08", date: "2026-04-08", blockLabel: "08:00 - 12:00", registeredAt: "2026-04-08 12:04", attendanceRate: 88, counts: { A: 6, CE: 1, SE: 1, T: 0 }, notes: "Seguimiento por inasistencia a un aprendiz de etapa lectiva." },
+      { id: "HIS-2901220-2026-04-08", date: "2026-04-08", blockLabel: "08:00 - 12:00", registeredAt: "2026-04-08 12:04", attendanceRate: 88, counts: { A: 6, CE: 1, SE: 1, T: 0 }, notes: "Seguimiento por inasistencia de un estudiante." },
       { id: "HIS-2901220-2026-04-06", date: "2026-04-06", blockLabel: "08:00 - 12:00", registeredAt: "2026-04-06 12:10", attendanceRate: 100, counts: { A: 7, CE: 0, SE: 0, T: 1 }, notes: "Sesion cerrada con tardanza aislada y sin otras novedades." },
-      { id: "HIS-2901220-2026-04-02", date: "2026-04-02", blockLabel: "08:00 - 12:00", registeredAt: "2026-04-02 12:03", attendanceRate: 75, counts: { A: 5, CE: 1, SE: 2, T: 0 }, notes: "Ambiente alterno por mantenimiento del aula principal." },
+      { id: "HIS-2901220-2026-04-02", date: "2026-04-02", blockLabel: "08:00 - 12:00", registeredAt: "2026-04-02 12:03", attendanceRate: 75, counts: { A: 5, CE: 1, SE: 2, T: 0 }, notes: "Aula alterna por mantenimiento del espacio principal." },
     ],
   },
 ];

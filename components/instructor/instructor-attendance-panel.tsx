@@ -53,7 +53,7 @@ export function InstructorAttendancePanel({
                 <div>
                   <p className="font-semibold text-foreground">{entry.programa}</p>
                   <p className="mt-1 text-sm text-muted-foreground">
-                    Ficha {entry.ficha} · {entry.dateLabel}
+                    Grupo {entry.ficha} · {entry.dateLabel}
                   </p>
                 </div>
                 <Badge variant={attendanceVariant(entry.state)}>{entry.state}</Badge>

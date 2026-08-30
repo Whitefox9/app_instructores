@@ -15,13 +15,13 @@ const portals = [
   {
     href: "/coordinador/dashboard",
     title: "Portal coordinador",
-    description: "Operacion academica, asignaciones, fichas y seguimiento.",
+    description: "Operacion academica, grupos, aulas y seguimiento.",
     icon: Building2,
   },
   {
     href: "/instructor/inicio",
     title: "Portal docente",
-    description: "Agenda personal, fichas activas y seguimiento de jornada.",
+    description: "Agenda personal, grupos activos y seguimiento de clases.",
     icon: GraduationCap,
   },
   {

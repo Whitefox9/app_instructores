@@ -27,7 +27,7 @@ export function UploadZone() {
           </div>
           <p className="mt-4 text-base font-semibold text-foreground">Suelta el archivo o selecciona una plantilla</p>
           <p className="mt-2 max-w-md text-sm text-muted-foreground">
-            En esta fase dejamos lista la experiencia base para importar instructores, fichas o asignaciones.
+            En esta fase dejamos lista la experiencia base para importar docentes, grupos o asignaciones.
           </p>
         </div>
       </CardContent>

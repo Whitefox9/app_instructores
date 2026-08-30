@@ -1,8 +1,8 @@
-import { CoordinatorOperationalMetric } from "@/lib/types";
+import { CoordinatorMetric } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 type CoordinatorMetricStripProps = {
-  metrics: CoordinatorOperationalMetric[];
+  metrics: CoordinatorMetric[];
 };
 
 export function CoordinatorMetricStrip({

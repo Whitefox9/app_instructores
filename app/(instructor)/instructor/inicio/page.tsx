@@ -26,7 +26,7 @@ export default function InstructorHomePage() {
   const profile = roleProfiles.instructor;
   const nextSession = instructorAgenda[0];
   const nextAssignment = instructorAssignments.find(
-    (assignment) => assignment.ficha === nextSession.ficha,
+    (assignment) => assignment.group === nextSession.group,
   );
   const classesToday = instructorAgenda.filter(
     (session) => session.dateLabel === nextSession.dateLabel,
@@ -88,7 +88,7 @@ export default function InstructorHomePage() {
             <p className="text-sm font-medium text-primary">Próxima clase</p>
             <CardTitle className="mt-1 text-2xl">{nextSession.programa}</CardTitle>
           </div>
-          <Badge variant="secondary">{nextSession.ficha}</Badge>
+          <Badge variant="secondary">Grupo {nextSession.group}</Badge>
         </CardHeader>
         <CardContent className="space-y-5">
           <div className="grid gap-3 text-sm text-muted-foreground sm:grid-cols-3">
@@ -98,17 +98,17 @@ export default function InstructorHomePage() {
             </p>
             <p className="flex items-center gap-2">
               <MapPin className="size-4 text-primary" aria-hidden="true" />
-              {nextSession.ambiente}
+              {nextSession.room}
             </p>
             <p className="flex items-center gap-2">
               <UsersRound className="size-4 text-primary" aria-hidden="true" />
-              {nextAssignment?.aprendices ?? 0} estudiantes
+              {nextAssignment?.studentCount ?? 0} estudiantes
             </p>
           </div>
 
           <div className="flex flex-col gap-3 sm:flex-row">
             <Button asChild>
-              <Link href={`/instructor/asistencia?ficha=${nextSession.ficha}&origen=inicio`}>
+              <Link href={`/instructor/asistencia?ficha=${nextSession.group}&origen=inicio`}>
                 Registrar asistencia
                 <ArrowRight className="size-4" aria-hidden="true" />
               </Link>
@@ -135,7 +135,7 @@ export default function InstructorHomePage() {
             </p>
           </div>
           <Button asChild variant="ghost" className="justify-start text-primary">
-            <Link href={`/instructor/detalle-ficha/${nextSession.ficha}`}>
+            <Link href={`/instructor/detalle-ficha/${nextSession.group}`}>
               Ver grupo
               <ArrowRight className="size-4" aria-hidden="true" />
             </Link>

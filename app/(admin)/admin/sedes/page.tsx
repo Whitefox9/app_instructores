@@ -10,7 +10,7 @@ export default function AdminSedesPage() {
       filters={["Ciudad", "Capacidad", "Estado", "Tipo de sede"]}
       metrics={[
         { label: "Sedes activas", value: "64", helper: "57 con configuracion completa", trend: "+4%" },
-        { label: "Ambientes asociados", value: "298", helper: "Consolidacion centralizada", trend: "+18" },
+        { label: "Aulas asociadas", value: "298", helper: "Consolidacion centralizada", trend: "+18" },
         { label: "Pendientes de homologacion", value: "7", helper: "Requieren visita o evidencia", trend: "-2" },
       ]}
       activity={[
@@ -18,7 +18,7 @@ export default function AdminSedesPage() {
         { id: "SED-12", item: "Actualizacion de capacidad instalada", owner: "Centro Sur", status: "Al dia", updatedAt: "Hoy, 08:10" },
         { id: "SED-13", item: "Validacion de accesibilidad", owner: "Calidad", status: "Pendiente", updatedAt: "Ayer, 16:05" },
       ]}
-      nextStep="Este modulo puede sumar mapas, adjuntos de evidencia y sincronizacion con ambientes."
+      nextStep="Este modulo puede sumar mapas, adjuntos de evidencia y sincronizacion con aulas."
     />
   );
 }

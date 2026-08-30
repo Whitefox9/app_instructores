@@ -16,15 +16,15 @@ export function downloadInstructorAttendanceExcel(sheet: InstructorAttendanceShe
 
   const rows = [
     ["Programa", sheet.programa],
-    ["Ficha", sheet.ficha],
+    ["Grupo", sheet.ficha],
     ["Fecha", sheet.date],
     ["Jornada", sheet.jornada],
     ["Horario", sheet.horario],
-    ["Ambiente", sheet.ambiente ?? "No aplica"],
-    ["Instructor", sheet.instructor],
-    ["Total aprendices", String(sheet.totalAprendices)],
+    ["Aula", sheet.ambiente ?? "No aplica"],
+    ["Docente", sheet.instructor],
+    ["Total estudiantes", String(sheet.totalAprendices)],
     [],
-    ["Aprendiz", "Documento", "Estado", "Observacion"],
+    ["Estudiante", "Documento", "Estado", "Observacion"],
     ...sheet.learners.map((learner) => [
       learner.apprentice,
       learner.document,

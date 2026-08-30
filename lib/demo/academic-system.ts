@@ -24,10 +24,10 @@ export const demoAcademicSystem = {
     phone: "300 456 7890",
   },
   flagshipGroup: {
-    id: "FIC-DEMO-2874901",
+    id: "GRP-DEMO-2874901",
     number: "2874901",
     program: "Análisis y Desarrollo de Software",
-    shortProgram: "ADSO",
+    shortProgram: "Desarrollo de Software",
     modality: "Presencial",
     shift: "Manana" as const,
     shiftLabel: "Mañana",
@@ -46,7 +46,7 @@ export const demoAcademicSystem = {
     dayName: "Lunes",
     startTime: "07:00",
     endTime: "11:00",
-    title: "Sesión ADSO",
+    title: "Sesión de Desarrollo de Software",
   },
 } as const;
 

@@ -27,7 +27,7 @@ type InstructorGroupDetailPageProps = {
 
 export default async function InstructorGroupDetailPage({ params }: InstructorGroupDetailPageProps) {
   const { id } = await params;
-  const assignment = instructorAssignments.find((item) => item.ficha === id);
+  const assignment = instructorAssignments.find((item) => item.group === id);
 
   if (!assignment) {
     return (
@@ -66,7 +66,7 @@ export default async function InstructorGroupDetailPage({ params }: InstructorGr
       <InstructorPageHeader
         icon={UsersRound}
         title={assignment.programa}
-        description={`Grupo ${assignment.ficha} · ${assignment.modalidad} · Jornada ${assignment.jornada}`}
+        description={`Grupo ${assignment.group} · ${assignment.modalidad} · Jornada ${assignment.jornada}`}
       />
 
       <Card className="overflow-hidden border-0 bg-slate-950 text-white shadow-lg">
@@ -93,7 +93,7 @@ export default async function InstructorGroupDetailPage({ params }: InstructorGr
             <div className="flex flex-col gap-3 sm:flex-row">
               {attendanceSheet ? (
                 <Button asChild size="lg" className="w-full px-6 sm:w-auto sm:min-w-[12rem]">
-                  <Link href={`/instructor/asistencia?ficha=${assignment.ficha}&origen=grupo`}>
+                  <Link href={`/instructor/asistencia?ficha=${assignment.group}&origen=grupo`}>
                     <ClipboardCheck className="size-4" aria-hidden="true" />
                     Registrar asistencia
                   </Link>
@@ -121,7 +121,7 @@ export default async function InstructorGroupDetailPage({ params }: InstructorGr
           <dl className="mt-7 grid gap-3 border-t border-white/10 pt-6 sm:grid-cols-3">
             <div>
               <dt className="text-xs uppercase tracking-wider text-slate-400">Estudiantes</dt>
-              <dd className="mt-1 text-2xl font-bold">{assignment.aprendices}</dd>
+              <dd className="mt-1 text-2xl font-bold">{assignment.studentCount}</dd>
             </div>
             <div>
               <dt className="text-xs uppercase tracking-wider text-slate-400">Última asistencia</dt>
@@ -154,16 +154,14 @@ export default async function InstructorGroupDetailPage({ params }: InstructorGr
               <MapPin className="mt-0.5 size-5 shrink-0 text-primary" aria-hidden="true" />
               <span>
                 <strong className="block font-medium text-foreground">Espacio asignado</strong>
-                {assignment.ambiente} · {assignment.sede}
+                {assignment.room} · {assignment.sede}
               </span>
             </p>
             <p className="flex items-start gap-3 text-muted-foreground sm:col-span-2">
               <BookOpenCheck className="mt-0.5 size-5 shrink-0 text-primary" aria-hidden="true" />
               <span>
                 <strong className="block font-medium text-foreground">Modalidad académica</strong>
-                {assignment.articulacion === "No aplica"
-                  ? assignment.modalidad
-                  : assignment.articulacion}
+                {assignment.modalidad}
               </span>
             </p>
           </CardContent>
@@ -181,8 +179,8 @@ export default async function InstructorGroupDetailPage({ params }: InstructorGr
       </div>
 
       <InstructorGroupRoster
-        learners={(attendanceSheet?.learners ?? []).slice(0, assignment.aprendices)}
-        totalStudents={assignment.aprendices}
+        learners={(attendanceSheet?.learners ?? []).slice(0, assignment.studentCount)}
+        totalStudents={assignment.studentCount}
       />
     </div>
   );

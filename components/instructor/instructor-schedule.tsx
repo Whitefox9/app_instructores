@@ -23,7 +23,7 @@ import { cn } from "@/lib/utils";
 
 type InstructorScheduleProps = {
   entries: InstructorAgendaEntry[];
-  attendanceFichas: string[];
+  attendanceGroups: string[];
   assignmentStates: Record<string, InstructorAssignmentState>;
 };
 
@@ -38,7 +38,7 @@ function durationInHours(entry: InstructorAgendaEntry) {
 
 export function InstructorSchedule({
   entries,
-  attendanceFichas,
+  attendanceGroups,
   assignmentStates,
 }: InstructorScheduleProps) {
   const firstActiveDay = week.find((day) =>
@@ -122,7 +122,7 @@ export function InstructorSchedule({
                       <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                         <div>
                           <div className="flex flex-wrap items-center gap-2">
-                            <Badge variant="secondary">Grupo {entry.ficha}</Badge>
+                            <Badge variant="secondary">Grupo {entry.group}</Badge>
                             <Badge variant="outline">{entry.modalidad}</Badge>
                           </div>
                           <h3 className="mt-3 font-serif text-2xl font-bold text-foreground">
@@ -131,7 +131,7 @@ export function InstructorSchedule({
                           <p className="mt-1 text-sm text-muted-foreground">{entry.title}</p>
                         </div>
                         <InstructorStateBadge
-                          state={assignmentStates[entry.ficha] ?? "Programada"}
+                          state={assignmentStates[entry.group] ?? "Programada"}
                         />
                       </div>
 
@@ -139,7 +139,7 @@ export function InstructorSchedule({
                         <p className="flex items-start gap-2 text-muted-foreground">
                           <MapPin className="mt-0.5 size-4 shrink-0 text-primary" aria-hidden="true" />
                           <span>
-                            <strong className="block font-medium text-foreground">{entry.ambiente}</strong>
+                            <strong className="block font-medium text-foreground">{entry.room}</strong>
                             {entry.sede}
                           </span>
                         </p>
@@ -151,7 +151,7 @@ export function InstructorSchedule({
                           )}
                           <span>
                             <strong className="block font-medium text-foreground">{entry.dependencia}</strong>
-                            {entry.articulacion === "No aplica" ? entry.modalidad : entry.articulacion}
+                            {entry.modalidad}
                           </span>
                         </p>
                       </div>
@@ -161,13 +161,13 @@ export function InstructorSchedule({
                       </div>
 
                       <div className="flex flex-col gap-3 border-t pt-4 sm:flex-row">
-                        {attendanceFichas.includes(entry.ficha) ? (
+                        {attendanceGroups.includes(entry.group) ? (
                           <Button
                             asChild
                             size="lg"
                             className="w-full px-6 sm:w-auto sm:min-w-[12rem]"
                           >
-                            <Link href={`/instructor/asistencia?ficha=${entry.ficha}&origen=horario`}>
+                            <Link href={`/instructor/asistencia?ficha=${entry.group}&origen=horario`}>
                               Registrar asistencia
                               <ArrowRight className="size-4" aria-hidden="true" />
                             </Link>
@@ -183,7 +183,7 @@ export function InstructorSchedule({
                           variant="outline"
                           className="w-full px-6 sm:w-auto sm:min-w-[10rem]"
                         >
-                          <Link href={`/instructor/detalle-ficha/${entry.ficha}`}>
+                          <Link href={`/instructor/detalle-ficha/${entry.group}`}>
                             <UsersRound className="size-4" aria-hidden="true" />
                             Ver grupo
                           </Link>
@@ -227,7 +227,7 @@ export function InstructorSchedule({
             <div className="flex items-center justify-between">
               <span className="text-sm text-muted-foreground">Grupos diferentes</span>
               <strong className="text-xl text-foreground">
-                {new Set(entries.map((entry) => entry.ficha)).size}
+                {new Set(entries.map((entry) => entry.group)).size}
               </strong>
             </div>
           </CardContent>

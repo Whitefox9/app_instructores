@@ -10,7 +10,7 @@ El proyecto ya incluye una base navegable y presentable para demo con:
 - portal de profesor
 - portal de estudiante
 - base visual del rol admin
-- modulos operativos de `Fichas`, `Ambientes` y `Colegios`
+- modulos operativos de docentes, grupos, aulas, programacion y carga academica
 - mocks realistas para flujos conectados de demostracion
 
 El portal de estudiante incluye `Inicio`, `Horario`, `Programa`, `Asistencia` y `Perfil`.

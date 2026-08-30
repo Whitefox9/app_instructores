@@ -2,386 +2,125 @@
 
 import Link from "next/link";
 import { PropsWithChildren, useMemo, useState } from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 import {
-  AlertCircle,
   BookOpenText,
+  Building2,
+  CalendarClock,
   ChevronLeft,
   ChevronRight,
   ClipboardList,
-  DoorOpen,
   FileSpreadsheet,
-  FolderKanban,
+  GraduationCap,
   LayoutDashboard,
   LogOut,
   Menu,
-  School,
   Search,
-  Users,
+  UserRound,
+  UsersRound,
   X,
 } from "lucide-react";
 
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { institutionBrand } from "@/lib/config/brand";
-import {
-  coordinatorArticulationContextOption,
-  coordinatorCenterName,
-  getCoordinatorAlertChips,
-  isCoordinatorArticulationContext,
-  coordinatorQuickFilters,
-  resolveCoordinatorFilters,
-  coordinatorSites,
-} from "@/lib/mocks/coordinator-console";
+import { coordinatorAcademicContext } from "@/lib/mocks/coordinator-usal";
 import { cn } from "@/lib/utils";
 
-type CoordinatorNavItem = {
-  label: string;
-  href: string;
-  icon: typeof LayoutDashboard;
-};
-
-const navItems: CoordinatorNavItem[] = [
-  { label: "Resumen operativo", href: "/coordinador/dashboard", icon: LayoutDashboard },
-  { label: "Instructores", href: "/coordinador/instructores", icon: Users },
-  { label: "Fichas", href: "/coordinador/fichas", icon: FolderKanban },
-  { label: "Ambientes", href: "/coordinador/ambientes", icon: DoorOpen },
-  { label: "Colegios", href: "/coordinador/colegios", icon: School },
-  { label: "Planeacion", href: "/coordinador/programas", icon: BookOpenText },
-  { label: "Asignaciones", href: "/coordinador/asignaciones", icon: ClipboardList },
-  { label: "Importaciones", href: "/coordinador/importacion-excel", icon: FileSpreadsheet },
+const navItems = [
+  { label: "Resumen", href: "/coordinador/dashboard", icon: LayoutDashboard },
+  { label: "Docentes", href: "/coordinador/docentes", icon: UserRound },
+  { label: "Grupos", href: "/coordinador/grupos", icon: UsersRound },
+  { label: "Aulas", href: "/coordinador/aulas", icon: Building2 },
+  { label: "Programación", href: "/coordinador/programacion", icon: CalendarClock },
+  { label: "Carga docente", href: "/coordinador/carga-docente", icon: ClipboardList },
+  { label: "Importaciones", href: "/coordinador/importaciones", icon: FileSpreadsheet },
+  { label: "Seguimiento", href: "/coordinador/seguimiento", icon: BookOpenText },
 ];
-
-function alertVariant(severity: "alta" | "media" | "baja") {
-  if (severity === "alta") {
-    return "danger";
-  }
-
-  if (severity === "media") {
-    return "warning";
-  }
-
-  return "secondary";
-}
 
 export function CoordinatorShell({ children }: PropsWithChildren) {
   const pathname = usePathname();
-  const router = useRouter();
-  const searchParams = useSearchParams();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const supportsArticulationContext = useMemo(
-    () =>
-      pathname.startsWith("/coordinador/dashboard") ||
-      pathname.startsWith("/coordinador/instructores") ||
-      pathname.startsWith("/coordinador/fichas") ||
-      pathname.startsWith("/coordinador/asignaciones") ||
-      pathname.startsWith("/coordinador/programas"),
+  const [campus, setCampus] = useState(coordinatorAcademicContext.campus);
+  const pageLabel = useMemo(
+    () => navItems.find((item) => pathname.startsWith(item.href))?.label ?? "Coordinación académica",
     [pathname],
   );
-  const siteOptions = useMemo(
-    () =>
-      supportsArticulationContext
-        ? [...coordinatorSites, coordinatorArticulationContextOption]
-        : coordinatorSites,
-    [supportsArticulationContext],
-  );
-  const selectedSite =
-    siteOptions.find((site) => site.id === searchParams.get("site"))?.id ??
-    coordinatorSites[0]?.id ??
-    "";
-  const activeQuickFilters = useMemo(
-    () => resolveCoordinatorFilters(searchParams.getAll("filter")),
-    [searchParams],
-  );
-  const alertChips = useMemo(
-    () => getCoordinatorAlertChips(selectedSite, activeQuickFilters),
-    [activeQuickFilters, selectedSite],
-  );
-  const visibleQuickFilters = useMemo(() => {
-    if (
-      pathname.startsWith("/coordinador/colegios") ||
-      pathname.startsWith("/coordinador/asignaciones") ||
-      pathname.startsWith("/coordinador/programas")
-    ) {
-      return [];
-    }
-
-    if (pathname.startsWith("/coordinador/ambientes")) {
-      return coordinatorQuickFilters.filter((filter) => filter !== "Articulacion");
-    }
-
-    return coordinatorQuickFilters;
-  }, [pathname]);
-  const usesSiteSelector = !pathname.startsWith("/coordinador/colegios");
-
-  const pageLabel = useMemo(() => {
-    return navItems.find((item) => pathname.startsWith(item.href))?.label ?? "Coordinacion";
-  }, [pathname]);
-
-  function withCurrentParams(
-    href: string,
-    filters = activeQuickFilters,
-    site = selectedSite,
-  ) {
-    const params = new URLSearchParams();
-    const targetUsesSite = !href.startsWith("/coordinador/colegios");
-    const targetSupportsArticulation =
-      href.startsWith("/coordinador/dashboard") ||
-      href.startsWith("/coordinador/instructores") ||
-      href.startsWith("/coordinador/fichas") ||
-      href.startsWith("/coordinador/asignaciones") ||
-      href.startsWith("/coordinador/programas");
-    const normalizedSite =
-      isCoordinatorArticulationContext(site) && !targetSupportsArticulation
-        ? coordinatorSites[0]?.id ?? ""
-        : site;
-    if (normalizedSite && targetUsesSite) {
-      params.set("site", normalizedSite);
-    }
-    filters.forEach((filter) => params.append("filter", filter));
-    const query = params.toString();
-
-    return query ? `${href}?${query}` : href;
-  }
-
-  function toggleQuickFilter(filter: string) {
-    const params = new URLSearchParams(searchParams.toString());
-    const current = resolveCoordinatorFilters(searchParams.getAll("filter"));
-    const next = current.includes(filter)
-      ? current.filter((item) => item !== filter)
-      : [...current, filter];
-
-    params.delete("filter");
-    next.forEach((item) => params.append("filter", item));
-    router.push(`${pathname}?${params.toString()}`);
-  }
-
-  function handleSiteChange(value: string) {
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("site", value);
-    router.push(`${pathname}?${params.toString()}`);
-  }
 
   return (
-    <div className="min-h-screen bg-[linear-gradient(180deg,rgba(248,250,252,0.92)_0%,rgba(244,247,245,0.96)_100%)] dark:bg-[radial-gradient(circle_at_top_left,rgba(57,169,0,0.08),transparent_24%),linear-gradient(180deg,rgba(14,19,31,0.98)_0%,rgba(17,24,39,1)_100%)]">
-      <div
-        className={cn(
-          "grid min-h-screen",
-          sidebarCollapsed ? "xl:grid-cols-[76px_1fr]" : "xl:grid-cols-[220px_1fr]",
-        )}
-      >
-        <div
-          className={cn(
-            "fixed inset-0 z-40 bg-slate-950/35 transition-opacity xl:hidden",
-            mobileOpen ? "opacity-100" : "pointer-events-none opacity-0",
-          )}
+    <div className="min-h-screen bg-[linear-gradient(180deg,rgba(248,250,252,0.94)_0%,rgba(244,247,249,0.98)_100%)] pb-20 md:pb-0">
+      <div className={cn("grid min-h-screen", sidebarCollapsed ? "xl:grid-cols-[78px_1fr]" : "xl:grid-cols-[232px_1fr]")}>
+        <button
+          type="button"
+          aria-label="Cerrar navegación"
+          className={cn("fixed inset-0 z-40 bg-slate-950/40 transition-opacity xl:hidden", mobileOpen ? "opacity-100" : "pointer-events-none opacity-0")}
           onClick={() => setMobileOpen(false)}
         />
 
-        <aside
-          className={cn(
-            "fixed inset-y-0 left-0 z-50 flex w-[220px] flex-col border-r border-border/80 bg-[linear-gradient(180deg,hsl(var(--card)/0.96)_0%,hsl(var(--card)/0.9)_100%)] px-3.5 py-5 shadow-[0_18px_42px_-30px_rgba(15,23,42,0.28)] backdrop-blur-xl transition-transform xl:sticky xl:top-0 xl:h-screen xl:translate-x-0",
-            sidebarCollapsed && "xl:w-[76px] xl:px-2.5",
-            mobileOpen ? "translate-x-0" : "-translate-x-full",
-          )}
-        >
-          <div className="rounded-[1.1rem] border border-border/70 bg-[hsl(var(--card)/0.55)] px-2 py-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.12)]">
-            <div className="flex items-center justify-between gap-3 px-2 pb-4">
-              <div className={cn(sidebarCollapsed && "xl:hidden")}>
-                <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground">{institutionBrand.shortName}</p>
-                <p className="mt-2 text-base font-semibold text-foreground">Coordinacion</p>
-              </div>
-              <div
-                className={cn(
-                  "hidden xl:flex",
-                  sidebarCollapsed ? "w-full justify-center" : "justify-end",
-                )}
-              >
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => setSidebarCollapsed((current) => !current)}
-                  aria-label={sidebarCollapsed ? "Expandir menu" : "Minimizar menu"}
-                >
-                  {sidebarCollapsed ? (
-                    <ChevronRight className="h-4 w-4" />
-                  ) : (
-                    <ChevronLeft className="h-4 w-4" />
-                  )}
-                </Button>
-              </div>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="xl:hidden"
-                onClick={() => setMobileOpen(false)}
-              >
-                <X className="h-4 w-4" />
-              </Button>
-            </div>
+        <aside className={cn("fixed inset-y-0 left-0 z-50 flex w-[232px] flex-col border-r border-border/80 bg-white px-3 py-4 shadow-xl transition-transform xl:sticky xl:top-0 xl:h-screen xl:translate-x-0 xl:shadow-none", sidebarCollapsed && "xl:w-[78px]", mobileOpen ? "translate-x-0" : "-translate-x-full")}>
+          <div className="flex items-center justify-between gap-3 rounded-2xl bg-primary px-3 py-3 text-primary-foreground">
+            <Link href="/coordinador/dashboard" className={cn("min-w-0", sidebarCollapsed && "xl:hidden")}>
+              <p className="text-xs font-black uppercase tracking-[0.18em]">{institutionBrand.shortName}</p>
+              <p className="mt-1 truncate font-serif font-bold">Coordinación académica</p>
+            </Link>
+            <Button variant="ghost" size="icon" className="text-white hover:bg-white/15 hover:text-white xl:hidden" onClick={() => setMobileOpen(false)}><X className="h-4 w-4" /></Button>
+            <Button variant="ghost" size="icon" className="hidden text-white hover:bg-white/15 hover:text-white xl:inline-flex" onClick={() => setSidebarCollapsed((current) => !current)} aria-label={sidebarCollapsed ? "Expandir menú" : "Contraer menú"}>{sidebarCollapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}</Button>
           </div>
 
-          <nav className="mt-3 space-y-1 rounded-[1.1rem] border border-border/70 bg-[hsl(var(--card)/0.5)] p-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]">
+          <nav className="mt-4 space-y-1">
             {navItems.map((item) => {
               const active = pathname.startsWith(item.href);
               const Icon = item.icon;
-
               return (
-                <Link
-                  key={item.href}
-                  href={withCurrentParams(item.href)}
-                  onClick={() => setMobileOpen(false)}
-                  title={sidebarCollapsed ? item.label : undefined}
-                  className={cn(
-                    "flex items-center justify-between rounded-[0.95rem] px-3 py-2.5 text-sm font-medium transition-all",
-                    sidebarCollapsed && "xl:justify-center xl:px-0",
-                    active
-                      ? "bg-primary text-primary-foreground"
-                      : "text-muted-foreground hover:bg-secondary hover:text-foreground",
-                  )}
-                >
-                  <span className="flex items-center gap-3">
-                    <Icon className="h-4 w-4" />
-                    <span className={cn(sidebarCollapsed && "xl:hidden")}>{item.label}</span>
-                  </span>
-                  {active ? (
-                    <span
-                      className={cn(
-                        "h-2 w-2 rounded-full bg-primary-foreground/80",
-                        sidebarCollapsed && "xl:hidden",
-                      )}
-                    />
-                  ) : null}
+                <Link key={item.href} href={item.href} onClick={() => setMobileOpen(false)} title={sidebarCollapsed ? item.label : undefined} className={cn("flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold transition-colors", sidebarCollapsed && "xl:justify-center xl:px-0", active ? "bg-primary/10 text-primary" : "text-muted-foreground hover:bg-muted hover:text-foreground")}>
+                  <Icon className="h-4 w-4 shrink-0" />
+                  <span className={cn(sidebarCollapsed && "xl:hidden")}>{item.label}</span>
                 </Link>
               );
             })}
           </nav>
 
-          <div className="mt-auto rounded-[1.1rem] border border-border/70 bg-[hsl(var(--card)/0.5)] p-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]">
-            <Button
-              asChild
-              variant="ghost"
-              className={cn(
-                "w-full rounded-[0.95rem] px-3",
-                sidebarCollapsed ? "justify-center xl:px-0" : "justify-start",
-              )}
-            >
-              <Link href="/login">
-                <LogOut className="h-4 w-4" />
-                <span className={cn(sidebarCollapsed && "xl:hidden")}>Cerrar sesion</span>
-              </Link>
-            </Button>
-          </div>
+          <Button asChild variant="ghost" className={cn("mt-auto", sidebarCollapsed ? "xl:px-0" : "justify-start")}><Link href="/login"><LogOut className="h-4 w-4" /><span className={cn(sidebarCollapsed && "xl:hidden")}>Cerrar sesión</span></Link></Button>
         </aside>
 
-        <div className="flex min-h-screen flex-col">
-          <header className="sticky top-0 z-30 border-b border-border/80 bg-[linear-gradient(180deg,hsl(var(--card)/0.95)_0%,hsl(var(--card)/0.88)_100%)] shadow-[0_16px_30px_-28px_rgba(15,23,42,0.32)] backdrop-blur-xl">
-            <div className="flex flex-col gap-4 px-4 py-4 sm:px-6 xl:px-8">
-              <div className="flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
-                <div className="flex items-center gap-3">
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    className="xl:hidden"
-                    onClick={() => setMobileOpen(true)}
-                  >
-                    <Menu className="h-4 w-4" />
-                  </Button>
-                  <div>
-                    <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">
-                      {coordinatorCenterName}
-                    </p>
-                    <p className="mt-1 text-base font-semibold text-foreground">{pageLabel}</p>
-                  </div>
-                </div>
-
-                <div
-                  className={cn(
-                    "grid gap-3 xl:items-center",
-                    usesSiteSelector
-                      ? "xl:grid-cols-[auto_220px_minmax(260px,360px)]"
-                      : "xl:grid-cols-[auto_minmax(320px,420px)]",
-                  )}
-                >
-                  <div className="flex items-center justify-start xl:justify-end">
-                    <ThemeToggle />
-                  </div>
-                  {usesSiteSelector ? (
-                    <div className="rounded-[1rem] border border-primary/25 bg-primary/5 px-3 py-2">
-                      <p className="mb-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-primary">
-                        Sede activa
-                      </p>
-                      <Select
-                        value={selectedSite}
-                        onChange={(event) => handleSiteChange(event.target.value)}
-                        className="h-10 border-primary/30 bg-card font-semibold shadow-none"
-                      >
-                        {siteOptions.map((site) => (
-                          <option key={site.id} value={site.id}>
-                            {site.label}
-                          </option>
-                        ))}
-                      </Select>
-                    </div>
-                  ) : null}
-
-                  <div className="relative">
-                    <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                    <Input
-                      className="pl-10"
-                      placeholder="Buscar instructor, ficha, colegio o ambiente"
-                    />
-                  </div>
+        <div className="flex min-h-screen min-w-0 flex-col">
+          <header className="sticky top-0 z-30 border-b border-border/80 bg-white/92 backdrop-blur-xl">
+            <div className="flex flex-col gap-3 px-4 py-3 sm:px-6 xl:flex-row xl:items-center xl:justify-between xl:px-8">
+              <div className="flex items-center gap-3">
+                <Button variant="outline" size="icon" className="xl:hidden" onClick={() => setMobileOpen(true)} aria-label="Abrir navegación"><Menu className="h-4 w-4" /></Button>
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary">{coordinatorAcademicContext.period}</p>
+                  <p className="mt-1 font-bold text-foreground">{pageLabel}</p>
                 </div>
               </div>
 
-              <div className="flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
-                <div className="flex flex-wrap gap-2">
-                  {visibleQuickFilters.map((filter) => {
-                    const active = activeQuickFilters.includes(filter);
-
-                    return (
-                      <button
-                        key={filter}
-                        type="button"
-                        onClick={() => toggleQuickFilter(filter)}
-                        className={cn(
-                          "rounded-full border px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.1em] transition-all",
-                          active
-                            ? "border-primary bg-primary text-primary-foreground"
-                            : "border-border bg-card text-muted-foreground hover:text-foreground",
-                        )}
-                      >
-                        {filter}
-                      </button>
-                    );
-                  })}
-                </div>
-
-                <div className="flex flex-wrap gap-2">
-                  {alertChips.map((alert) => (
-                    <Badge
-                      key={alert.id}
-                      variant={alertVariant(alert.severity)}
-                      className="gap-2 normal-case tracking-[0.08em]"
-                    >
-                      <AlertCircle className="h-3.5 w-3.5" />
-                      {alert.label}
-                    </Badge>
-                  ))}
-                </div>
+              <div className="grid gap-2 sm:grid-cols-[220px_1fr_auto] xl:w-[650px]">
+                <Select value={campus} onChange={(event) => setCampus(event.target.value)} aria-label="Campus activo">
+                  {coordinatorAcademicContext.campuses.map((item) => <option key={item}>{item}</option>)}
+                </Select>
+                <label className="relative">
+                  <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                  <Input className="pl-9" placeholder="Buscar docente, grupo o aula" />
+                </label>
+                <ThemeToggle />
               </div>
             </div>
-            <div className="h-px w-full bg-[linear-gradient(90deg,rgba(34,197,94,0)_0%,rgba(34,197,94,0.18)_18%,rgba(59,130,246,0.12)_82%,rgba(59,130,246,0)_100%)]" />
           </header>
 
           <main className="flex-1 px-4 py-5 sm:px-6 xl:px-8 xl:py-6">{children}</main>
         </div>
       </div>
+
+      <nav className="fixed inset-x-0 bottom-0 z-40 grid grid-cols-4 border-t border-border/80 bg-white/95 px-1 pb-[max(0.35rem,env(safe-area-inset-bottom))] pt-1.5 shadow-[0_-10px_30px_-22px_rgba(15,23,42,0.4)] backdrop-blur md:hidden">
+        {navItems.slice(0, 4).map((item) => {
+          const active = pathname.startsWith(item.href);
+          const Icon = item.icon;
+          return <Link key={item.href} href={item.href} className={cn("flex min-w-0 flex-col items-center gap-1 rounded-xl px-1 py-2 text-[10px] font-bold", active ? "bg-primary/8 text-primary" : "text-muted-foreground")}><Icon className="h-5 w-5" /><span className="truncate">{item.label}</span></Link>;
+        })}
+      </nav>
     </div>
   );
 }

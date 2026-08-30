@@ -28,7 +28,7 @@ const accessOptions = [
   },
   {
     title: "Docente",
-    description: "Agenda, asignaciones y seguimiento de fichas activas.",
+    description: "Agenda, grupos y seguimiento de clases activas.",
     href: "/instructor/inicio",
     variant: "secondary" as const,
   },
@@ -82,8 +82,8 @@ export function LoginForm() {
                     Un portal academico para toda la comunidad universitaria.
                   </h1>
                   <p className="max-w-xl text-base leading-7 text-muted-foreground sm:text-lg">
-                    Accede a una plataforma operativa para cobertura, fichas, colegios,
-                    ambientes y planeacion institucional en un solo flujo de trabajo.
+                    Accede a una plataforma para gestionar docentes, grupos, aulas,
+                    horarios y seguimiento academico en un solo flujo de trabajo.
                   </p>
                 </div>
               </div>
@@ -106,17 +106,17 @@ export function LoginForm() {
             <div className="mt-10 grid gap-4 rounded-[1.4rem] border border-border/70 bg-[hsl(var(--card)/0.72)] p-5 sm:grid-cols-3">
               <div>
                 <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-                  Cobertura
+                  Docentes
                 </p>
                 <p className="mt-2 text-2xl font-semibold text-foreground">125</p>
-                <p className="mt-1 text-sm text-muted-foreground">Instructores en base operativa</p>
+                <p className="mt-1 text-sm text-muted-foreground">Profesores registrados</p>
               </div>
               <div>
                 <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-                  Articulacion
+                  Grupos
                 </p>
                 <p className="mt-2 text-2xl font-semibold text-foreground">60</p>
-                <p className="mt-1 text-sm text-muted-foreground">Instructores con cobertura media</p>
+                <p className="mt-1 text-sm text-muted-foreground">Grupos del periodo activo</p>
               </div>
               <div>
                 <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">

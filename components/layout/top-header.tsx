@@ -7,6 +7,7 @@ import { Bell, ChevronsLeftRightEllipsis, LogOut, Menu, Search, Sparkles } from 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { institutionBrand } from "@/lib/config/brand";
 import { getRoleProfile } from "@/lib/permissions";
 import { UserRole } from "@/lib/types";
 import { cn, formatPageTitle } from "@/lib/utils";
@@ -37,6 +38,7 @@ export function TopHeader({
         isInstructor && "bg-white/90 shadow-none",
       )}
     >
+      {isInstructor ? <div className="institution-top-strip h-1.5" /> : null}
       <div className="flex flex-col gap-3 px-4 py-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
@@ -50,7 +52,7 @@ export function TopHeader({
             ) : null}
             <div className="space-y-1">
               <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground">
-                {isInstructor ? "Modulo operativo" : `SENA · ${profile.label}`}
+                {institutionBrand.shortName} · {profile.label}
               </p>
               <p className="text-xl font-semibold text-foreground">
                 {formatPageTitle(currentSegment)}

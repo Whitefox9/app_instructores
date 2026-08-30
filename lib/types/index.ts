@@ -1,4 +1,4 @@
-export type UserRole = "admin" | "coordinador" | "instructor";
+export type UserRole = "admin" | "coordinador" | "instructor" | "estudiante";
 
 export type IconName =
   | "layout-dashboard"
@@ -16,7 +16,9 @@ export type IconName =
   | "sheet"
   | "house"
   | "calendar-days"
-  | "clipboard-list";
+  | "clipboard-check"
+  | "clipboard-list"
+  | "user-round";
 
 export type NavItem = {
   href: string;
@@ -534,7 +536,7 @@ export type ImportBatchSummary = {
   processedPercent: number;
 };
 
-export type InstructorDependency = "Centro" | "Colegio" | "Virtual";
+export type InstructorDependency = "Centro" | "Virtual";
 export type InstructorArticulationMode = "No aplica" | "Articulacion media" | "Doble titulacion";
 export type InstructorAssignmentState = "Confirmada" | "Programada" | "Requiere ajuste";
 
@@ -545,7 +547,6 @@ export type InstructorAssignmentDetail = {
   dependencia: InstructorDependency;
   sede: string;
   ambiente: string;
-  colegio?: string;
   articulacion: InstructorArticulationMode;
   modalidad: string;
   jornada: string;
@@ -567,7 +568,6 @@ export type InstructorAgendaEntry = {
   dependencia: InstructorDependency;
   sede: string;
   ambiente: string;
-  colegio?: string;
   articulacion: InstructorArticulationMode;
   modalidad: string;
   note: string;
@@ -629,7 +629,6 @@ export type InstructorAttendanceSheet = {
   programa: string;
   jornada: string;
   ambiente?: string;
-  colegio?: string;
   instructor: string;
   horario: string;
   totalAprendices: number;
@@ -648,5 +647,4 @@ export type InstructorAttendanceLearnerHistoryEntry = {
   ficha: string;
   jornada: string;
   ambiente?: string;
-  colegio?: string;
 };

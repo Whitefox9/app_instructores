@@ -7,6 +7,7 @@ import {
   BookOpenText,
   Building2,
   CalendarDays,
+  ClipboardCheck,
   ClipboardList,
   DoorOpen,
   Folders,
@@ -19,11 +20,13 @@ import {
   School,
   Sheet,
   ShieldCheck,
+  UserRound,
   Users,
 } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { institutionBrand } from "@/lib/config/brand";
 import { navigationByRole, roleProfiles } from "@/lib/mocks/navigation";
 import { IconName, UserRole } from "@/lib/types";
 import { cn } from "@/lib/utils";
@@ -44,7 +47,9 @@ const iconMap: Record<IconName, typeof LayoutDashboard> = {
   sheet: Sheet,
   house: House,
   "calendar-days": CalendarDays,
+  "clipboard-check": ClipboardCheck,
   "clipboard-list": ClipboardList,
+  "user-round": UserRound,
 };
 
 type RoleSidebarProps = {
@@ -69,7 +74,7 @@ export function RoleSidebar({
     <div
       className={cn(
         "flex h-full flex-col gap-5 p-4 lg:p-5",
-        isInstructor && "bg-[#162742] text-white",
+        isInstructor && "bg-[#1c202b] text-white",
       )}
     >
       <div
@@ -96,7 +101,7 @@ export function RoleSidebar({
                     isInstructor ? "text-white/60" : "text-muted-foreground",
                   )}
                 >
-                  App Instructores
+                  {institutionBrand.productName}
                 </p>
                 <p className={cn("mt-1 text-base font-semibold", isInstructor ? "text-white" : "text-foreground")}>
                   {profile.label}
@@ -137,7 +142,7 @@ export function RoleSidebar({
                 collapsed ? "justify-center" : "justify-between",
                 isActive
                   ? isInstructor
-                    ? "bg-[#27467c] text-white"
+                    ? "bg-[#d22020] text-white shadow-[0_12px_30px_-18px_rgba(210,32,32,0.9)]"
                     : "bg-primary text-primary-foreground"
                   : isInstructor
                     ? "text-white/72 hover:bg-white/8 hover:text-white"

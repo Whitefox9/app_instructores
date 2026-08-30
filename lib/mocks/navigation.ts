@@ -1,4 +1,7 @@
+import { demoAcademicSystem } from "@/lib/demo/academic-system";
 import { NavItem, RoleProfile, UserRole } from "@/lib/types";
+
+const { instructor } = demoAcademicSystem;
 
 export const roleProfiles: Record<UserRole, RoleProfile> = {
   admin: {
@@ -25,14 +28,25 @@ export const roleProfiles: Record<UserRole, RoleProfile> = {
   },
   instructor: {
     role: "instructor",
-    label: "Instructor",
-    initials: "IN",
-    userName: "Laura Romero",
-    userTitle: "Instructor titular",
+    label: "Docente",
+    initials: instructor.initials,
+    userName: instructor.name,
+    userTitle: instructor.title,
     team: "Formacion presencial",
     summary: "Consulta de agenda, asignaciones, detalle de fichas y asistencia operativa.",
     quickAction: "Registrar asistencia",
     homeHref: "/instructor/inicio",
+  },
+  estudiante: {
+    role: "estudiante",
+    label: "Estudiante",
+    initials: "DR",
+    userName: "Daniel Rojas",
+    userTitle: "Estudiante activo",
+    team: "Programa academico",
+    summary: "Consulta de horario, programa, asistencia y datos personales.",
+    quickAction: "Ver proxima sesion",
+    homeHref: "/estudiante/inicio",
   },
 };
 
@@ -56,8 +70,15 @@ export const navigationByRole: Record<UserRole, NavItem[]> = {
   ],
   instructor: [
     { href: "/instructor/inicio", label: "Inicio", icon: "house" },
-    { href: "/instructor/asistencia", label: "Asistencia", icon: "clipboard-list" },
+    { href: "/instructor/asistencia", label: "Asistencia", icon: "clipboard-check" },
     { href: "/instructor/mis-asignaciones", label: "Mis asignaciones", icon: "clipboard-list" },
     { href: "/instructor/agenda", label: "Agenda", icon: "calendar-days" },
+  ],
+  estudiante: [
+    { href: "/estudiante/inicio", label: "Inicio", icon: "house" },
+    { href: "/estudiante/horario", label: "Horario", icon: "calendar-days" },
+    { href: "/estudiante/programa", label: "Programa", icon: "book-open-text" },
+    { href: "/estudiante/asistencia", label: "Asistencia", icon: "clipboard-list" },
+    { href: "/estudiante/perfil", label: "Perfil", icon: "user-round" },
   ],
 };

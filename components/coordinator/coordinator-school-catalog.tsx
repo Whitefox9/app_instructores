@@ -141,7 +141,7 @@ export function CoordinatorSchoolCatalog({
       scheduleLabel: form.scheduleLabel.trim() || "Pendiente configurar horario",
       operatingDays: form.operatingDays.trim() || "Sin dias definidos",
       senaCoverageSummary:
-        form.senaCoverageSummary.trim() || "Cobertura SENA pendiente por definir",
+        form.senaCoverageSummary.trim() || "Cobertura institucional pendiente por definir",
       monthlyRule:
         form.monthlyRule.trim() || "Regla operativa pendiente de configurar.",
       operationalStatus,

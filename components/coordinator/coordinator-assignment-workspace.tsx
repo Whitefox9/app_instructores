@@ -924,7 +924,7 @@ export function CoordinatorAssignmentWorkspace({
                       </div>
                       <div className="rounded-[0.95rem] border border-amber-200/70 bg-card/85 px-3 py-3">
                         <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
-                          Horas SENA
+                          Horas institucionales
                         </p>
                         <p className="mt-1 text-sm text-foreground">{articulationSenaHours}h</p>
                       </div>

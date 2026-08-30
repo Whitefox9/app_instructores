@@ -10,7 +10,7 @@
     --card-foreground: 210 20% 18%;
     --popover: 0 0% 100%;
     --popover-foreground: 210 20% 18%;
-    --primary: 98 100% 33%;
+    --primary: 0 73% 51%;
     --primary-foreground: 210 40% 98%;
     --secondary: 210 100% 97%;
     --secondary-foreground: 218 71% 35%;
@@ -26,7 +26,7 @@
     --danger-foreground: 0 0% 100%;
     --border: 214 18% 86%;
     --input: 214 18% 86%;
-    --ring: 98 100% 33%;
+    --ring: 0 73% 51%;
     --radius: 1rem;
   }
 
@@ -37,7 +37,7 @@
     --card-foreground: 210 22% 94%;
     --popover: 222 20% 14%;
     --popover-foreground: 210 22% 94%;
-    --primary: 98 90% 42%;
+    --primary: 0 78% 60%;
     --primary-foreground: 210 40% 98%;
     --secondary: 218 28% 19%;
     --secondary-foreground: 210 22% 92%;
@@ -53,7 +53,7 @@
     --danger-foreground: 0 0% 100%;
     --border: 220 16% 24%;
     --input: 220 16% 24%;
-    --ring: 98 90% 42%;
+    --ring: 0 78% 60%;
   }
 
   * {
@@ -67,7 +67,7 @@
   body {
     @apply min-h-screen bg-background text-foreground antialiased;
     background: linear-gradient(180deg, rgba(255, 255, 255, 1), rgba(248, 250, 252, 1));
-    font-family: var(--font-sans), sans-serif;
+    font-family: var(--font-lato), "Lato", "Segoe UI", sans-serif;
   }
 
   .dark body {
@@ -85,7 +85,7 @@
   h2,
   h3,
   h4 {
-    font-family: var(--font-display), serif;
+    font-family: var(--font-libre-baskerville), "Libre Baskerville", Georgia, serif;
     letter-spacing: -0.02em;
     text-wrap: balance;
   }
@@ -108,8 +108,19 @@
     @apply rounded-[1.35rem] border border-border/80 bg-white shadow-soft;
   }
 
-  .sena-top-strip {
-    background: linear-gradient(90deg, #2f55d4 0%, #17b9cf 65%, #16c0c8 100%);
+  .institution-top-strip {
+    background: linear-gradient(90deg, #d22020 0%, #a9161c 70%, #4d4d4d 100%);
+  }
+
+  .student-shell {
+    --primary: 0 73% 51%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 62% 97%;
+    --secondary-foreground: 0 64% 36%;
+    --accent: 216 64% 95%;
+    --accent-foreground: 215 70% 42%;
+    --ring: 0 73% 51%;
+    background: linear-gradient(180deg, #f8f8f8 0%, #ffffff 36%, #f5f6f8 100%);
   }
 
   .instructor-shell {
@@ -119,14 +130,14 @@
     --card-foreground: 222 30% 20%;
     --popover: 0 0% 100%;
     --popover-foreground: 222 30% 20%;
-    --primary: 221 82% 59%;
+    --primary: 0 73% 51%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 220 80% 97%;
-    --secondary-foreground: 221 62% 46%;
+    --secondary: 0 62% 97%;
+    --secondary-foreground: 0 64% 36%;
     --muted: 220 30% 96%;
     --muted-foreground: 220 12% 46%;
-    --accent: 217 100% 96%;
-    --accent-foreground: 221 62% 46%;
+    --accent: 0 62% 97%;
+    --accent-foreground: 0 64% 36%;
     --success: 142 62% 42%;
     --success-foreground: 0 0% 100%;
     --warning: 38 95% 58%;
@@ -135,9 +146,9 @@
     --danger-foreground: 0 0% 100%;
     --border: 220 28% 90%;
     --input: 220 28% 90%;
-    --ring: 221 82% 59%;
+    --ring: 0 73% 51%;
     background:
-      radial-gradient(circle at top right, rgba(74, 117, 255, 0.08), transparent 22%),
-      linear-gradient(180deg, #f6f8fc 0%, #f7f9fd 100%);
+      radial-gradient(circle at top right, rgba(210, 32, 32, 0.08), transparent 22%),
+      linear-gradient(180deg, #f8f8f8 0%, #ffffff 36%, #f5f6f8 100%);
   }
 }

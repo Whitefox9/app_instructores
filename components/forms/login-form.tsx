@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { institutionBrand } from "@/lib/config/brand";
 
 const accessOptions = [
   {
@@ -26,23 +27,29 @@ const accessOptions = [
     variant: "default" as const,
   },
   {
-    title: "Instructor",
+    title: "Docente",
     description: "Agenda, asignaciones y seguimiento de fichas activas.",
     href: "/instructor/inicio",
     variant: "secondary" as const,
   },
+  {
+    title: "Estudiante",
+    description: "Horario, programa, asistencia y perfil academico.",
+    href: "/estudiante/inicio",
+    variant: "outline" as const,
+  },
 ];
 
 const highlights = [
-  "Acceso por rol con experiencia diferenciada para coordinacion e instructores.",
+  "Acceso por rol para coordinacion, profesores y estudiantes.",
   "Base preparada para autenticacion real, permisos y trazabilidad institucional.",
   "Interfaz alineada con operacion academica, cobertura y programacion.",
 ];
 
 export function LoginForm() {
   return (
-    <div className="relative min-h-screen overflow-hidden bg-[radial-gradient(circle_at_top_left,rgba(57,169,0,0.14),transparent_28%),radial-gradient(circle_at_top_right,rgba(47,85,212,0.12),transparent_26%),linear-gradient(180deg,#f7faf8_0%,#f4f7f5_52%,#eef3f0_100%)] dark:bg-[radial-gradient(circle_at_top_left,rgba(57,169,0,0.12),transparent_28%),radial-gradient(circle_at_top_right,rgba(47,85,212,0.14),transparent_26%),linear-gradient(180deg,#0f1724_0%,#121a2b_52%,#101827_100%)]">
-      <div className="absolute inset-x-0 top-0 h-1 sena-top-strip" />
+    <div className="relative min-h-screen overflow-hidden bg-[radial-gradient(circle_at_top_left,rgba(210,32,32,0.12),transparent_28%),radial-gradient(circle_at_top_right,rgba(56,94,157,0.10),transparent_26%),linear-gradient(180deg,#faf8f8_0%,#f7f5f5_52%,#f2f3f5_100%)] dark:bg-[radial-gradient(circle_at_top_left,rgba(210,32,32,0.12),transparent_28%),radial-gradient(circle_at_top_right,rgba(56,94,157,0.14),transparent_26%),linear-gradient(180deg,#0f1724_0%,#121a2b_52%,#101827_100%)]">
+      <div className="absolute inset-x-0 top-0 h-1 institution-top-strip" />
       <div className="absolute left-[-8rem] top-20 h-56 w-56 rounded-full bg-primary/10 blur-3xl" />
       <div className="absolute bottom-[-5rem] right-[-4rem] h-72 w-72 rounded-full bg-secondary/70 blur-3xl" />
 
@@ -56,10 +63,10 @@ export function LoginForm() {
                 </div>
                 <div>
                   <p className="text-xs font-semibold uppercase tracking-[0.24em] text-muted-foreground">
-                    SENA
+                    {institutionBrand.shortName}
                   </p>
                   <p className="mt-1 text-lg font-semibold text-foreground">
-                    Centro de Gestion Financiera
+                    {institutionBrand.name}
                   </p>
                 </div>
               </div>
@@ -72,7 +79,7 @@ export function LoginForm() {
 
                 <div className="space-y-3">
                   <h1 className="max-w-2xl text-4xl leading-tight text-foreground sm:text-5xl">
-                    Portal de gestion academica para instructores y coordinacion.
+                    Un portal academico para toda la comunidad universitaria.
                   </h1>
                   <p className="max-w-xl text-base leading-7 text-muted-foreground sm:text-lg">
                     Accede a una plataforma operativa para cobertura, fichas, colegios,
@@ -153,7 +160,7 @@ export function LoginForm() {
                       <Input
                         id="email"
                         type="email"
-                        placeholder="nombre.apellido@sena.edu.co"
+                        placeholder="nombre.apellido@usal.es"
                         className="h-12 rounded-[1rem] pl-10"
                       />
                     </div>

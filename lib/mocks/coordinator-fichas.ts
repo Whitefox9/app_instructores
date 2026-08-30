@@ -8,6 +8,7 @@ import {
   CoordinatorFichaSummary,
   CoordinatorOperationalDependency,
 } from "@/lib/types";
+import { demoAcademicSystem } from "@/lib/demo/academic-system";
 
 import {
   coordinatorOperationalInstructors,
@@ -80,7 +81,7 @@ const learnerLastNames = [
 const mockUsers = [
   "Natalia Barbosa",
   "Coord. Laura Herrera",
-  "Mesa academica SENA",
+  "Mesa academica institucional",
   "Daniela Lopez",
 ];
 
@@ -421,7 +422,30 @@ function buildFichaSummary(
   return summary;
 }
 
+const demoFlagshipFicha: CoordinatorFichaSummary = {
+  id: demoAcademicSystem.flagshipGroup.id,
+  number: demoAcademicSystem.flagshipGroup.number,
+  program: demoAcademicSystem.flagshipGroup.program,
+  dependency: "Titulada",
+  programType: "Formacion titulada",
+  shift: demoAcademicSystem.flagshipGroup.shift,
+  site: demoAcademicSystem.flagshipGroup.site,
+  expectedApprentices: demoAcademicSystem.flagshipGroup.studentCount,
+  apprenticeCount: demoAcademicSystem.flagshipGroup.studentCount,
+  assignedInstructor: demoAcademicSystem.instructor.name,
+  assignedEnvironment: demoAcademicSystem.flagshipGroup.room,
+  requiresEnvironment: true,
+  generalStatus: "Lista para operacion",
+  stateTags: ["Completa", "Lista para operacion"],
+  observations: demoAcademicSystem.flagshipGroup.note,
+  createdAt: "2026-01-30 08:00",
+  updatedAt: "2026-08-23 09:10",
+  lastImportAt: "2026-08-21 14:30",
+  updatedBy: "Andres Cifuentes",
+};
+
 export const coordinatorFichaSummaries: CoordinatorFichaSummary[] = [
+  demoFlagshipFicha,
   ...coordinatorOperationalInstructors
     .filter((item) => item.dependency === "Articulacion")
     .flatMap((_, instructorIndex) =>
@@ -438,6 +462,24 @@ export const coordinatorFichaSummaries: CoordinatorFichaSummary[] = [
 ];
 
 function buildLearnersForFicha(ficha: CoordinatorFichaSummary) {
+  if (ficha.number === demoAcademicSystem.flagshipGroup.number) {
+    return [
+      {
+        id: `${ficha.number}-APR-001`,
+        documentType: "TI",
+        documentNumber: demoAcademicSystem.student.document,
+        fullName: demoAcademicSystem.student.name,
+        email: demoAcademicSystem.student.email,
+        phone: demoAcademicSystem.student.phone,
+        source: "Manual" as const,
+        registeredAt: "2026-02-02 08:30",
+      },
+      ...Array.from({ length: ficha.apprenticeCount - 1 }, (_, index) =>
+        makeLearner(index + 40, ficha.number, "Excel"),
+      ),
+    ];
+  }
+
   return Array.from({ length: ficha.apprenticeCount }, (_, index) =>
     makeLearner(index + Number(ficha.number.slice(-2)), ficha.number, "Excel"),
   );

@@ -1,17 +1,42 @@
+import { ClipboardCheck } from "lucide-react";
+
 import { InstructorAttendanceWorkspace } from "@/components/instructor/instructor-attendance-workspace";
+import { InstructorPageHeader } from "@/components/instructor/instructor-page-header";
 import { instructorAttendanceSheets } from "@/lib/mocks/instructor-attendance";
 
-export default function InstructorAsistenciaPage() {
-  return (
-    <div className="space-y-8">
-      <section className="space-y-2">
-        <h1 className="text-[2rem] font-semibold text-foreground sm:text-[2.2rem]">Asistencia</h1>
-        <p className="text-sm leading-6 text-muted-foreground sm:text-base">
-          Registra y consulta la asistencia de tus aprendices con una vista operativa centrada en el dia y el seguimiento historico.
-        </p>
-      </section>
+type InstructorAttendancePageProps = {
+  searchParams: Promise<{
+    ficha?: string;
+    origen?: string;
+  }>;
+};
 
-      <InstructorAttendanceWorkspace sheets={instructorAttendanceSheets} />
+export default async function InstructorAttendancePage({ searchParams }: InstructorAttendancePageProps) {
+  const { ficha: requestedFicha, origen } = await searchParams;
+  const requestedSheet = requestedFicha
+    ? instructorAttendanceSheets.find((sheet) => sheet.ficha === requestedFicha)
+    : undefined;
+  const initialFicha = requestedFicha ? requestedSheet?.ficha ?? null : undefined;
+  const contextMessage = requestedFicha
+    ? requestedSheet
+      ? `Grupo ${requestedSheet.ficha} cargado${origen === "horario" ? " desde Horario" : origen === "grupo" ? " desde Grupos" : origen === "notificacion" ? " desde Notificaciones" : ""}.`
+      : `El grupo ${requestedFicha} todavía no tiene una lista de asistencia disponible.`
+    : undefined;
+
+  return (
+    <div className="space-y-6">
+      <InstructorPageHeader
+        icon={ClipboardCheck}
+        title="Asistencia"
+        description="Registra la asistencia de tus estudiantes y consulta su seguimiento histórico."
+      />
+
+      <InstructorAttendanceWorkspace
+        key={initialFicha ?? "attendance-default"}
+        sheets={instructorAttendanceSheets}
+        initialFicha={initialFicha}
+        contextMessage={contextMessage}
+      />
     </div>
   );
 }
